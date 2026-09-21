@@ -1,0 +1,22 @@
+[
+ {
+  "id": 1,
+  "name": "New"
+ },
+ {
+  "id": 2,
+  "name": "In Progress"
+ },
+ {
+  "id": 3,
+  "name": "Ready"
+ },
+ {
+  "id": 5,
+  "name": "Approved"
+ },
+ {
+  "id": 6,
+  "name": "Submitted"
+ }
+]

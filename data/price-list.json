@@ -1,0 +1,3682 @@
+[
+ {
+  "partNumber": "506R61241",
+  "description": "10G BASE-LR SFP+ Module (40Km)",
+  "comments": "10 Gbps Single Mode, 1310nm 40Km LC connector, -40 to +85C. To be used with 10GE ports.",
+  "listPrice": 294.4,
+  "category": "C1. SFP Transceivers",
+  "sorting": 12,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61242",
+  "description": "10G BASE-LR SFP+ Module (70Km)",
+  "comments": "10 Gbps Single Mode, 1310nm 70Km LC connector, -40 to +85C. To be used with 10GE ports.",
+  "listPrice": 885,
+  "category": "C1. SFP Transceivers",
+  "sorting": 13,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R30060",
+  "description": "Fan Control Module for CHS-200 (FCM-200)",
+  "comments": "Order if needed as spare for CHS-200",
+  "listPrice": 633,
+  "category": "A4.4 CHS-200 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61252",
+  "description": "GL5010-8J2F",
+  "comments": "10 Port Industrial Managed Ethernet Switch with 2xGE SFP Uplinks, 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1010,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61253",
+  "description": "GL5010-8J4F",
+  "comments": "12 Port Industrial Managed Ethernet Switch with 4xGE SFP Uplinks, 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1222,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61254",
+  "description": "GL5010-10J2F",
+  "comments": "12 Port Industrial Managed Ethernet Switch with 2xGE SFP Uplinks, 10x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1185,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61255",
+  "description": "GL5020-8J4F-P",
+  "comments": "12 Port Industrial Managed PoE Ethernet Switch with 4xGE SFP Uplinks, 8x 10/100/1000 Base-T with 4x30W and 2x90W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1580,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61256",
+  "description": "GL5020X-8J4F-P",
+  "comments": "12 Port Industrial Managed PoE Ethernet Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T with 4x30W and 2x90W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2519,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61257",
+  "description": "GL5030X-8J4F",
+  "comments": "12 Port Industrial Managed Ethernet Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1780,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61258",
+  "description": "GL5030X-8J4F-P",
+  "comments": "12 Port Industrial Managed PoE Ethernet Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T with 8x30W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1940,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61259",
+  "description": "GL5030XR-8J4F",
+  "comments": "12 Port Industrial Managed L3 Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2550,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61260",
+  "description": "GL5030XR-8J4F-P",
+  "comments": "12 Port Industrial Managed PoE L3 Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T with 8x30W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3113,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61261",
+  "description": "GL5030X-8J4F-P1",
+  "comments": "12 Port Industrial Managed PoE Ethernet Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T with 4x30W and 2x60W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2359,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61262",
+  "description": "GL5030X-8J4F-P2",
+  "comments": "12 Port Industrial Managed PoE Ethernet Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T with 4x60W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2260,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61264",
+  "description": "GL5060X-16J4F",
+  "comments": "20 Port Industrial Managed Ethernet Switch with 4x10GE SFP Uplinks, 16x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2296,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61265",
+  "description": "GL5060X-16J4F-P",
+  "comments": "20 Port Industrial Managed PoE Ethernet Switch with 4x10GE SFP Uplinks, 16x 10/100/1000 Base-T with 16x30W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2750,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61267",
+  "description": "GL5060XR-16J4F",
+  "comments": "20 Port Industrial Managed L3 Switch with 4x10GE SFP Uplinks, 16x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3111,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61268",
+  "description": "GL5060XR-16J4F-P",
+  "comments": "20 Port Industrial Managed PoE L3 Switch with 4x10GE SFP Uplinks, 16x 10/100/1000 Base-T with 16x30W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3520,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61270",
+  "description": "GL5080XR-4J12F",
+  "comments": "16 Port Industrial Managed L3 :PIM-SM Switch with 12x10GE SFP Uplinks, 4x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 5050,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61271",
+  "description": "GL6010X-24J4F-P-DC",
+  "comments": "28 port rack-mounted industrial PoE Ethernet switch, 24x10/100/1000BT with 24x30W + 4x10G SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3520,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61272",
+  "description": "GL6010X-24J4F-P-AC",
+  "comments": "28 port rack-mounted industrial PoE Ethernet switch, 24x10/100/1000BT with 24x30W + 4x10G SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3720,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61274",
+  "description": "GL6010XR-24J4F-P-DC",
+  "comments": "28 port rack-mounted industrial PoE L3 switch, 24x10/100/1000BT with 24x30W + 4x10G SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4520,
+  "category": "A5.4 Fiber Rackmount L3 Switches",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61275",
+  "description": "GL6010XR-24J4F-P-AC",
+  "comments": "28 port rack-mounted industrial PoE L3 switch, 24x10/100/1000BT with 24x30W + 4x10G SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4850,
+  "category": "A5.4 Fiber Rackmount L3 Switches",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61277",
+  "description": "GL6020-16J12FC-DC",
+  "comments": "28 port rack-mounted industrial IEC61850/IEEE1613 certified Ethernet switch, 16x10/100/1000BT 8xGE combo ports + 4xGE SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3789,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61278",
+  "description": "GL6020-16J12FC-AC",
+  "comments": "28 port rack-mounted industrial IEC61850/IEEE1613 certified Ethernet switch, 16x10/100/1000BT 8xGE combo ports + 4xGE SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4009,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61280",
+  "description": "GL6031-16J12FC-DC",
+  "comments": "28 port rack-mounted industrial Ethernet switch, 16x10/100/1000BT, 8xGE combo ports + 4xGE SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2630,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61281",
+  "description": "GL6031-16J12FC-AC",
+  "comments": "28 port rack-mounted industrial Ethernet switch, 16x10/100/1000BT, 8xGE combo ports + 4xGE SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2950,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 10,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61283",
+  "description": "GL6030-24J4F-P-DC",
+  "comments": "28 port rack-mounted industrial PoE Ethernet switch, 24x10/100/1000BT with 24x30W + 4xGE SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3190,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 7,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40000",
+  "description": "MetaASSIST EMS Site license for up to 10 devices",
+  "comments": "Applicable for EMS 4.0 and above for first year only. After year 1 a regular site license needs to be purchased. Note that node licenses need to be purchased separately. ",
+  "listPrice": 0,
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40113",
+  "description": "EMS annual Node license for ML2300/ML230/ML69x/GL800/GL6000 - More than 100 devices",
+  "comments": "Please contact your sales representative for pricing.",
+  "listPrice": 0,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 13,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61284",
+  "description": "GL6030-24J4F-P-AC",
+  "comments": "28 port rack-mounted industrial PoE Ethernet switch, 24x10/100/1000BT with 24x30W + 4xGE SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3330,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 8,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61286",
+  "description": "GL6010X-24J4F-DC",
+  "comments": "28 port rack-mounted industrial Ethernet switch, 24x10/100/1000BT + 4x10GE SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2750,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61287",
+  "description": "GL6010X-24J4F-AC",
+  "comments": "28 port rack-mounted industrial Ethernet switch, 24x10/100/1000BT + 4x10GE SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2950,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61289",
+  "description": "GL6040X-8J28F-DC (GL2140X-0828-DC - Old P/N 506R62100)",
+  "comments": "36 port rack-mounted industrial Ethernet switch, 8x10/100/1000BT, 24xGE SFP + 4x10GE SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3999,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 11,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61290",
+  "description": "GL6040X-8J28F-AC",
+  "comments": "36 port rack-mounted industrial Ethernet switch, 8x10/100/1000BT, 24xGE SFP + 4x10GE SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4320,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 12,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61292",
+  "description": "GL6040XR-8J28F-DC",
+  "comments": "36 port rack-mounted industrial L3 PIM-SM switch, 8x10/100/1000BT, 24xGE SFP + 4x10GE SFP, Dual DC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4810,
+  "category": "A5.4 Fiber Rackmount L3 Switches",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61293",
+  "description": "GL6040XR-8J28F-AC",
+  "comments": "36 port rack-mounted industrial L3 PIM-SM switch, 8x10/100/1000BT, 24xGE SFP + 4x10GE SFP, Dual AC inputs, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 5130,
+  "category": "A5.4 Fiber Rackmount L3 Switches",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61263",
+  "description": "GL5070X-8J12F (ML570D - Old P/N 506R62030)",
+  "comments": "8+12 Port Industrial Managed Ethernet Switch with 10G Uplink , 4x1/10GE SFP+, 8x100/1000Base-FX SFP + 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2140,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61295",
+  "description": "GL5070XR-8J12F",
+  "comments": "8+12 Port Industrial Managed L3 Switch with 10G Uplink , 4x1/10GE SFP+, 8x100/1000Base-FX SFP + 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3150,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61296",
+  "description": "GL5010R-8J2F",
+  "comments": "10 Port Industrial Managed L3 Switch with 2xGE SFP Uplinks, 8x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1640,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61245",
+  "description": "GL91",
+  "comments": "G.hn over twisted pair - Customer premises equipment. AC-DC power supply for the US",
+  "listPrice": 110,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61247",
+  "description": "GL91T-RB",
+  "comments": "G.hn over twisted pair converter - Customer premises equipment and a reverse power unit (Lea Networks). AC-DC power supply for the US.",
+  "listPrice": 195,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0134",
+  "description": "GL850L-16O",
+  "comments": "10+8 ports, Hybrid PTMP Ethernet aggregation unit, 16 pairs, 8x HSLs (G.FAST/VDSL35B/17A), 6x10/100/1000BaseT+2x100/1000Base-FX+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, Advanced MACsec 256 bit encryption, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4251,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0135",
+  "description": "GL850L-16R",
+  "comments": "10+8 ports, Hybrid Remote Ethernet unit, 16 pairs, 8x HSLs (G.FAST/VDSL35B/17A), 6x10/100/1000BaseT+2x100/1000Base-FX+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, Advanced MACsec 256 bit encryption, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3917,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0300",
+  "description": "GL916-R",
+  "comments": "PON Extender (G.hn wave 2) indoor unit serving up to 16 customers over twisted pair or Coax. Local power and reverse power over twisted pairs. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region",
+  "listPrice": 2230,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0301",
+  "description": "GL908-R",
+  "comments": "PON Extender (G.hn wave 2) indoor unit serving up to 8 customers over twisted pair or Coax. Local power and reverse power over twisted pairs. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 1680,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 8,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0302",
+  "description": "GL916",
+  "comments": "PON Extender (G.hn wave 2) Indoor unit serving up to 16 customers over twisted pair or Coax. Local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 1950,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3376",
+  "description": "ML680DL-M (48/60V)",
+  "comments": "10 port,Managed Fiber Ethernet switch, 8x10/100/1000Base-T+2x100/1000Base-FX SFP, DIN Rail, Advanced MACSEC Encryption, Fanless, 48/60VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2019,
+  "category": "A2.1 ML600D Family",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3356",
+  "description": "ML684DL-M (48/60V)",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2, 1+3 or 1x4) EFM-bonded G.SHDSL Ethernet  Extender, 6x10/100/1000Base-T+2x100/1000Base-FX SFP, DIN Rail, Advanced MACSEC Encryption, Fanless, bypass switch, 48/60VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2795,
+  "category": "A2.1 ML600D Family",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00111",
+  "description": "EMS perpetual TL1 NB Interface License",
+  "comments": "TL1 NB Interface License. From EMS 3.1 GA and above.",
+  "listPrice": 15000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 8,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0303",
+  "description": "GL908",
+  "comments": "PON Extender (G.hn wave 2) indoor unit serving up to 8 customers over twisted pair or Coax. Local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 1380,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0139",
+  "description": "GL830-16O",
+  "comments": "6+4 ports, Hybrid PTMP Ethernet aggregation unit, 16 pairs, 4x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3748,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0140",
+  "description": "GL830-8O",
+  "comments": "6+4 ports Hybrid PTMP Ethernet aggregation unit, 8 pairs, 4x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3148,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0142",
+  "description": "GL850L-8R",
+  "comments": "10+8 ports, Hybrid Remote Ethernet unit, 16 pairs, 8x HSLs (G.FAST/VDSL35B/17A), 6x10/100/1000BaseT+2x100/1000Base-FX+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, Advanced MACsec 256 bit encryption, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3431,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0143",
+  "description": "GL830-16R",
+  "comments": "6+4 ports, Hybrid Remote Ethernet unit, 16 pairs, 4x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3330,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0144",
+  "description": "GL830-8R",
+  "comments": "6+4 ports Hybrid Remote Ethernet unit,  8 pairs, 4x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT+2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2921,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0146",
+  "description": "GL820-4B",
+  "comments": "6+4 ports, Hybrid PTMP Ethernet aggregation unit or Remote Unit, 4 pairs, 4x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT, 2x1000/2500Base-FX,CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2598,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "506R00013",
+  "description": "AC/DC power supply for GL800 (NA)",
+  "comments": "110/220VAC to 48VDC/65W, North American type power cord. 0 +40C operating range. DOE6 compliant",
+  "listPrice": 138,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0145",
+  "description": "GL820-2B",
+  "comments": "6+2 ports, Hybrid PTMP Ethernet aggregation unit or Remote Unit, 2 pairs, 2x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT, 2x1000/2500Base-FX, CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 0,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "506R00013E",
+  "description": "AC/DC power supply for GL800 (EU)",
+  "comments": "110/220VAC to 48VDC/65W, EU type power cord. 0 +40C operating range",
+  "listPrice": 138,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20492",
+  "description": "ML2332",
+  "comments": "12+32 ports, High Density Ethernet Aggregator,up to 32 HSL,32 pairs EFM-bonded G.SDHSL Ethernet Extender,CE2.0, 4x 10/100 baseT, 4x10/100/1000BaseT+ 4x100/1000Base-FX, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products). MLE-16E expansion module can be ordered separately",
+  "listPrice": 6554,
+  "category": "A4.1 Shelves",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501S20494",
+  "description": "IP68 dome enclosure with 1 XR239SE repeater",
+  "comments": "XR239SE bundle (1x XR239SE and IP68 dome enclosure)",
+  "listPrice": 953,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20495",
+  "description": "IP68 dome enclosure with 2 XR239SE repeaters",
+  "comments": "XR239SE bundle (2x XR239SE and IP68 dome enclosure)",
+  "listPrice": 1772,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20496",
+  "description": "IP65 enclosure with 1 XR239SE repeater",
+  "comments": "XR239SE bundle (including IP65 enclosure)",
+  "listPrice": 1434,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20502",
+  "description": "IP65 enclosure with wall clip and 1 XR239SE repeater",
+  "comments": "XR239SE bundle (including IP65 enclosure and wall clip)",
+  "listPrice": 1515,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62106",
+  "description": "GL5020R-8J4F-P",
+  "comments": "12 Port Industrial Managed L3 PoE Ethernet Switch with 4xGE SFP Uplinks, 8x 10/100/1000 Base-T with 4x30W and 2x90W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2659,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62107",
+  "description": "GL5010-8J2F-P",
+  "comments": "10 Port Industrial Managed PoE Ethernet Switch with 2xGE SFP Uplinks, 8x 10/100/1000 Base-T with 8x30W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1190,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62108",
+  "description": "GL5080X-4J12F",
+  "comments": "16 Port Industrial Managed Switch with 12x10GE SFP Uplinks, 4x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4576,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00006D",
+  "description": "AC-DC power supply for ML684D-M (NA)",
+  "comments": "110/220VAC to 12VDC/15W (open ended) for ML684D-M (12/24V), North American type power cord. 0 +40C operating range. DOE6 compliant",
+  "listPrice": 110,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0121",
+  "description": "ML622i with 24/48Vdc",
+  "comments": "4 port, Managed Ethernet Switch, Fanless CPE, 2 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT, standard QoS, ROHS-6 compliant, 24/48Vdc power input + power cable",
+  "listPrice": 800,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0122",
+  "description": "ML624i with 24/48Vdc",
+  "comments": "4 port, Managed Ethernet Switch, Fanless CPE, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT, standard QoS, ROHS-6 compliant, 24/48Vdc power input + power cable",
+  "listPrice": 1260,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0151",
+  "description": "GL820LP-4B",
+  "comments": "8+4 ports, Hybrid PTMP Ethernet aggregation unit or Remote Unit, 4 pairs, 4x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT, 2x1000/2500Base-FX+2x100/1000Base-FX,2x PoE ports 30W  CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 0,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0153",
+  "description": "GL820LP-2B",
+  "comments": "8+2 ports, Hybrid PTMP Ethernet aggregation unit or Remote Unit,2 pairs, 2x HSLs (G.FAST/VDSL35B/17A), 4x10/100/1000BaseT, 2x1000/2500Base-FX+2x100/1000Base-FX,2x PoE ports 30W  CE 2.0 advanced H-QoS, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 0,
+  "category": "A1.1 GL800 Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0078",
+  "description": "ML650SV",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch CES and Clock distribution, 4x10/100BaseT+2x100/1000Base-FX + 4xE1/T1 (converted in PWE), SyncE, advanced QoS, ROHS-6 compliant, SFP should be ordered separately  (refer to Type C products)",
+  "listPrice": 3308,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61306",
+  "description": "GL5030XR-8J4F-P1",
+  "comments": "12 Port Industrial Managed PoE L3 PIM-SM Switch with 4x10GE SFP Uplinks, 8x 10/100/1000 Base-T with 8x30W, DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3230,
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0157",
+  "description": "GL92",
+  "comments": "G.hn over twisted pair - Customer premise equipment. GE RJ45 port",
+  "listPrice": 117,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG3240",
+  "description": "GL92-H",
+  "comments": "PON Extender (G.hn wave 2) indoor Point to Point unit serving up to 1 customer over twisted pair or Coax. Local power. 1/2.5G PON or Active Eth uplink.",
+  "listPrice": 0,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "503RG3241",
+  "description": "GL92-S",
+  "comments": "G.hn over twisted pair - Customer premise equipment. 1/2.5Gbps SFP and RJ45 ports",
+  "listPrice": 0,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0160",
+  "description": "GL902",
+  "comments": "PON Extender (G.hn wave 2) indoor unit serving up to 2 customers over twisted pair or Coax. Local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 0,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 14,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0158",
+  "description": "GL92-R",
+  "comments": "G.hn over twisted pair - Customer premise equipment with support for reverse powering. GE RJ45 port",
+  "listPrice": 208,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0159",
+  "description": "GL92C",
+  "comments": "G.hn over coax converter - Customer premise equipment. GE RJ45 port",
+  "listPrice": 104,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "506R32110",
+  "description": "IP65 Enclosure for ML650S/SV, -48VDC Fiber & T1 Enclosure.",
+  "comments": "Outdoor IP65 Enclosure for ML650SV/ML650S offering T1 over Fiber. -48Vdc external power feeding with lightning protection block. Prewired and tested. ML650S/SV should be ordered separately.",
+  "listPrice": 2178,
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61311",
+  "description": "-48V / 600W Rectifier for ML2300",
+  "comments": "",
+  "listPrice": 711,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60105",
+  "description": "Rectifier Cable 110/220V to open-ended for ML2300 rectifier",
+  "comments": "Required when ordering ML2300 rectifier (P/N 506R61311)",
+  "listPrice": 89,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "502F60187A",
+  "description": "Metal 19\u201d Shelf for rectifier installations for ML2300 rectifier",
+  "comments": "Required when ordering ML2300 rectifier (P/N 506R61311)",
+  "listPrice": 110,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0170",
+  "description": "GL916-OR",
+  "comments": "PON Extender (G.hn wave 2) point-to-multi-point hardened unit for extended temp. Serving up to 16 customers over twisted pair. Reverse or local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 2990,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0166",
+  "description": "GL908-OR",
+  "comments": "PON Extender (G.hn wave 2) point-to-multi-point hardened unit for extended temp. Serving up to 8 customers over twisted pair. Reverse or local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 2260,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 10,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0169",
+  "description": "GL904-OR",
+  "comments": "PON Extender (G.hn wave 2) point-to-multi-point hardened unit for extended temp. Serving up to 4 customers over twisted pair. Reverse or local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 1750,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 13,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0167",
+  "description": "GL904",
+  "comments": "PON Extender (G.hn wave 2) indoor unit serving up to 4 customers over twisted pair or Coax. Local power. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 1120,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 11,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0168",
+  "description": "GL904-R",
+  "comments": "PON Extender (G.hn wave 2) indoor unit serving up to 4 customers over twisted pair or Coax. Local power and reverse power over twisted pairs. 1/2.5G PON or Active Eth uplink. Order power supply 506R00008x per your region.",
+  "listPrice": 1410,
+  "category": "A1.4 GL900 Headend Solutions",
+  "sorting": 12,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0163",
+  "description": "GL92C-R",
+  "comments": "G.hn over coax converter with reverse power. Customer premise equipment. GE RJ45 port",
+  "listPrice": 0,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0165",
+  "description": "GL92-RP",
+  "comments": "G.hn over twisted pair with reverse power and PoE towards the end customer - Customer premises equipment. GE RJ45 port",
+  "listPrice": 0,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "506R32120",
+  "description": "GL900E-OR-D",
+  "comments": "Outdoor Enclosure for GL900 (ESS). GL900-E Pole/Wall mounted outdoor enclosure for GL900/GL900-R G.hn fiber extended product line. Offers 2.5/1Gbps uplink and serving up to 8 customers over G.hn with local (12V) or Reverse power feed over G.hn lines",
+  "listPrice": 0,
+  "category": "A1.6 GL900 Enclosures & Bundles",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "510K31600",
+  "description": "GL900E-OR-X",
+  "comments": "Outdoor Enclosure for GL900. GL900-E Pole/Wall mounted outdoor enclosure for GL900/GL900-R G.hn fiber extended product line. Offers 2.5/1Gbps uplink and serving up to 16 customers over G.hn with local (12V) or Reverse power feed over G.hn lines. IP65, extended temp",
+  "listPrice": 0,
+  "category": "A1.6 GL900 Enclosures & Bundles",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "510KG0308",
+  "description": "GL900E-OR-16",
+  "comments": "Outdoor Enclosure for GL900 bundle with GL916-OR. GL900-E Pole/Wall mounted outdoor enclosure for GL900/GL900-R G.hn fiber extended product line. Offers 2.5/1Gbps uplink and serving up to 16 customers over G.hn with local (12V) or Reverse power feed over G.hn lines. IP65, extended temp",
+  "listPrice": 2990,
+  "category": "A1.6 GL900 Enclosures & Bundles",
+  "sorting": 2,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510KG0309",
+  "description": "GL900E-OR-8",
+  "comments": "Outdoor Enclosure for GL900 bundle with GL908-OR. GL900-E Pole/Wall mounted outdoor enclosure for GL900/GL900-R G.hn fiber extended product line. Offers 2.5/1Gbps uplink and serving up to 8 customers over G.hn with local (12V) or Reverse power feed over G.hn lines. IP65, extended temp",
+  "listPrice": 2260,
+  "category": "A1.6 GL900 Enclosures & Bundles",
+  "sorting": 1,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510KG0310",
+  "description": "GL900E-OR-4",
+  "comments": "Outdoor Enclosure for GL900 bundle with GL904-OR. GL900-E Pole/Wall mounted outdoor enclosure for GL900/GL900-R G.hn fiber extended product line. Offers 2.5/1Gbps uplink and serving up to 4 customers over G.hn with local (12V) or Reverse power feed over G.hn lines. IP65, extended temp",
+  "listPrice": 1750,
+  "category": "A1.6 GL900 Enclosures & Bundles",
+  "sorting": 1,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40118",
+  "description": "EMS perpetual REST NB Interface License for alarms",
+  "comments": "REST NB Interface License for alarms. From EMS 5.0 GA and above.",
+  "listPrice": 15000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40119",
+  "description": "Bundle of 5 additional EMS clients",
+  "comments": "Adding an additional 5 EMS clients to the EMS server (basic 3 clients)",
+  "listPrice": 10000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 10,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "182K11030",
+  "description": "Edge Connector for XR-239 Repeater",
+  "comments": "Edge Connector 0150 inch centers Single Row",
+  "listPrice": 69,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "199A10040",
+  "description": "AC Power cord, Australian type (2.5m)",
+  "comments": "Australia power cord 3X 1mm BLACK",
+  "listPrice": 6,
+  "category": "C4.3 Power and Grounding cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "199A10050",
+  "description": "AC Power cord, Italian type (2.5m)",
+  "comments": "Italian power cord 3X1mm BLACK",
+  "listPrice": 6,
+  "category": "C4.3 Power and Grounding cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "199A10060",
+  "description": "AC Power cord, Swiss type (2.5m)",
+  "comments": "Swiss power cord 3X1mm",
+  "listPrice": 6,
+  "category": "C4.3 Power and Grounding cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501R20196",
+  "description": "PFU-8E",
+  "comments": "Power feed module, with limited current and voltage to remotely feed XR239 repeaters. Supports 2 repeater hops.",
+  "listPrice": 1333,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0016",
+  "description": "ML622",
+  "comments": "4+1 port, Managed Hybrid Ethernet Switch, 2 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT, standard QoS, ROHS-6 compliant",
+  "listPrice": 1145,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0046",
+  "description": "ML624",
+  "comments": "4+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT+1 SFP for 100Base-FX, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1720,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0067",
+  "description": "ML638",
+  "comments": "5+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 8 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT +1x100/1000BaseFX/LX/T, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2306,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0076",
+  "description": "ML654S",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, CES + Clock distribution, 4x10/100BaseT+2x100/1000Base-FX + 4xE1/T1, SyncE, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products).",
+  "listPrice": 3748,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0077",
+  "description": "ML658S",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 8 pairs EFM-bonded G.SDHSL Ethernet Extender, CES + Clock distribution, 4x10/100BaseT+2x100/1000Base-FX + 4xE1/T1, SyncE, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products).",
+  "listPrice": 4430,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0106",
+  "description": "ML684M",
+  "comments": "5+2 port, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2) Add-Drop EFM-bonded G.SHDSL Ethernet Extender, 4x10/100Base-T+1x100/1000Base-FX SFP, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1950,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0110",
+  "description": "ML2316",
+  "comments": "6+16 ports, High Density Ethernet Aggregator,up to 16 HSL,16 pairs EFM-bonded G.SDHSL Ethernet Extender,CE2.0, 2x 10/100 baseT, 2x10/100/1000BaseT+ 2x100/1000Base-FX, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products). MLE-16E expansion module can be ordered separately",
+  "listPrice": 6554,
+  "category": "A4.1 Shelves",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0111",
+  "description": "ML6916EN",
+  "comments": "6+16 ports, High Density Ethernet Aggregator,up to 16 HSL,16 pairs EFM-bonded G.SDHSL Ethernet Extender,CE2.0, 2x 10/100 baseT, 2x10/100/1000BaseT+ 2x100/1000Base-FX, SyncE, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products). MLE-16E expansion module can be ordered separately",
+  "listPrice": 6554,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0115",
+  "description": "ML6916EL",
+  "comments": "6+4 ports, Compact Ethernet Aggregator, 4xHSL, 16 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, Advanced MACsec encryption , 4x10/100/1000BaseT+ 2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 6665,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0116",
+  "description": "ML644EL",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, Advanced MACsec encryption, 4x10/100/1000BaseT+2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3560,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0216",
+  "description": "ML644E",
+  "comments": "6+1 port, Managed Ethernet Switch, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, 4x10/100/1000BaseT+2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2341,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0217",
+  "description": "ML648E",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 8 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, 4x10/100/1000BaseT+2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3031,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0218",
+  "description": "ML6416E",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 16 pairs EFM-bonded G.SDHSL Ethernet Extender,CE2.0, advanced H-QoS, 4x10/100/1000BaseT+2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4595,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0220",
+  "description": "ML684D",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2 or 1x4) EFM-bonded G.SHDSL Ethernet Extender, up to 60Mbps, up to 1Mbps@16kft, Ethernet Switch and Extender, 6x10/100Base-T+2x100/1000Base-FX SFP, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC single power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1950,
+  "category": "A2.1 ML600D Family",
+  "sorting": 2,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0221",
+  "description": "ML680DF",
+  "comments": "8 port, Managed Fiber Ethernet switch, 2x100/1000Base-FX SFP + 6x10/100Base-T, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Single Power Input",
+  "listPrice": 1145,
+  "category": "A2.1 ML600D Family",
+  "sorting": 5,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0232",
+  "description": "ML684DTP",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2 or 1x4)  EFM-bonded G.SDHSL Ethernet Extender, 6x10/100Base-T+2x100/1000Base-FX SFP, Serial server, 2 Passive PoE ports, up to 120W Out, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2295,
+  "category": "A2.1 ML600D Family",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0236",
+  "description": "ML680DFTP",
+  "comments": "Managed Fiber Ethernet switch, 2x100/1000Base-FX SFP + 6x10/100Base-T,  Serial server, 2 Passive PoE ports, up to 120W Out, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1490,
+  "category": "A2.1 ML600D Family",
+  "sorting": 5,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0238",
+  "description": "ML6916E (w/o SyncE)",
+  "comments": "6+4 ports, Compact Ethernet Aggregator,4xHSL,16 pairs EFM-bonded G.SDHSL Ethernet Extender,CE2.0, advanced H-QoS, 4x10/100/1000BaseT+ 2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 6090,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0240",
+  "description": "ML622D",
+  "comments": "2+2 port, Managed Hybrid Copper Ethernet Switch, 2 pairs (1+1 or 1x2)  Add-Drop EFM-bonded G.SDHSL Ethernet Extender, 2x10/100Base-T, standard QoS Ethernet Switch and Extender, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Single power input",
+  "listPrice": 1145,
+  "category": "A2.1 ML600D Family",
+  "sorting": 1,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0252",
+  "description": "ML540E",
+  "comments": "Fiber EAD, 4x10/100/1000BaseT+2x100/1000Base-FX, CE2.0, advanced QoS, ROHS-6 compliant,DC-input, SFP should be ordered separately (refer to Type C products), 9K frames support.",
+  "listPrice": 2295,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 13,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0253",
+  "description": "ML698ES",
+  "comments": "6+4 ports, Compact Ethernet Aggregator, SyncE CLK, 4xHSL, 8 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, 4x10/100/1000BaseT+ 2x100/1000Base-FX,  ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 5055,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0254",
+  "description": "ML6916ES",
+  "comments": "6+4 ports, Compact Ethernet Aggregator, SyncE CLK ,4xHSL,16 pairs,CE2.0, advanced H-QoS, 4x10/100/1000BaseT+ 2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 6550,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0259",
+  "description": "ML698E",
+  "comments": "6+4 ports, Compact Ethernet Aggregator, 4xHSL, 8 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, 4x10/100/1000BaseT+ 2x100/1000Base-FX,  ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3679,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0477",
+  "description": "ML658S Advanced CLK",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 8 pairs,  4x10/100BaseT+2x100/1000Base-FX + 4xE1/T1, PWE (CESoETH/SATOP/CESoPSN), Independent Differential retiming for E1, SyncE, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3330,
+  "category": "A2. ML600 Family",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG0530",
+  "description": "ML530",
+  "comments": "Fiber EAD, 4x10/100BaseT+2x100/1000Base-FX, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 920,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 13,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG2097",
+  "description": "XR239SE Repeater - No Rewiring",
+  "comments": "2-pairs repeater, 26Mbps throughput, 239 mechanics, rDSS support (requires PFU-8 Rev C or higher), remote power feeding CO or CPE with no rewiring, enhanced diagnostics",
+  "listPrice": 1260,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG2099",
+  "description": "PFU-8 Rev D",
+  "comments": "Voltage or Current limited Power feed module to remotely feed XR239 repeaters Supports 4 repeater hops and is compatible with repeater DSS, and future single side DRB",
+  "listPrice": 1333,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3230",
+  "description": "ML684D (New)",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2 or 1x4) EFM-bonded G.SHDSL Ethernet Extender, up to 60Mbps, up to 1Mbps@16kft, Ethernet Switch and Extender, 6x10/100Base-T+2x1000Base-FX SFP, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1950,
+  "category": "A2.1 ML600D Family",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3231",
+  "description": "ML680DF (New)",
+  "comments": "8 port, Managed Fiber Ethernet switch, 6x10/100Base-T+2x1000Base-FX SFP, DIN Rail, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 953,
+  "category": "A2.1 ML600D Family",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3240",
+  "description": "ML622D (New)",
+  "comments": "2+2 port, Managed Hybrid Fiber/Copper Ethernet Switch, 2 pairs (1+1 or 1x2)  Add-Drop EFM-bonded G.SDHSL Ethernet Extender, 2x10/100Base-T, standard QoS Ethernet Switch and Extender, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC, Dual power input.",
+  "listPrice": 1374,
+  "category": "A2.1 ML600D Family",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3255",
+  "description": "ML684D-M (12/24V)",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2, 1+3 or 1x4) EFM-bonded G.SHDSL, Ethernet  Extender, 6x10/100/1000Base-T+2x1000Base-FX SFP, DIN Rail, Fanless, bypass switch, 12/24VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1995,
+  "category": "A2.1 ML600D Family",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3275",
+  "description": "ML680D-M (12/24V)",
+  "comments": "8 port, Managed Fiber Ethernet switch, 6x10/100/1000Base-T+2x1000Base-FX SFP, DIN Rail, Fanless, 12/24VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1489,
+  "category": "A2.1 ML600D Family",
+  "sorting": 5,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3355",
+  "description": "ML684DL-M (12/24V)",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2, 1+3 or 1x4) EFM-bonded G.SHDSL Ethernet  Extender, 6x10/100/1000Base-T+2x100/1000Base-FX SFP, DIN Rail, Advanced MACSEC Encryption, Fanless, bypass switch, 12/24VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2795,
+  "category": "A2.1 ML600D Family",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3358",
+  "description": "ML684DLP-M",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2, 1+3 or 1x4) EFM-bonded G.SHDSL Ethernet  Extender, 6x10/100/1000Base-T +2x100/1000Base-FX SFP, 2x PoE ports (up to 90W), DIN Rail, Advanced MACSEC Encryption, Fanless, bypass switch, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2989,
+  "category": "A2.1 ML600D Family",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3375",
+  "description": "ML680DL-M (12/24V)",
+  "comments": "10 port, Managed Fiber Ethernet switch, 8x10/100/1000Base-T+2x100/1000Base-FX SFP, DIN Rail, Advanced MACSEC Encryption, Fanless, 12/24VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2019,
+  "category": "A2.1 ML600D Family",
+  "sorting": 6,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3378",
+  "description": "ML680DLP-M",
+  "comments": "10 port, Managed Fiber Ethernet switch, 8x10/100/1000Base-T+2x100/1000Base-FX SFP, 2x PoE ports (up to 90W), DIN Rail, Advanced MACSEC Encryption, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1410,
+  "category": "A2.1 ML600D Family",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20394",
+  "description": "ML638 Rackmount kit",
+  "comments": "ML638 Rackmount Kit (1x ML638 Supports 8 pairs)(1x Rack Mount Kit )(10ft/3m, 8xRJ-45 to open end, solid wires)",
+  "listPrice": 3163,
+  "category": "A2.2 ML600 Configurations",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20435",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450 + MLU-64DR",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450, 1xMLU-64DR, 4x blank panel)",
+  "listPrice": 22523,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20436",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450 + MLU-64DR",
+  "comments": "(1xCHS-200/19\", 1xSDU-450, 1xMLU-64DR, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 20666,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20441",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450 + MLU-64DF",
+  "comments": "(1xCHS-200/19\", 1xSDU-450, 1xMLU-64DF, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 20666,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20442",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450 + MLU-32DF",
+  "comments": "(1xCHS-200/19\", 1xSDU-450, 1xMLU-32DF, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 17797,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20443",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450 + MLU-32DR",
+  "comments": "(1xCHS-200/19\", 1xSDU-450, 1xMLU-32DR, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 17797,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20444",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450G + MLU-64DF",
+  "comments": "(1xCHS-200/19\", 1xSDU-450G, 1xMLU-64DF, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 21816,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20445",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450G + MLU-32DF",
+  "comments": "(1xCHS-200/19\", 1xSDU-450G, 1xMLU-32DF, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 18947,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20446",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450G + MLU-32DR",
+  "comments": "(1xCHS-200/19\", 1xSDU-450G, 1xMLU-32DR, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 18947,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20447",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450 + MLU-64DF",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450, 1xMLU-64DF, 4x blank panel)",
+  "listPrice": 22523,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20448",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450 + MLU-32DF",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450, 1xMLU-32DF, 4x blank panel)",
+  "listPrice": 19654,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20449",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450 + MLU-32DR",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450, 1xMLU-32DR, 4x blank panel)",
+  "listPrice": 19654,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20450",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450G + MLU-64DF",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450G, 1xMLU-64DF, 4x blank panel)",
+  "listPrice": 23673,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20451",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450G + MLU-32DF",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450G, 1xMLU-32DF, 4x blank panel)",
+  "listPrice": 20804,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20452",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450G + MLU-32DR",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450G, 1xMLU-32DR, 4x blank panel)",
+  "listPrice": 20804,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20455",
+  "description": "ML2300 Bundle: CHS-2000B/19\" + SDU-450G + MLU-64DR",
+  "comments": "(1xCHS-2000B/19\", 1xSDU-450G, 1xMLU-64DR, 4x blank panel)",
+  "listPrice": 23673,
+  "category": "A4.7 ML2300 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20456",
+  "description": "ML230 Bundle: CHS-200/19\" + SDU-450G + MLU-64DR",
+  "comments": "(1xCHS-200/19\", 1xSDU-450G, 1xMLU-64DR, 1x blank panel, 1x -48VDC PWR&GND)",
+  "listPrice": 21816,
+  "category": "A4.6 ML230 Configuration Examples",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20475",
+  "description": "Bundle E4-EH and 4x VBA 3.0E",
+  "comments": "4 slot high power bundle - 4 slot enclosure for +-130V and 4 VBA Express power cards",
+  "listPrice": 4283,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20482",
+  "description": "Bundle E4-EL and 4x VBA 3.0E",
+  "comments": "4 slot / 8 port -48V express power bundle  - 4 slot/8 port enclosure for -48V and 4 VBA Express power cards",
+  "listPrice": 4030,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20483",
+  "description": "Bundle E4-EL and 4x VBA 3.0",
+  "comments": "4 slot / 8 port enclosure (-48V express power ) bundle - 4 slot / 8 port enclosure for -48V and 4 VBA cards",
+  "listPrice": 3910,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20484",
+  "description": "Bundle E4-EL and 4x ABA 3.0",
+  "comments": "4 slot enclosure (optional -48V express power) Bundle - 4 slot enclosure with four ABA 3.0 cards",
+  "listPrice": 3105,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S20485",
+  "description": "Bundle E4-EL and 4x ABA 3.0E",
+  "comments": "4 slot enclosure (-48V express power ) bundle - 4 slot enclosure for -48V and 4x ABA 3.0E (express power) cards",
+  "listPrice": 3289,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "502R02110",
+  "description": "Chassis 2000B Shelf, 19 inch (CHS-2000B/19)",
+  "comments": "Supporting MLU-64Dx. Includes 19 inch chassis, modules & accessories.",
+  "listPrice": 2985,
+  "category": "A4.1 Shelves",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "502R04810",
+  "description": "Newmar -48VDC Unity rectifier shelf",
+  "comments": "1 Required",
+  "listPrice": 326,
+  "category": "C3. Power Supply",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "502R04825",
+  "description": "Newmar Battery module shelf",
+  "comments": "Optional",
+  "listPrice": 245,
+  "category": "C3. Power Supply",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "502R05080",
+  "description": "ML600/ML740/ML530/GL800/GL900 Sleeve Extension Slide Kit Installation",
+  "comments": "Connects to an ML600/ML740/ML530 Rack mount kit (not supplied) for easy rear access (e.g. for traffic applications). Supports 2x ML500/ML600/ML700/GL900/GL800",
+  "listPrice": 195,
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "502R20230",
+  "description": "Chassis 200 Shelf",
+  "comments": "Chassis and accessories for ML230",
+  "listPrice": 1127,
+  "category": "A4.1 Shelves",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R20132",
+  "description": "MLU-32DF (Front Access Multi-Line Unit with 32 copper pairs, DRB Enabled)",
+  "comments": "32 pairs line card, Front access connection. Compatible with ML230 and ML2300.",
+  "listPrice": 6325,
+  "category": "A4.3 MLU (Multiport Line Units)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R20164",
+  "description": "MLU-64DF (Front Access Multi-Line Unit with 64 copper pairs, DRB Enabled)",
+  "comments": "64 pairs line card, Front access connection. Compatible with ML230 and ML2300. Note: Requires SDU-450 series",
+  "listPrice": 9195,
+  "category": "A4.3 MLU (Multiport Line Units)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R20232",
+  "description": "MLU-32DR (Rear Access Multi-Line Unit with 32 copper pairs, DRB Enabled)",
+  "comments": "32 pairs line card, Rear access connection. Compatible with ML230 and ML2300.",
+  "listPrice": 6325,
+  "category": "A4.3 MLU (Multiport Line Units)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R20264",
+  "description": "MLU-64DR (Rear Access Multi-Line Unit with 64 copper pairs, DRB Enabled)",
+  "comments": "64 pairs line card, Rear access connection. Compatible with CHS-200 and CHS-2000B. Note: Requires SDU-450 series",
+  "listPrice": 9195,
+  "category": "A4.3 MLU (Multiport Line Units)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R20270",
+  "description": "Streaker card for ML2300 and ML230",
+  "comments": "To check wiring from the Actelis CHS backplane to the Distribution Frame. Indications are provide via LEDs. \nSupports 64 pairs. \nApplicable for:\n- CHS-2000 \u2013 Only 1-32 LEDs. LEDs 33-64 are not used.\n- CHS-2000B \u2013 32  / 64 pairs can be checked \n- CHS-200  ",
+  "listPrice": 2300,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R60041",
+  "description": "Service Dispatcher Unit (SDU-455G)",
+  "comments": "Supports ML230/ML2300, 2x 10/100/1000bT + 4x GE/2GE uplinks, up to 4 MLU-32/MLU-64 and up to 128 links. Includes TDM clock distribution - E1/T1, 2MHz, SyncE",
+  "listPrice": 12645,
+  "category": "A4.2 SDU (Service Dispatch Units)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R60042",
+  "description": "Service Dispatcher Unit (SDU-450)",
+  "comments": "Supports ML230/ML2300, 2x 10/100/1000bT + 4xFE/GE uplinks, up to 4 MLU-32/MLU-64 and up to 128 links",
+  "listPrice": 10345,
+  "category": "A4.2 SDU (Service Dispatch Units)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503R60043",
+  "description": "Service Dispatcher Unit (SDU-450G)",
+  "comments": "Supports ML230/ML2300, 2x 10/100/1000bT + 4xFE/GE + 4x GE/2.5GE uplinks, up to 4 MLU-32/MLU-64 and up to 128 links",
+  "listPrice": 11495,
+  "category": "A4.2 SDU (Service Dispatch Units)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG3088",
+  "description": "ABA LP ER 2.0",
+  "comments": "ADSL Broadband Accelerator (ABA) Extended Reach, Dual Port Card, Line Powered, Local mgmt. Enclosure need to be ordered separately",
+  "listPrice": 863,
+  "category": "A8.1 BBA Cards",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG3104",
+  "description": "VBA 3.0",
+  "comments": "VDSL2 Broadband Accelerator (VBA). Dual Port Card, Line Powered, flexible R-side. Enclosure need to be ordered separately",
+  "listPrice": 920,
+  "category": "A8.1 BBA Cards",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG3107",
+  "description": "VBA 3.0E",
+  "comments": "VDSL2 Broadband Accelerator (VBA) 3.0E. Dual Port Card, Line Powered POTS and Express Powered, flexible R-side. Enclosure need to be ordered separately",
+  "listPrice": 966,
+  "category": "A8.1 BBA Cards",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG3110",
+  "description": "ABA 3.0",
+  "comments": "ADSL BroadBand Accelerator (ABA) Standard Reach, Dual Port Card, Line Powered, Local mgmt, flexible R-side. Enclosure need to be ordered separately",
+  "listPrice": 805,
+  "category": "A8.1 BBA Cards",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG3111",
+  "description": "ABA 3.0E",
+  "comments": "ADSL BroadBand Accelerator (ABA) , Dual Port Card, Line or Express Powered, Local mgmt, flexible R-side. Enclosure need to be ordered separately",
+  "listPrice": 851,
+  "category": "A8.1 BBA Cards",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "503RG4080",
+  "description": "BBA Flash Tool",
+  "comments": "Handheld battery operated device for easy diagnosis and troubleshooting of BBA installations. Contains status LEDs, a Test/Reset button, and a USB connector for optionally connecting to a laptop for advanced operations.",
+  "listPrice": 276,
+  "category": "A8.3 BBA Accessories",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R06012",
+  "description": "ML600-PFU MLP cable (8xRJ45->DB25) 0.3m",
+  "comments": "External PFU-8 cable DB25 male - 8xRJ45 0.3m/1ft",
+  "listPrice": 72,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R06017",
+  "description": "ML600-PFU MLP cable (8xRJ45->DB25) 3m",
+  "comments": "External PFU-8 cable DB25 male - 8xRJ45 3m/10ft",
+  "listPrice": 92,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R06055",
+  "description": "Chassis-PFU MGMT cable (DB9/F->RJ45) 3m",
+  "comments": "ML130/ML230/ML2300 monitoring cable, RJ-45 to DB-9/Female, Length 3m/10ft.",
+  "listPrice": 76,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R06060",
+  "description": "ML600 to PFU MGMT Cable (RJ45-RJ45) 0.3m/1ft",
+  "comments": "Note that this cable is included in the PFU kits. For spares only",
+  "listPrice": 20,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R06065",
+  "description": "ML600 to PFU Alarm Cable 0.3m/1ft",
+  "comments": "PFU alarm cable, ML to PFU-8/PFU-8E, Length 0.3m/1ft. Included in PFU kit. For Spares Only",
+  "listPrice": 12,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20010",
+  "description": "Craft i/f cable, DB-9 con. both ends, (12ft/3.6m)",
+  "comments": "Optional. Can be used with all non DIN-rail ML600/ML700 products",
+  "listPrice": 12,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20043",
+  "description": "PWR/GND Harness - 20ft/6m open ended, 48VDC 18AWG, Gnd 14AWG",
+  "comments": "Power harness for DC power. Recommended for ML500/ML600/ML700",
+  "listPrice": 41,
+  "category": "C4.3 Power and Grounding cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20047",
+  "description": "PWR/GND Harness - 20ft/6m open ended, 48VDC 14AWG, Gnd 10AWG",
+  "comments": "Power harness for DC power. Recommended for ML230/ML2300",
+  "listPrice": 41,
+  "category": "C4.3 Power and Grounding cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20060",
+  "description": "Alarm Cable, 50ft/15m solid wire 24AWG, DB-15 one end",
+  "comments": "Optional. Used for all chassis",
+  "listPrice": 41,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20110",
+  "description": "DSL Quad Cable, 4xRJ-45 to open end, solid wires, 10ft/3m",
+  "comments": "For connecting 2 and 4 pairs ML600/ML700 DSL lines to a terminal block",
+  "listPrice": 46,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20120",
+  "description": "DSL Octal Cable, 8xRJ-45 to open end, solid wires, 10ft/3m",
+  "comments": "For connecting 8 pairs ML600/ML700/GL900 DSL lines to a terminal block",
+  "listPrice": 69,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20140",
+  "description": "DSL Quad Cable, 4xRJ-45 to open end, solid wires, 100ft/30m",
+  "comments": "For connecting 2 and 4 pairs ML600/ML700 DSL lines to a terminal block",
+  "listPrice": 173,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20160",
+  "description": "DSL Octal Cable, 8xRJ-45 to open end, solid wires, 100ft/30m",
+  "comments": "For connecting 8 pairs ML600/ML700/GL900 DSL lines to a terminal block",
+  "listPrice": 230,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R20180",
+  "description": "DSL Octal cable, 8xRJ-45 to open end, solid wires, 150ft/50m",
+  "comments": "For connecting 8 pairs ML600/ML700/GL900 DSL lines to a terminal block",
+  "listPrice": 317,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R24001",
+  "description": "Y-Cable: Champ-64 Plug to 2 X Champ-50 connectors",
+  "comments": "Used to connect ML2300 (MLU-32ER) to 50-pin telco cables",
+  "listPrice": 80,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R24014",
+  "description": "PFU-8 to MDF Cable (DB-25 to 8-pairs Open End),  25ft.",
+  "comments": "DB25-to-8-pairs Open Wire, UTP, US color code, 24 AWG, 7.6m/25 ft.",
+  "listPrice": 52,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R24015",
+  "description": "PFU-8 to MDF Cable (DB-25 to 8-pairs Open End),  50ft.",
+  "comments": "DB25-to-8-pairs Open Wire, UTP, US color code, 24 AWG, 15.2m/50 ft.",
+  "listPrice": 80,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R24016",
+  "description": "PFU-8 to MDF Cable (DB-25 to 8-pairs Open End), 100ft.",
+  "comments": "DB25-to-8-pairs Open Wire, UTP, US color code, 24 AWG, 30.5m/100 ft.",
+  "listPrice": 104,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R24017",
+  "description": "PFU-8 to MDF Cable (DB-25 to 8-pairs Open End), 150ft.",
+  "comments": "DB25-to-8-pairs Open Wire, UTP, US color code, 24 AWG, 45.7m/150 ft.\t.",
+  "listPrice": 115,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60052",
+  "description": "ML650S E1/T1-Clock splitter cable (0.5m/1.6ft)",
+  "comments": "Required when both E1/T1 and clock are used on the same ML650S port",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60060",
+  "description": "Copper Loop 64-pairs DIN Connector, US Color code,  25ft.",
+  "comments": "128-pin-to-64-pairs Open Wire, STP, US color code, 26 AWG, 25 ft. Used for CHS-200/CHS-2000B Rear Access",
+  "listPrice": 237,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60062",
+  "description": "Copper Loop 64-pairs DIN Connector, US Color code, 100ft.",
+  "comments": "128-pin-to-64-pairs Open Wire, STP, US color code, 26 AWG, 100 ft. Used for CHS-200/CHS-2000B Rear Access",
+  "listPrice": 657,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60063",
+  "description": "Copper Loop 64-pairs DIN Connector, US Color code, 150ft.",
+  "comments": "128-pin-to-64-pairs Open Wire, STP, US color code, 26 AWG, 150 ft. Used for CHS-200/CHS-2000B Rear Access",
+  "listPrice": 733,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60064",
+  "description": "Y-Cable: DIN-128 Plug to 2 X Champ-64 connectors (11ft/3.3m)",
+  "comments": "Used to connect CHS-2000B/CHS-200 chassis to 64-pin champ cables. Standard Telco pinout (Champ pinout: 1-33, 2-34, etc)",
+  "listPrice": 173,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60074",
+  "description": "Y-Cable: DIN-128 Plug to 2 X Champ-64 connectors (25ft/7.6m)",
+  "comments": "Used to connect CHS-2300/CHS-200 chassis to 64-pin champ cables. Customized pinout (Champ pinout: 1-2, 3-4, etc)",
+  "listPrice": 242,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60085",
+  "description": "Copper Loop 64-pairs FCI Connector, EU Color code, 20m.",
+  "comments": "128-pin-to-64-pairs Open Wire, STP, EU color code, 0.5 mm, 20m. Required for MLU-32DF and MLU-64DF",
+  "listPrice": 317,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60088",
+  "description": "Copper Loop 64-pairs FCI Connector, US Color code, 100ft.",
+  "comments": "128-pin-to-64-pairs Open Wire, STP, US color code, 24 AWG, 100ft. Required for MLU-32DF and MLU-64DF",
+  "listPrice": 449,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60094",
+  "description": "ML620i DC Power Cable; 2.5m",
+  "comments": "Power cable for ML620i DC Power; Using a special lockable connector for connecting to the ML620i",
+  "listPrice": 23,
+  "category": "C4.3 Power and Grounding cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60098",
+  "description": "DSL Octal Dual Port Cable, 8xRJ-45, open end,US solid wire,10ft /3 meter ",
+  "comments": "For connecting 16 pairs ML6x16/Ey or GL800x DSL lines to a terminal block",
+  "listPrice": 92,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60099",
+  "description": "ML6x16-PFU MLP Cable (8xRJ45->2xDB25), 3m",
+  "comments": "External PFU-8 cable for ML6416/ML6916x/ML2316 DB25 male - 8xRJ45 3m/10ft",
+  "listPrice": 115,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60100",
+  "description": "DSL Octal Dual Port Cable, 8xRJ-45, open end,US solid wire,100ft /30 meter",
+  "comments": "For connecting 16 pairs ML6x16/Ey or GL800x DSL lines to a terminal block",
+  "listPrice": 253,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60101",
+  "description": "DSL dual port cable 2 X RJ45 to open end solid",
+  "comments": "DSL dual port cable 2 X RJ45 to open end solid; For connecting 4 pairs ML684D Industrial CPE DSL lines to a terminal block",
+  "listPrice": 46,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60102",
+  "description": "DB9 to RJ45 RS232 adapter / cable",
+  "comments": "For connecting to the industrial ML680D/ML684D RJ45 serial port",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60106",
+  "description": "Mgmt/Serial Server adapter, 15cm, RS232/V.24 DTE-DCE, RJ45-DB9F",
+  "comments": "ML680Dx models  PN 501RG0222, 501RG0232, 501RG0235 and 501RG0236 - cable for Craft i/f toward DCE device.",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60107",
+  "description": "Serial Server cable 1.5m , RS-422/485, RJ45-DB9M",
+  "comments": "ML680Dx models  PN 501RG0222, 501RG0232, 501RG0235 and 501RG0236 - cable for Craft i/f toward DCE device.",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60108",
+  "description": "Mgmt/Serial Server adapter, 15cm, RS-232/V.24, DTE-DTE (null modem), RJ45-DB9M",
+  "comments": "ML680Dx models  PN 501RG0222, 501RG0232, 501RG0235 and 501RG0236 - cable for Craft i/f toward DTE device",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60109",
+  "description": "Craft2 i/f cable, Mini-jack to DB9M, 1.5m",
+  "comments": "Optional for ML684DT management , when Craft1 port is in use by Serial Server.Support RS-232 protocol.",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60110",
+  "description": "PFU MGMT cable for ML680Dx models",
+  "comments": "Cable for PFU-8* management via ML680Dx models, not suitable for PN=501RG020/21.",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60119",
+  "description": "Serial Server cable 1.5m for new D series, RS-422/485, RJ45-DB9F",
+  "comments": "ML680Dx models PN 501RG3xxx - cable for Craft i/f toward DTE device.",
+  "listPrice": 23,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60120",
+  "description": "Console port cable, RJ45 to DB9 , (12ft/3.6m)",
+  "comments": "Optional. Can be used with ML540/ML550/ML560M products with RJ45 console port (RS-232 protocol).",
+  "listPrice": 12,
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "504R60150",
+  "description": "DSL Octal Dual Port Cable, 8xRJ-45, open end,US solid wire,150ft / 45 meter ",
+  "comments": "For connecting 16 pairs ML6x16/Ey or GL800x DSL lines to a terminal block",
+  "listPrice": 486,
+  "category": "C4.1 DSL Cables",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00002",
+  "description": "1000Base-LX SMF SFP module (10km)",
+  "comments": "1.25Gbps, Single Mode, 1310nm, 10 km, LC connector",
+  "listPrice": 68,
+  "category": "C1. SFP Transceivers",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00006",
+  "description": "AC-DC power supply for ML600/ML740/ML530 (NA)",
+  "comments": "110/220VAC to -48VDC/30W, North American type power cord. 0 +40C operating range. DOE6 compliant",
+  "listPrice": 110,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00006E",
+  "description": "AC-DC power supply for ML600/ML740/ML530 (EU)",
+  "comments": "110/220VAC to -48VDC/30W, EU type power cord. 0 +40C operating range.",
+  "listPrice": 110,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00006U",
+  "description": "AC-DC power supply for ML600/ML740/ML530 (UK)",
+  "comments": "110/220VAC to -48VDC/30W, UK type power cord. 0 +40C operating range.",
+  "listPrice": 110,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00008",
+  "description": "AC-DC power supply for GL900/old ML620i (501RG016x) (US/EU)",
+  "comments": "110/220VAC to -12VDC/15W. Universal adapter containing 2 replaceable heads compatible with North American and European power sockets. 0 +40C operating range. DOE6 compliant.",
+  "listPrice": 58,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00008U",
+  "description": "AC-DC power supply for GL900/old ML620i (501RG016x)GL900 (UK)",
+  "comments": "110/220VAC to -12VDC/15W. Adapter compatible with UK power sockets. 0 +40C operating range.",
+  "listPrice": 58,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00010",
+  "description": "AC-DC power supply for new ML620i (501RG012x) (US/EU)",
+  "comments": "110/220VAC to -24VDC/15W. Universal adapter containing 2 replaceable heads compatible with North American and European power sockets. 0 +40C operating range. DOE6 compliant.",
+  "listPrice": 58,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00012",
+  "description": "1000Base-SX MMF SFP module (500m)",
+  "comments": "1.25Gbps, Multi Mode, 850nm, 500m, LC connector",
+  "listPrice": 68,
+  "category": "C1. SFP Transceivers",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00022",
+  "description": "100Base-FX MMF SFP module (2km)",
+  "comments": "125 Mbps, Multi Mode, 1310 nm, 2km, LC connector",
+  "listPrice": 115,
+  "category": "C1. SFP Transceivers",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00032",
+  "description": "100Base-FX SMF SFP module (15km)",
+  "comments": "125 Mbps, Single Mode, 1310 nm, 15km, LC connector",
+  "listPrice": 68,
+  "category": "C1. SFP Transceivers",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R00042",
+  "description": "1000Base-T SFP module",
+  "comments": "Rate 1.25Gbps, 100m, RJ-45 connector",
+  "listPrice": 103,
+  "category": "C1. SFP Transceivers",
+  "sorting": 10,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R0116R",
+  "description": "ML632R",
+  "comments": "L3 Switch, Fanless, bonding up to 2 pairs, 4 x10/100BaseT, standard QoS, ROHS-6 compliant, 12V input.",
+  "listPrice": 1299,
+  "category": "A9. L3 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R0146R",
+  "description": "ML634R",
+  "comments": "L3 Switch, Fanless, bonding up to 4 pairs, 4 x10/100BaseT, standard QoS, ROHS-6 compliant, 12V input.",
+  "listPrice": 2297,
+  "category": "A9. L3 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R04815",
+  "description": "Newmar -48VDC Unity rectifier",
+  "comments": "2 Required, 3 can be used for additional load capacity",
+  "listPrice": 363,
+  "category": "C3. Power Supply",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R04820",
+  "description": "Newmar -48VDC Unity Fuse Panel",
+  "comments": "1 required",
+  "listPrice": 228,
+  "category": "C3. Power Supply",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R04830",
+  "description": "Newmar Battery Module",
+  "comments": "Optional",
+  "listPrice": 367,
+  "category": "C3. Power Supply",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R20230",
+  "description": "AC Power Feed Module (AC-PFM) for CHS-200",
+  "comments": "110/220VAC Feed.",
+  "listPrice": 403,
+  "category": "A4.4 CHS-200 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R30070",
+  "description": "Fan Control Module for CHS-2000B/19(FCM-2000B/19)",
+  "comments": "Fan control module for Chassis-2000B/19\"",
+  "listPrice": 685,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32010",
+  "description": "RFT-V UpConverter Line Card",
+  "comments": "Up (-48V to \u00b1190V) DC-DC Converter card (QS982ATEZ), 2 x 100 VA (supports 2 pairs). Suitable for 4,5,16 slots chassis.",
+  "listPrice": 426,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32011",
+  "description": "RFT-V Down Converter Line Card",
+  "comments": "Down (\u00b1190V to -48V) DC-DC Converter card (QS882A),  2 x 100 VA (supports 2 pairs). Suitable for 5-slot shelf.",
+  "listPrice": 386,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32020",
+  "description": "CPS3200U Converter Shelf",
+  "comments": "Converter Shelf: BDFB Fed Converter Shelf with alarm card, 4 x -48V, 48 Amp input, lug landings",
+  "listPrice": 616,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32021",
+  "description": "RFT-V UpConverter 5slot Shelf",
+  "comments": "Suitable for both Up and Down Converter Line Cards  Shelf QS800C.",
+  "listPrice": 2013,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32022",
+  "description": "RFT-V UpConverter 4slot Shelf",
+  "comments": "Upstream Converter Shelf QS912C.",
+  "listPrice": 1668,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32030",
+  "description": "RFT-V UpConverter Controller",
+  "comments": "Ethernet controller card  (QS941A) with display for 16slot shelf",
+  "listPrice": 909,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32040",
+  "description": "CPS3200U Fan shelf",
+  "comments": "Fan Shelf with 2 fan trays",
+  "listPrice": 792,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32041",
+  "description": "RFT-V Fan for 4&5 slot shelf",
+  "comments": "Fan Tray Shelf QS931C, suitable to  4 and 5 slots shelves",
+  "listPrice": 1139,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32050",
+  "description": "RFT-V Chassis slot filler",
+  "comments": "Blank panel for non-used slots in 16slot shelf CPS3200U",
+  "listPrice": 29,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32060",
+  "description": "Enclosure w/X-pair, Pole/Wall mount",
+  "comments": "RFT-V Down Converter (+/- 190VDC to -48VDC) , 120W @ 2 pairs  , pole/wall mount enclosure, with lightning protection, prewired and tested.",
+  "listPrice": 1380,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32070",
+  "description": "Enclosure, Local  DC powered , Pole/Wall mount",
+  "comments": "Outdoor Pole/Wall Mount  enclosure supporting external power feeding with lightning protection block . Prewired and Tested.",
+  "listPrice": 777,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R32100",
+  "description": "Enclosure, Local AC powered, Pole/Wall mount",
+  "comments": "Outdoor Enclosure 85-264VAC Pole/Wall Mount Outdoor Enclosure supporting external power feeding with lightning protection block . Prewired and Tested.",
+  "listPrice": 892,
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R51711",
+  "description": "CSFP Transceiver 1610nm, GbE, 80km",
+  "comments": "CWDM Pluggable SFP Transceiver, 1610nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R51712",
+  "description": "CSFP Transceiver, 1550nm GbE, 80km",
+  "comments": "CWDM Pluggable SFP Transceiver, 1550nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R51713",
+  "description": "CSFP Transceiver, 1570nm GbE, 80km",
+  "comments": "CWDM Pluggable SFP Transceiver, 1570nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R51715",
+  "description": "CSFP Transceiver, 1530nm GbE, 80km",
+  "comments": "CWDM Pluggable SFP Transceiver, 1530nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R51716",
+  "description": "CSFP Transceiver, 1510nm GbE, 80km",
+  "comments": "CWDM Pluggable SFP Transceiver, 1510nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R51750",
+  "description": "1000Base-LX SMF SFP module (40Km)",
+  "comments": "Broadband Long Reach Optical Transceiver, up to 1.125Gbps, Single Mode, 1310 nm, 40 km, LC Connector",
+  "listPrice": 287,
+  "category": "C1. SFP Transceivers",
+  "sorting": 8,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61151",
+  "description": "T3/E3 over Ethernet SFP - 100Base-FX",
+  "comments": "T3/E3 over Ethernet SFP. Configurable for supporting E3/T3 and a number of encapsulation protocols.",
+  "listPrice": 1605,
+  "category": "C1. SFP Transceivers",
+  "sorting": 25,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61154",
+  "description": "2500Base-FX SMF SFP module (30Km)",
+  "comments": "2.5 Gbps Single Mode, 1310nm 30Km LC connector. To be used with 2500BaseFX ports.",
+  "listPrice": 289,
+  "category": "C1. SFP Transceivers",
+  "sorting": 11,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61155",
+  "description": "2500Base-FX MMF SFP Module (500m)",
+  "comments": "2.5 Gbps Multi Mode, 850nm 500m LC connector. To be used with 2500BaseFX ports.",
+  "listPrice": 127,
+  "category": "C1. SFP Transceivers",
+  "sorting": 11,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61158",
+  "description": "BiDi SM SFP Transceiver for FE port, 20Km, TX=1310nm/RX=1550nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 155 Mb/s bi-directional data links (Suitable for FE SFP ports), 20km, LC Connector. Note: Requires P/N 506R61159 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 16,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61159",
+  "description": "BiDi SM SFP Transceiver for FE port, 20Km, TX=1550nm/RX=1310nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 155 Mb/s bi-directional data links (Suitable for FE SFP ports), 20km, LC Connector. Note: Requires P/N 506R61158 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 17,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61162",
+  "description": "BiDi SM SFP Transceiver for GE port, 3Km, TX=1310nm/RX=1550nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 1.25Gb/s bi-directional data links (Suitable for GE SFP ports), 3km, LC Connector. Note: Requires P/N 506R61163 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 18,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61163",
+  "description": "BiDi SM SFP Transceiver for GE port, 3Km, TX=1550nm/RX=1310nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 1.25Gb/s bi-directional data links (Suitable for GE SFP ports), 3km, LC Connector. Note: Requires P/N 506R61162 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 19,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61164",
+  "description": "BiDi MM SFP Transceiver for FE port, 2Km, TX=1310nm/RX=1550nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 155 Mb/s bi-directional data links (Suitable for FE SFP ports), 2km, LC Connector. Note: Requires P/N 506R61165 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 14,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61165",
+  "description": "BiDi MM SFP Transceiver for FE port, 2Km, TX=1550nm/RX=1310nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 155 Mb/s bi-directional data links (Suitable for FE SFP ports), 2km, LC Connector. Note: Requires P/N 506R61164 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 15,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61169",
+  "description": "BiDi SM CWDM SFP Transceiver for GE port, 40Km, TX=1310nm/RX=1490nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 1.25Gb/s bi-directional data links (Suitable for GE SFP ports), CWDM Compatible, 40km, LC Connector. Note: Requires P/N 506R61170 at other side of fiber link.",
+  "listPrice": 225,
+  "category": "C1. SFP Transceivers",
+  "sorting": 22,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61170",
+  "description": "BiDi SM CWDM SFP Transceiver for GE port, 40Km, TX=1490nm/RX=1310nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 1.25Gb/s bi-directional data links (Suitable for GE SFP ports), CWDM Compatible, 40km, LC Connector. Note: Requires P/N 506R61169 at other side of fiber link.",
+  "listPrice": 225,
+  "category": "C1. SFP Transceivers",
+  "sorting": 23,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61171",
+  "description": "BiDi SM CWDM SFP Transceiver for GE port, 20Km, TX=1310nm/RX=1490nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 1.25Gb/s bi-directional data links (Suitable for GE SFP ports), CWDM Compatible, 20km, LC Connector. Note: Requires P/N 506R61172 at other side of fiber link.",
+  "listPrice": 87,
+  "category": "C1. SFP Transceivers",
+  "sorting": 20,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61172",
+  "description": "BiDi SM CWDM SFP Transceiver for GE port, 20Km, TX=1490nm/RX=1310nm",
+  "comments": "BiDi Pluggable SFP Transceiver, up to 1.25Gb/s bi-directional data links (Suitable for GE SFP ports), CWDM Compatible, 20km, LC Connector. Note: Requires P/N 506R61171 at other side of fiber link.",
+  "listPrice": 190,
+  "category": "C1. SFP Transceivers",
+  "sorting": 20,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61181",
+  "description": "DIN Rail 110-220VAC-24VDC PSU for ML600Dx/ML500Dx/GL5xxx without PoE",
+  "comments": "DIN Rail 110-220VAC to -24VDC/40W Power Supply Unit (PSU) for ML500Dx, ML600Dx, ML600Dx-M, and GL5xxx without PoE, -40 +74C operating range.",
+  "listPrice": 156,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61184",
+  "description": "DIN Rail 110-220VAC-24VDC PSU for ML600Dx/ML500Dx/GL5xxx + EU Cables",
+  "comments": "DIN Rail 110-220VAC to -24VDC/40W Power Supply Unit (PSU) (P/N 506R61181) + EU Cables",
+  "listPrice": 184,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61185",
+  "description": "DIN Rail 110-220VAC-24VDC PSU for ML600Dx/ML500Dx/GL5xxx + US Cables",
+  "comments": "DIN Rail 110-220VAC to -24VDC/40W Power Supply Unit (PSU) (P/N 506R61181) + US Cables",
+  "listPrice": 184,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61186",
+  "description": "100Base-FX SMF SFP module (10km) - hardened",
+  "comments": "125 Mbps, Single Mode, 1310 nm, 10km, LC connector. Industrial  temp.range -40+75.",
+  "listPrice": 114,
+  "category": "C1. SFP Transceivers",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61187",
+  "description": "1000Base-LX SMF SFP module (10km) - hardened",
+  "comments": "1.25Gbps, Single Mode, 1310nm, 10 km, LC connector. Industrial  temp.range -40+75.",
+  "listPrice": 114,
+  "category": "C1. SFP Transceivers",
+  "sorting": 7,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61188",
+  "description": "1000Base-LX SMF SFP module (40Km) - hardened",
+  "comments": "1.25Gbps, Single Mode, 1310 nm, 40 km, LC Connector. Industrial temp.range -40+75.",
+  "listPrice": 344,
+  "category": "C1. SFP Transceivers",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61191",
+  "description": "DIN Rail 110-220VAC-48VDC PSU for ML600Dx/ML500Dx/GL5xxx/GL7000 with PoE",
+  "comments": "DIN Rail 110-220VAC to -48VDC/240W Power Supply Unit (PSU)  for ML500Dx, ML600Dx, ML600Dx-M, GL5xxx and GL7000 with PoE, -40 +74C operating range.",
+  "listPrice": 225,
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61205",
+  "description": "CSFP Transceiver, 1470nm GbE, 80km",
+  "comments": "Pluggable SFP Transceiver, 1470nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61206",
+  "description": "CSFP Transceiver, 1490nm GbE, 80km",
+  "comments": "Pluggable SFP Transceiver, 1490nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61207",
+  "description": "CSFP Transceiver, 1590nm GbE, 80km",
+  "comments": "Pluggable SFP Transceiver, 1590nm, up to 1.25 Gb/s, 80km, LC Connector",
+  "listPrice": 482,
+  "category": "C1. SFP Transceivers",
+  "sorting": 24,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61213",
+  "description": "100/1000Base-T SFP",
+  "comments": "100/1000Mbps to be used only with ML640E/ML690Ex products.",
+  "listPrice": 103,
+  "category": "C1. SFP Transceivers",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61235",
+  "description": "10G BASE-LR SFP+ Module (10Km)",
+  "comments": "10 Gbps Single Mode, 1310nm 10Km LC connector. -40 to +85?. To be used with 10GE ports.",
+  "listPrice": 147,
+  "category": "C1. SFP Transceivers",
+  "sorting": 12,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62006",
+  "description": "ML540M AC",
+  "comments": "10 port Managed Advaced CE2.0 Fiber Ethernet switch, 6x100/1000Base-FX SFP + 4x 10/100/1000 Base-T, ROHS-6 compliant, AC power, AC power cable and SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1680,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 15,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62011",
+  "description": "ML5114D",
+  "comments": "14 port Managed Fiber Ethernet switch, 4x100/1000Base-FX SFP + 10x 10/100/1000 Base-T, DIN Rail, ROHS-6 compliant, Fanless, 12-58V DC, Dual power input, Power supply and SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1470,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62012",
+  "description": "ML5114DP",
+  "comments": "14 port Managed Fiber Ethernet switch, 4x100/1000Base-FX SFP + 10x 10/100/1000 Base-T, 240W PoE, DIN Rail, ROHS-6 compliant, Fanless, 12-58V DC, Dual power input, Power supply and SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1499,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R62016",
+  "description": "ML540M DC",
+  "comments": "10 port Managed Advaced CE2.0 Fiber Ethernet switch, 6x100/1000Base-FX SFP + 4x 10/100/1000 Base-T, ROHS-6 compliant, DC power, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1460,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "sorting": 14,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "508R00680",
+  "description": "Blank Panel Kit (4 blank panels)",
+  "comments": "A kit of 4 blank panels to cover unused slots in the ML230/ML2300",
+  "listPrice": 46,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K00060",
+  "description": "Accessories Kit for ML600/ML700/ML530",
+  "comments": "If needed for spare",
+  "listPrice": 23,
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K14497",
+  "description": "XR239SE Kit - Straight Rewiring (CO side fed)",
+  "comments": "XR239SE repeater model with mechanical adapter (AD-14), suitable for MAEC underground waterproof enclosure",
+  "listPrice": 1375,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K14597",
+  "description": "Kit for XR239SE- AD14 - XConnect - Customer side fed (MAEC Enclosure)",
+  "comments": "XR239SE repeater (new PN with SW 2.30/7) with mechanical adapter. Suitable for MAEC underground waterproof enclosure",
+  "listPrice": 1375,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K20099",
+  "description": "Kit for PFU-8 Rev D to ML600",
+  "comments": "PFU-8 Rev D Kit (1x PFU-8 Rev D)(1x MLP cable 8xRJ45->DB25)(1x MGT cable RJ45->RJ45)(1xAlarm 2 wire->2 wire) 0.3m/1ft",
+  "listPrice": 1435,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K20196",
+  "description": "Kit for PFU8E to ML600",
+  "comments": "PFU-8E Kit (1x PFU-8E)(1x MLP cable 8xRJ45->DB25)(1x MGT cable RJ45->RJ45)(1xAlarm 2 wire->2 wire) 0.3m/1ft",
+  "listPrice": 1435,
+  "category": "A6. Repeater Related Products",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K20230",
+  "description": "Accessories Kit for CHS-200",
+  "comments": "Accessories Kit for CHS-200. \nIf needed for spare - brackets, etc.",
+  "listPrice": 115,
+  "category": "A4.4 CHS-200 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K20270",
+  "description": "Streaker card with probe for ML2300 and ML230",
+  "comments": "To check wiring from the Actelis CHS backplane to the Distribution Frame. Indications are provide via LEDs. \nIncludes protected -48V Test Probe w/ LED. \nSupports 64 pairs. \nApplicable for:\n- CHS-2000 \u2013 Only 1-32 LEDs. LEDs 33-64 are not used.\n- CHS-2000B ",
+  "listPrice": 2530,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31032",
+  "description": "Single slot StreamLine enclosure and ABA 3.0 (SLE-A)",
+  "comments": "StreamLine IP65 enclosure with ADSL Broadband Accelerator - ABA 3.0 card. Dual Port, Line Powered , Local Management.10ft/3m cables for CO and CPE connectivity included.",
+  "listPrice": 1231,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31033",
+  "description": "Single slot StreamLine enclosure and ABA 3.0E (SLE-AE)",
+  "comments": "StreamLine IP65 enclosure with ADSL Broadband Accelerator -  ABA 3.0E card. Dual Port, Line & Express powering, Local Management.10ft/3m cables for CO and CPE connectivity included.",
+  "listPrice": 1277,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31034",
+  "description": "Single slot StreamLine enclosure and VBA 3.0 (SLE-V)",
+  "comments": "StreamLine IP65 enclosure with VDSL Broadband Accelerator -  VBA 3.0 card. Dual Port, Line Powered , Local Management.10ft/3m cables for CO and CPE connectivity included.",
+  "listPrice": 1346,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31035",
+  "description": "Single slot StreamLine enclosure and VBA 3.0E (SLE-VE)",
+  "comments": "StreamLine IP65 enclosure with VDSL Broadband Accelerator -  VBA 3.0E card. Dual Port, Line & Express powering, Local Management.10ft/3m cables for CO and CPE connectivity included.",
+  "listPrice": 1392,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31036",
+  "description": "Single slot StreamLine enclosure and VBA 3.0E with Express power cascaded (SLE-VE-C)",
+  "comments": "StreamLine IP65 enclosure with VDSL Broadband Accelerator -  VBA 3.0E card. Dual Port, Line & Express powering, Local Management. Express power is cascaded to support 3 hop installations.10ft/3m cables for CO and CPE connectivity included.",
+  "listPrice": 1507,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31037",
+  "description": "Single slot StreamLine enclosure and ABA 2.0ER (SLE-AR)",
+  "comments": "StreamLine IP65 enclosure with ADSL Broadband Accelerator Extended Reach 2.0 card - ABA 2.0ER. Dual Port, Line Powered , Local Management.10ft/3m cables for CO and CPE connectivity included.",
+  "listPrice": 1288,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510K31220",
+  "description": "E2-EL - 2 Slot/4 port BBA Enclosure with Express power ",
+  "comments": "BBA 2 slot / 4 port IP65 Enclosure with Protection supporting POTS line powering and -48V express powering. BBA cards should be ordered separately. Replacing 510K31210.",
+  "listPrice": 403,
+  "category": "A8.2 BBA Enclosures",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510KG0064",
+  "description": "ML648E kit",
+  "comments": "ML648E Kit (1x ML648E supports 8 pairs)(1x Wall Mount Kit )(10ft/3m, 8xRJ-45 to open end, solid wires)(1x AC-DC Adapter)",
+  "listPrice": 3261,
+  "category": "A2.2 ML600 Configurations",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510KG0065",
+  "description": "ML6416E kit",
+  "comments": "ML6416E Kit (1x ML6416E supports 16 pairs)(1x Wall Mount Kit )(10ft/3m, Octal Dual RJ-45 to open end, solid wires)(1x AC-DC Adapter)",
+  "listPrice": 4825,
+  "category": "A2.2 ML600 Configurations",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510KG6241",
+  "description": "ML624 Kit",
+  "comments": "ML624 Kit (1x ML624 Supports 4 pairs)(1x Wall Mount Kit )(10ft/3m, 4xRJ-45 to open end, solid wires)(1x AC-DC Adapter)",
+  "listPrice": 2013,
+  "category": "A2.2 ML600 Configurations",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510KG6381",
+  "description": "ML638 Kit",
+  "comments": "ML638 Kit (1x ML 638 ROHS6 Supports 8 pairs)(1x Wall Mount Kit )(10ft/3m, 8xRJ-45 to open end, solid wires)(1x AC-DC Adapter)",
+  "listPrice": 2622,
+  "category": "A2.2 ML600 Configurations",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510R10955",
+  "description": "Wall Mount Kit for CHS-200, Flat faced",
+  "comments": "Supports 1x CHS-200 unit",
+  "listPrice": 52,
+  "category": "A4.4 CHS-200 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510R21070",
+  "description": "Rack Mount Sleeve Kit for two ML600/700/530/GL800 units",
+  "comments": "Supports two ML530/ML600/ML700/PFU-8/GL800 units with height smaller then 1RU. Includes brackets for 19'', 23'' and ETSI rack installation.",
+  "listPrice": 225,
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510R21080",
+  "description": "Wall Mount Kit for ML530/ML600/ML700/GL800/GL900",
+  "comments": "Supports 1x ML530/ML600/ML700/GL800/GL900 unit",
+  "listPrice": 52,
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "510R50955",
+  "description": "Wall Mount Kit for ML530/ML600/ML700/GL800/GL900, Flat faced",
+  "comments": "Supports 1x ML530/ML600/ML700/GL800/GL900 unit",
+  "listPrice": 98,
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "550A00046",
+  "description": "Flash Card for SDU-450/G",
+  "comments": "Single compact flash for SDU-45x including F/W. Card Applicability: SDU-450/450G /455G\nSW applicability: 7.45/ 8.2/8.23/8.3",
+  "listPrice": 173,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "550A00047",
+  "description": "Flash Card for SDU-440/G",
+  "comments": "Single compact flash for SDU-44x including F/W. Card Applicability: SDU-440/440G.SW applicability: 7.45",
+  "listPrice": 173,
+  "category": "A4.5 CHS-2000 Related Items",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00105",
+  "description": "EMS 3.X Node License for PTP Configuration",
+  "comments": "1 License per ML500/ML600/ML700 CO node. Relevant for EMS 3.x.",
+  "listPrice": 87,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 1,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00106",
+  "description": "EMS 3.X Node License for ML1300/ML2300 PTMP",
+  "comments": "1 License Per Node. Relevant for EMS 3.x.",
+  "listPrice": 1093,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 2,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00107",
+  "description": "EMS 3.X Node License for ML130/ML230/ML698(E) PTMP",
+  "comments": "1 License per ML130/ML230/ML698(E) Node. Relevant for EMS 3.x.",
+  "listPrice": 403,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 3,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00109",
+  "description": "EMS perpetual SNMP NB Interface License",
+  "comments": "SNMP NB Interface License. From EMS 3.1 GA and above.",
+  "listPrice": 25000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 7,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00110",
+  "description": "EMS perpetual Redundancy License per 100 NEs",
+  "comments": "For Redundant server licenses",
+  "listPrice": 4000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00113",
+  "description": "EMS Annual SNMP NE Licenses - up to 10 Devices",
+  "comments": "10 Licenses for Non Actelis (3rd party) SNMP based devices.",
+  "listPrice": 200,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 14,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00114",
+  "description": "EMS Annual SNMP NE Licenses - up to 50 Devices",
+  "comments": "50 licenses for Non Actelis (3rd party) SNMP based devices.",
+  "listPrice": 1000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 15,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00115",
+  "description": "EMS Annual SNMP NE Licenses - up to 100 Devices",
+  "comments": "100 licenses for Non-Actelis (3rd party) SNMP based devices.",
+  "listPrice": 1800,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 16,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00116",
+  "description": "EMS Annual SNMP NE Licenses - up to 500 Devices",
+  "comments": "500 licenses for Non-Actelis (3rd party) SNMP based devices.",
+  "listPrice": 9000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 16,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40001",
+  "description": "MetaASSIST EMS perpetual Site license for  up to 100 devices",
+  "comments": "Applicable for EMS 4.0 and above. Note that node licenses need to be purchased separately.",
+  "listPrice": 10000,
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40002",
+  "description": "MetaASSIST EMS perpetual Site license for  up to 500 devices",
+  "comments": "Applicable for EMS 4.0 and above. Note that node licenses need to be purchased separately.",
+  "listPrice": 30000,
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40003",
+  "description": "MetaASSIST EMS perpetual Site license for  up to 1000 devices",
+  "comments": "Applicable for EMS 4.0 and above. Note that node licenses need to be purchased separately.",
+  "listPrice": 50000,
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40004",
+  "description": "MetaASSIST EMS perpetual Site license for more than 1000 devices",
+  "comments": "Applicable for EMS 4.0 and above. Note that node licenses need to be purchased separately.",
+  "listPrice": 99000,
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40100",
+  "description": "EMS annual Node license for ML600/ML500/ML700/GL5000/GL7000 - bundle of 10",
+  "comments": "10 Licenses for ML600/ML500/ML700/GL5000/GL7000 CO or CPEs excluding ML69x.",
+  "listPrice": 750,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40101",
+  "description": "EMS annual Node license for ML600/ML500/ML700/GL5000/GL7000 - bundle of 50",
+  "comments": "50 Licenses for ML600/ML500/ML700/GL5000/GL7000 CO or CPEs excluding ML69x.",
+  "listPrice": 3500,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40102",
+  "description": "EMS annual Node license for ML600/ML500/ML700/GL5000/GL7000 - bundle of 100",
+  "comments": "100 Licenses for ML600/ML500/ML700/GL5000/GL7000 CO or CPEs excluding ML69x.",
+  "listPrice": 6000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40103",
+  "description": "EMS annual Node license for ML600/ML500/ML700/GL5000/GL7000 - bundle of 500",
+  "comments": "500 Licenses for ML600/ML500/ML700/GL5000/GL7000 CO or CPEs excluding ML69x.",
+  "listPrice": 25000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 7,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40104",
+  "description": "EMS annual Node license for ML600/ML500/ML700/GL5000/GL7000 - bundle of 1000",
+  "comments": "1000 Licenses for ML600/ML500/ML700/GL5000/GL7000 CO or CPEs excluding ML69x.",
+  "listPrice": 35000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 8,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40105",
+  "description": "EMS annual Node license for ML600/ML500/ML700/GL5000/GL7000 - bundle of 5000",
+  "comments": "5000 Licenses for ML600/ML500/ML700/GL5000/GL7000 CO or CPEs excluding ML69x.",
+  "listPrice": 120000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40107",
+  "description": "EMS annual Node license for ML2300/ML230/ML69x/GL800/GL6000 - bundle of 5",
+  "comments": "5 Licenses for ML2300/ML230/ML69x/GL800/GL6000 CO or CPEs.",
+  "listPrice": 950,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 10,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40108",
+  "description": "EMS annual Node license for ML2300/ML230/ML69x/GL800/GL6000 - bundle of 10",
+  "comments": "10 Licenses for ML2300/ML230/ML69x/GL800/GL6000 CO or CPEs.",
+  "listPrice": 1800,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 11,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40109",
+  "description": "EMS annual Node license for ML2300/ML230/ML69x/GL800/GL6000 - bundle of 50",
+  "comments": "50 Licenses for ML2300/ML230/ML69x/GL800/GL60000 CO or CPEs.",
+  "listPrice": 8250,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 12,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40110",
+  "description": "EMS annual Node license for ML2300/ML230/ML69x/GL800/GL6000 - bundle of 100",
+  "comments": "100 Licenses for ML2300/ML230/ML69x/GL800/GL6000 CO or CPEs.",
+  "listPrice": 14500,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 13,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40111",
+  "description": "EMS perpetual PM and statistics license per 100 NEs",
+  "comments": "For Performance Monitoring per 100 NEs",
+  "listPrice": 6000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40112",
+  "description": "EMS perpetual Topology View license per 100 NEs",
+  "comments": "For Topology View per 100 NEs. Must be aligned with the number of NEs in the network (node licenses)",
+  "listPrice": 4000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 5,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL40115",
+  "description": "MetaASSIST EMS site license upgrade",
+  "comments": "For customers wishing to upgrade from one site package to another (e.g. from EMSL40001 to EMSL40002). Please contact your sales representative.",
+  "listPrice": 0,
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "sorting": 6,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3256",
+  "description": "ML684D-M (48/60V)",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2, 1+3 or 1x4) EFM-bonded G.SHDSL Ethernet  Extender, 6x10/100/1000Base-T+2x1000Base-FX SFP, DIN Rail, Fanless, bypass switch, 48/60VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1995,
+  "category": "A2.1 ML600D Family",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501RG3276",
+  "description": "ML680D-M (48/60V)",
+  "comments": "8 port, Managed Fiber Ethernet switch, 6x10/100/1000Base-T+2x1000Base-FX SFP, DIN Rail, Fanless, 48/60VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1489,
+  "category": "A2.1 ML600D Family",
+  "sorting": 5,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61329",
+  "description": "GL7010-6J4F-P",
+  "comments": "GL7000 in-pole industrial GE switch with 6 x GE RJ45 PoE++ ports (2x60W, 4x30W), 4 x SFP 1Gbps ports. IP65. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3050,
+  "category": "A5.5 Fiber In-Pole L2 Switches",
+  "sorting": 0,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61330",
+  "description": "GL7020-6J4F-P",
+  "comments": "GL7000 in-pole industrial GE switch with 6 x GE RJ45 PoE++ ports (2x60W, 4x30W), 4 x SFP 1Gbps ports, I/O controller, Built-In Dali-2 interface and PWM (Power Management). IP65. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3328,
+  "category": "A5.5 Fiber In-Pole L2 Switches",
+  "sorting": 0,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61331",
+  "description": "GL7030-6J4F-P",
+  "comments": "GL7000 in-pole industrial GE switch with 6 x GE RJ45 PoE++ ports (2x60W, 4x30W), 4 x SFP 1Gbps ports, I/O controller, Built-In Dali-2 interface and PWM (Power Management). IP68. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3790,
+  "category": "A5.5 Fiber In-Pole L2 Switches",
+  "sorting": 0,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61332",
+  "description": "GL7006-4J2F-P",
+  "comments": "GL7000 in-pole industrial GE switch with 4 x GE RJ45 PoE+ (4x30W) ports, 2 x SFP 1Gbps ports. IP65. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2800,
+  "category": "A5.5 Fiber In-Pole L2 Switches",
+  "sorting": 0,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00142",
+  "description": "Perpetual license for EMS alarm email notifications",
+  "comments": "Perpetual license for email notification of alarms",
+  "listPrice": 7000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00143",
+  "description": "Perpetual license for EMS security package",
+  "comments": "Perpetual license for EMS security package",
+  "listPrice": 20000,
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "EMSL00144",
+  "description": "EMS Right-to-Use",
+  "comments": "For small customers who prefer to pay a license per NE instead of a Site+Node license fees. The license cost is 10% of the NE list price with a minimum initial order of $5,000",
+  "listPrice": 5000,
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "sorting": 9,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61309",
+  "description": "GL5060-16J4F-P",
+  "comments": "20 Port Industrial Managed PoE Ethernet Switch with 4xGE SFP Uplinks, 16x 10/100/1000 Base-T with 16x30W (240W), DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2593,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61310",
+  "description": "GL5060-16J4F-P1",
+  "comments": "20 Port Industrial Managed PoE Ethernet Switch with 4xGE SFP Uplinks, 16x 10/100/1000 Base-T with 16x30W (480W), DIN Rail, ROHS-6 compliant, Fanless, 48VDC, redundant dual inputs. SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2593,
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0157.",
+  "description": "GL92",
+  "comments": "G.hn over twisted pair - Customer premise equipment. GE RJ45 port",
+  "listPrice": 150,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61247.",
+  "description": "GL91T-RB",
+  "comments": "G.hn over twisted pair converter - Customer premises equipment and a reverse power unit (Lea Networks). AC-DC power supply for the US.",
+  "listPrice": 321,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "501RG0158.",
+  "description": "GL92-R",
+  "comments": "G.hn over twisted pair - Customer premise equipment with support for reverse powering. GE RJ45 port",
+  "listPrice": 265,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": true,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61334",
+  "description": "GL9110C",
+  "comments": "PON Extender (G.hn wave 2) indoor switch unit serving up to 160 customers over Coax. Local power. 2x 10G PON or Active Eth uplink. GL901CS - G.hn over coax SFP \u2013 to be ordered separately, each can serve up to 16 customers. ",
+  "listPrice": 1800,
+  "category": "A1.2 GL9000 Headend Solutions",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61335",
+  "description": "GL901CS ",
+  "comments": "G.hn wave 2 coax SFP to be used with GL9110C.",
+  "listPrice": 162,
+  "category": "A1.2 GL9000 Headend Solutions",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61336",
+  "description": "GL93C-W",
+  "comments": "G.hn over coax with integrated WiFi 6 Access point/customer premise equipment. Offering 2xGE RJ45 port.",
+  "listPrice": 257,
+  "category": "A1.3 GL9000 CPEs",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61337",
+  "description": "GL93C",
+  "comments": "G.hn over coax customer premise equipment. Offering 2xGE RJ45 port.",
+  "listPrice": 110,
+  "category": "A1.3 GL9000 CPEs",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61342",
+  "description": "GL9104C",
+  "comments": "PON Extender (G.hn wave 2) indoor switch unit serving up to 64 customers over a single Coax or 4 coax ports. Local power. 2.5Gbps uplink (SFP or RJ-45)",
+  "listPrice": 1550,
+  "category": "A1.2 GL9000 Headend Solutions",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "ACS00001",
+  "description": "ACS Basic monthly license for up to 250 GL900 users",
+  "comments": "Management system for GL900/GL90 devices - up to 250 GL90 users",
+  "listPrice": 575,
+  "category": "B4.1 GL900 ACS Licenses",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "ACS00002",
+  "description": "ACS monthly license for 1000 GL900 users beyond the 250 basic license",
+  "comments": "Management system for GL900/GL90 devices - additional 1000 GL90 users",
+  "listPrice": 1700,
+  "category": "B4.1 GL900 ACS Licenses",
+  "sorting": 2,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "ACS00003",
+  "description": "ACS monthly Service Quality Monitoring basic license for up to 250 GL900 users",
+  "comments": "Management system for GL900/GL90 devices - Service Quality Monitoring functionality allows you to directly collect different KPIs from the GL90 and demonstrate the\r\ntrends and track the behavior of services.",
+  "listPrice": 650,
+  "category": "B4.1 GL900 ACS Licenses",
+  "sorting": 3,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "ACS00004",
+  "description": "ACS monthly Service Quality Monitoring for 1000 GL900 users beyond the 250 basic license",
+  "comments": "Management system for GL900/GL90 devices - Service Quality Monitoring functionality allows you to directly collect different KPIs from the GL90 and demonstrate the\r\ntrends and track the behavior of services.",
+  "listPrice": 2000,
+  "category": "B4.1 GL900 ACS Licenses",
+  "sorting": 4,
+  "legacy": false,
+  "showPriceList": false
+ },
+ {
+  "partNumber": "506R61337.",
+  "description": "GL93C",
+  "comments": "G.hn over coax customer premise equipment. Offering 2xGE RJ45 port.",
+  "listPrice": 155,
+  "category": "A1.3 GL9000 CPEs",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "506R61336.",
+  "description": "GL93C-W",
+  "comments": "G.hn over coax with integrated WiFi 6 Access point/customer premise equipment. Offering 2xGE RJ45 port.",
+  "listPrice": 340,
+  "category": "A1.3 GL9000 CPEs",
+  "sorting": 1,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61245E",
+  "description": "GL91 (EU/US)",
+  "comments": "G.hn over twisted pair - Customer premises equipment. AC-DC power supply for the EU/US",
+  "listPrice": 150,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61245U",
+  "description": "GL91 (UK)",
+  "comments": "G.hn over twisted pair - Customer premises equipment. AC-DC power supply for the UK",
+  "listPrice": 150,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61246",
+  "description": "GL91T",
+  "comments": "G.hn over twisted pair or Coax converter - Customer premises equipment. AC-DC power supply for the US",
+  "listPrice": 120,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61246E",
+  "description": "GL91T (EU/US)",
+  "comments": "G.hn over twisted pair or Coax converter - Customer premises equipment. AC-DC power supply for the EU/US",
+  "listPrice": 155,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ },
+ {
+  "partNumber": "501S61246U",
+  "description": "GL91T (UK)",
+  "comments": "G.hn over twisted pair or Coax converter - Customer premises equipment. AC-DC power supply for the UK",
+  "listPrice": 155,
+  "category": "A1.5 GL900 CPEs",
+  "sorting": null,
+  "legacy": false,
+  "showPriceList": true
+ }
+]

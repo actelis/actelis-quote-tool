@@ -1,0 +1,1050 @@
+[
+ {
+  "regionId": 1,
+  "partNumber": "SVC-ADVREP"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-ADVREP"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-ADVREP"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-ADVREP."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-ADVREP."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-ADVREPEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-ADVREPEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-ADVREPEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-BRONZE"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-BRONZE"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-BRONZE"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-BRONZE"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-BRONZE."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-BRONZE."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-BRONZEEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-BRONZEEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-BRONZEEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-CUSTCO"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-CUSTCO"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-CUSTCO"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-CUSTCPE"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-CUSTCPE"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-CUSTCPE"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-1"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-1"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-1"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-1."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-1."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-1."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-1EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-1EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-1EU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-2"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-2"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-2"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-2."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-2."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-2."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-2EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-2EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-2EU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-3"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-3"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-3"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-3."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-3."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-3."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-3EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-3EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-3EU"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-EU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTHW1"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTHW1"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTHW1"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTHW1."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTHW1."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTHW1EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTHW1EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTHW1EU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-FSTHW3"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-FSTHW3"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-FSTHW3"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-FSTHW3."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-FSTHW3."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-FSTHW3EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-FSTHW3EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-FSTHW3EU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-GOLD"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-GOLD"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-GOLD"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-GOLD."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-GOLD."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-GOLDEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-GOLDEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-GOLDEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-PLAT"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-PLAT"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-PLAT"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-PLAT."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-PLAT."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-PLATEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-PLATEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-PLATEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-PLATPLUS"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-PLATPLUS"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-PLATPLUS"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-PLATPLUSEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-PLATPLUSEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-PLATPLUSEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-REM1YR"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-REM1YR"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-REM1YR"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-REM1YR."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-REM1YR."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-REM1YREU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-REM1YREU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-REM1YREU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-REM247"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-REM247"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-REM247"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-REM247."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-REM247."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-REM247EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-REM247EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-REM247EU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-REMEXT"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-REMEXT"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-REMEXT"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-REMEXT"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-REMEXT."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-REMEXT."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-SWUPDT"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-SWUPDT"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-SWUPDT"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-SWUPDT."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-SWUPDT."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-SWUPDTEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-SWUPDTEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-SWUPDTEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TAC247"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TAC247"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TAC247"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-TAC247."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-TAC247."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-TAC247EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TAC247EU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-TAC247EU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-PLAT"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TMEXCH"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TMEXCH"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TMEXCH"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-TMEXCH."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-TMEXCH."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-TMEXCHEU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TMEXCHEU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-TMEXCHEU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TMFRR"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TMFRR"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TMFRR"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-TMFRR."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-TMFRR."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-TMFRREU"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TMFRREU"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-TMFRREU"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TRNACT"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TRNACT"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TRNACT"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TRNACT-S1"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TRNACT-S1"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TRNACT-S1"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TRNACT-S2"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TRNACT-S2"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TRNACT-S2"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TRNCUS-D1P"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TRNCUS-D1P"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TRNCUS-D1P"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TRNCUS-D1P"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-TRNCUS-D1U"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TRNCUS-D1U"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-TRNCUS-D1U"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-TRNCUS-D1U"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-N4"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-N4"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-N4"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-N4"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-N4."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-N4."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-N5"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-N5"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-N5"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-N5"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-N5."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-N5."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-N6"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-N6"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-N6"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-N6"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-N6."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-N6."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-A1"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-A1"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-A1"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-A1"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-A1."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-A1."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-A2"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-A2"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-A2"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-A2"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-A2."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-A2."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-A3"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-A3"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-A3"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-A3"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-A3."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-A3."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-A4"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-A4"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-A4"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-A4"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-A4."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-A4."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-N1"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-N1"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-N1"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-N1"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-N1."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-N1."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-N2"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-N2"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-N2"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-N2"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-N2."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-N2."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EXTEMS-N3"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTEMS-N3"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EXTEMS-N3"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EXTEMS-N3"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EXTEMS-N3."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EXTEMS-N3."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EXTHW1"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-FSTHW3"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-REM1YR"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-REM247"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-ADVREP"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-CUSTCO"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-CUSTCPE"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-GOLD"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TAC247"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-SWUPDT"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TMEXCH"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TMFRR"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TRNACT"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TRNACT-S1"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-TRNACT-S2"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-GOLD+."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-GOLD+."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-GOLD+"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-GOLD+"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-GOLD+"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-GOLD+"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-EMSEOS."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-EMSEOS."
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-EMSEOS"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-EMSEOS"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-EMSEOS"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-EMSEOS"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "SVC-SWSEC"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-SWSEC"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-SWSEC"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-SWSEC"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-SWSEC."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-SWSEC."
+ }
+]

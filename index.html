@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actelis Price &amp; Quote Tool — Online</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">Actelis Price &amp; Quote Tool</a>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="price-list.html">Price List</a>
+    <a href="quote-builder.html">Quote Builder</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Build accurate Actelis quotes, right in your browser</h1>
+  <p>Price lists, discount rules, and the full Node / Network / EMS configurators —
+     all running client-side. Nothing you enter here is uploaded or stored on a server.</p>
+</div>
+
+<div class="container">
+
+  <div class="notice info">
+    <strong>No database, no accounts.</strong> This is a static, client-side version of the
+    Actelis Price/Quote Tool. Pricing and discount data is bundled into the site as JSON files
+    and all calculations run in your browser. No customer information, quotes, or configurations
+    are ever sent to a server — anything you want to keep (a quote export or a saved wizard
+    template) is saved to a file you download or to this browser's local storage on this device only.
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h2>Price List</h2>
+      <p>Browse the current price list and Type-D (services/warranty) items, filterable by
+         category and region, with your customer type's discount already applied.</p>
+      <a class="btn" href="price-list.html">Open Price List</a>
+    </div>
+    <div class="card">
+      <h2>Quote Builder</h2>
+      <p>Build a multi-site quote using the Node Configurator, Network/Repeater Configurator,
+         and EMS Licensing Wizard — then export as PDF (print) or CSV/Excel.</p>
+      <a class="btn" href="quote-builder.html">Open Quote Builder</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>What's included</h3>
+    <div class="grid grid-3">
+      <div>
+        <strong>Price &amp; discount engine</strong>
+        <p>Full price list (A/B/C items) and Type-D services/warranty list, with the
+           region &times; customer-type discount matrix and NA deal-registration bonus.</p>
+      </div>
+      <div>
+        <strong>Configurator wizards</strong>
+        <p>Node Configurator (single-link chassis/standalone BOM math), Network/Repeater
+           Configurator (multi-hop, PFU/repeater, dual-PFU feeding), and the EMS Licensing
+           Wizard (site license tiers, redundancy, clients, add-ons).</p>
+      </div>
+      <div>
+        <strong>Quote &amp; export</strong>
+        <p>Multi-site BOM builder, services/warranty lines, tax-inclusive totals matching
+           the original report logic, printable PDF view, and CSV/Excel export.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>What's different from the desktop tool</h3>
+    <p>This online version has no customer database — there's no login and no saved customer
+       records. Instead you simply pick a <strong>customer type</strong> (Reseller or End
+       Customer) and region when building a quote, and the standard discount matrix is applied.
+       Per-customer negotiated discount overrides, RMA quotes, the COGS/margin viewer, and the
+       HubSpot export are intentionally out of scope for the public online tool. See the
+       README in this site's repository for the full list of differences.</p>
+  </div>
+
+</div>
+
+<p class="footer-note">Actelis Price &amp; Quote Tool — client-side edition. All calculations run locally in your browser.</p>
+
+</body>
+</html>

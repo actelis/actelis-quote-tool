@@ -1,0 +1,38 @@
+[
+ {
+  "id": 1,
+  "name": "All",
+  "shippingTermsId": 1,
+  "gm": 0.16
+ },
+ {
+  "id": 2,
+  "name": "APAC",
+  "shippingTermsId": 1,
+  "gm": 0.14
+ },
+ {
+  "id": 3,
+  "name": "CALA",
+  "shippingTermsId": 1,
+  "gm": 0.16
+ },
+ {
+  "id": 4,
+  "name": "EMEA",
+  "shippingTermsId": 1,
+  "gm": 0.14
+ },
+ {
+  "id": 5,
+  "name": "Enterprise",
+  "shippingTermsId": 2,
+  "gm": 0.16
+ },
+ {
+  "id": 6,
+  "name": "NA",
+  "shippingTermsId": 2,
+  "gm": 0.16
+ }
+]

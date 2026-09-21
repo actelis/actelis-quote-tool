@@ -1,0 +1,30 @@
+[
+ {
+  "id": 1,
+  "name": "Net 90 days"
+ },
+ {
+  "id": 2,
+  "name": "Net 45 days"
+ },
+ {
+  "id": 3,
+  "name": "Net 60 days"
+ },
+ {
+  "id": 5,
+  "name": "Net 30 days"
+ },
+ {
+  "id": 6,
+  "name": "Net 120 days"
+ },
+ {
+  "id": 7,
+  "name": "Net 150 days"
+ },
+ {
+  "id": 8,
+  "name": "Pre-Paid"
+ }
+]

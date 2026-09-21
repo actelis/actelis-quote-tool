@@ -1,0 +1,682 @@
+[
+ {
+  "partNumber": "501R00006",
+  "description": "ML621",
+  "comments": "1 pair, 4x10/100BaseT, standard QoS",
+  "listPrice": 1195,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00011",
+  "description": "EFM Loop Analyzer Kit w/ ML628, PFU-8, XR239 and test cables",
+  "comments": "Single portable complete case for field testing and troubleshooting of Actelis EFM based links. Includes ML628, PFU-8 and XR239 repeater, copper and test connectors, LEDs, configuration switches and AC PS.",
+  "listPrice": 11780,
+  "category": "A4. Repeater Related Products",
+  "legacy": true
+ },
+ {
+  "partNumber": "501R00012",
+  "description": "EFM Loop Analyzer Kit w/ ML58N Rev B, PFU-8, XR239 and test cables",
+  "comments": "Single portable complete case for field testing and troubleshooting of Actelis EFM based links. Includes ML58N Rev B, PFU-8 and XR239 repeater, copper and test connectors, LEDs, configuration switches and AC PS.",
+  "listPrice": 11780,
+  "category": "A4. Repeater Related Products",
+  "legacy": true
+ },
+ {
+  "partNumber": "501R00016",
+  "description": "ML622",
+  "comments": "2 pairs, 4x10/100BaseT, standard QoS",
+  "listPrice": 1395,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00027",
+  "description": "ML628",
+  "comments": "8 pairs, 4x10/100BaseT+1 SFP for 100BaseFX, standard QoS, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2995,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00037",
+  "description": "ML648",
+  "comments": "8 pairs, 4x10/100BaseT+1x100Base-FX, advanced QoS, SFP should be ordered separately (refer to Type C products).",
+  "listPrice": 3600,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00046",
+  "description": "ML624",
+  "comments": "4 pairs, 4x10/100BaseT+1 SFP for 100Base-FX, standard QoS, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1875,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00047",
+  "description": "ML688",
+  "comments": "8 pairs - 4+4 Add-Drop Mux, 4x10/100Base-T+1x100Base-FX, standard QoS, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3495,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00056",
+  "description": "ML644",
+  "comments": "4 pairs, 4x10/100BaseT+1x100Base-FX, advanced QoS, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2300,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00057",
+  "description": "ML658",
+  "comments": "8 pairs, CES + Clock distribution, 4x10/100BaseT+1x100Base-FX + 4xE1/T1, advanced QoS, \nSFP should be ordered separately (refer to Type C products).",
+  "listPrice": 4395,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00066",
+  "description": "ML654",
+  "comments": "4 pairs, CES + Clock distribution, 4x10/100BaseT+1x100Base-FX + 4xE1/T1, advanced QoS, \nSFP should be ordered separately (refer to Type C products).",
+  "listPrice": 3395,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00067",
+  "description": "ML638",
+  "comments": "8 pairs, 4x10/100BaseT +1x1000BaseFX/LX/T SFP, standard QoS, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3145,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R00127",
+  "description": "ML628E",
+  "comments": "European version 8 pairs, 4x10/100BaseT+1x100BaseFX or T3/E3 uplink, standard QoS, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2995,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R2008613D",
+  "description": "XR239  REPEATER",
+  "comments": "2-pairs repeater, 11.4Mbps throughput, 239 mechanics, remote power feeding, enhanced diagnostics",
+  "listPrice": 895,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R2008613E",
+  "description": "XR239 Repeater (Rev E)",
+  "comments": "2-pairs repeater, 11.4Mbps throughput, 239 mechanics, remote power feeding, enhanced diagnostics",
+  "listPrice": 895,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R20097",
+  "description": "PFU-8",
+  "comments": "Voltage limited Power feed module to remotely feed XR239 repeaters. Supports 4 repeater hops.",
+  "listPrice": 695,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ },
+ {
+  "partNumber": "501R20098",
+  "description": "PFU-8 Rev C",
+  "comments": "Voltage or Current limited Power feed module to remotely feed XR239 repeaters Supports 4 repeater hops and is compatible with repeater DSS",
+  "listPrice": 695,
+  "category": "A4. Repeater Related Products",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0047",
+  "description": "ML688 - ROHS6",
+  "comments": "8 pairs - 4+4 Add-Drop Mux, 4x10/100Base-T+1x100/1000Base-FX SFP, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2995,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0147",
+  "description": "ML698",
+  "comments": "Micro CO, 8 pairs, up to 4 HSL, 4x10/100Base-T+1x100/1000Base-FX SFP, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3495,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG2086",
+  "description": "XR239 Repeater - ROHS6",
+  "comments": "2-pairs repeater, 11.4Mbps throughput, 239 mechanics, ROHS-6 Compliant, remote power feeding, enhanced diagnostics",
+  "listPrice": 895,
+  "category": "A4. Repeater Related Products",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG2087",
+  "description": "XR239SE Repeater",
+  "comments": "2-pairs repeater, 26Mbps throughput, 239 mechanics, rDSS support (requires PFU-8 Rev C), remote power feeding, enhanced diagnostics",
+  "listPrice": 1095,
+  "category": "A4. Repeater Related Products",
+  "legacy": true
+ },
+ {
+  "partNumber": "501S00147",
+  "description": "ML698 Kit (kit for 2xML698)",
+  "comments": "ML 698 Kit (2x ML 698 supports 8 pairs and up to 4 HSLs each)(1x rack mount Kit for 2xML600)(1xEthernet daisy-chaining cable)",
+  "listPrice": 5995,
+  "category": "A2.1 ML600 configurations",
+  "legacy": false
+ },
+ {
+  "partNumber": "502R00031",
+  "description": "Chassis 1000 Shelf, 19 inch (CHS-1000/19)",
+  "comments": "Includes 19 inch chassis, modules & accessories.",
+  "listPrice": 2595,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "502R00041",
+  "description": "Chassis 1000 Shelf, ETSI (CHS-1000/ETSI)",
+  "comments": "Includes ETSI chassis, modules & accessories.",
+  "listPrice": 2995,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "502R00510",
+  "description": "Chassis 1000 Shelf, 19 inch (CHS-1000/19) MLT",
+  "comments": "Includes 19 inch chassis with MLT access, modules & accessories",
+  "listPrice": 2595,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "502R00515",
+  "description": "Chassis 1000 Shelf, 23 inch (CHS-1000/23) MLT",
+  "comments": "Includes 23 inch chassis with MLT access, modules & accessories",
+  "listPrice": 2595,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "502R20333",
+  "description": "Chassis 100 Shelf",
+  "comments": "Chassis and accessories for ML130",
+  "listPrice": 980,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "502R40110",
+  "description": "Chassis 100 Shelf Type C",
+  "comments": "Chassis and accessories for ML150",
+  "listPrice": 980,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R12010",
+  "description": "SCM Connection Module (SCM-50)",
+  "comments": "1x DS3 + 4x DS1 interfaces",
+  "listPrice": 466,
+  "category": "A3.6 CHS-1000 Related Items",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R12030",
+  "description": "Redundancy Line Module (RLM-16RP)",
+  "comments": "If needed for spare",
+  "listPrice": 886,
+  "category": "A3.6 CHS-1000 Related Items",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20008",
+  "description": "Service Dispatcher Unit (SDU-50)",
+  "comments": "Supports ML1500, 4x T1 & 1x DS3",
+  "listPrice": 4700,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20028",
+  "description": "Service Dispatcher Unit (SDU-100)",
+  "comments": "Supports ML100E, 2 Ethernet service ports",
+  "listPrice": 2150,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20038",
+  "description": "Service Dispatcher Unit (SDU-318)",
+  "comments": "Supports ML1300/130, 100bT uplinks only",
+  "listPrice": 4600,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20043",
+  "description": "MLU-16N (Multiport 16-Line Unit)",
+  "comments": "16 pairs line card. Compatible with ML130 and ML1300 chassis",
+  "listPrice": 2800,
+  "category": "A3.3 MLU (Multiport Line Units )",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20053",
+  "description": "MLU-32EF (Front Access Multi-Line Unit with 32 copper pairs) - EOL",
+  "comments": "32 pairs line card, 2x50-pin Champ front access connection. Compatible with ML130, ML230 and ML2300",
+  "listPrice": 4395,
+  "category": "A3.3 MLU (Multiport Line Units )",
+  "legacy": true
+ },
+ {
+  "partNumber": "503R20055",
+  "description": "MLU-32ER (Rear Access Multi-Line Unit with 32 copper pairs)",
+  "comments": "32 pairs line card, Rear access connection. Compatible with CHS-2000. For universal compatibility including CHS-200 and CHS-2000B, please order MLU-32ER RevB (503R30055)",
+  "listPrice": 4395,
+  "category": "A3.3 MLU (Multiport Line Units )",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20058",
+  "description": "Service Dispatcher Unit (SDU-318G)",
+  "comments": "Supports ML1300/130, 100bT & GigE uplinks",
+  "listPrice": 5485,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20068",
+  "description": "Service Dispatcher Unit (SDU-340G)",
+  "comments": "2x 10/100bT + 2x10/100/1000bT + 2xGigE uplinks, up to 32 links",
+  "listPrice": 6485,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20078",
+  "description": "Service Dispatcher Unit (SDU-320G)",
+  "comments": "2x 10/100/bT, 2XGigE uplinks, up to 16 links",
+  "listPrice": 5485,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20098",
+  "description": "Service Dispatcher Unit (SDU-320)",
+  "comments": "2x 10/100/bT uplinks, up to 16 links",
+  "listPrice": 4600,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20163",
+  "description": "Multiport 8-Line Unit (MLU-8N)",
+  "comments": "8 pairs line card",
+  "listPrice": 2400,
+  "category": "A3.3 MLU (Multiport Line Units )",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R20208",
+  "description": "Service Dispatcher Unit (SDU-51)",
+  "comments": "Supports ML150, 4x T1 & 1x DS3",
+  "listPrice": 4700,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R30055",
+  "description": "MLU-32ER RevB (Rear Access Multi-Line Unit with 32 copper pairs) - EOL",
+  "comments": "32 pairs line card, Rear access connection. Compatible with CHS-200, CHS-2000 and CHS-2000B.",
+  "listPrice": 4395,
+  "category": "A3.3 MLU (Multiport Line Units )",
+  "legacy": true
+ },
+ {
+  "partNumber": "503R60039",
+  "description": "Service Dispatcher Unit (SDU-440) - EOL",
+  "comments": "Supports ML2300, 2x 10/100/1000bT + 4xGigE uplinks, up to 4 MLU and 64 links",
+  "listPrice": 8995,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503R60040",
+  "description": "Service Dispatcher Unit (SDU-440G) - EOL",
+  "comments": "Supports ML2300, 2x 10/100/1000bT + 8xGigE uplinks, up to 4 MLU and 64 links",
+  "listPrice": 9995,
+  "category": "A3.2 SDU (Service Dispatch Units)",
+  "legacy": false
+ },
+ {
+  "partNumber": "503RG3082",
+  "description": "BroadBand Accelerator (BBA) Express Power, Extended Reach (EP-ER) - Single Port Line Card",
+  "comments": "Express powered (Out-of-Band) BroadBand Accelerator (BBA) - Single Port Line Card. Note that this part number comes without an enclosure.",
+  "listPrice": 200,
+  "category": "A7.1 BBA Cards",
+  "legacy": false
+ },
+ {
+  "partNumber": "503RG3084",
+  "description": "BroadBand Accelerator (BBA) Line Power Extended Reach (LP-ER) - Single Port Line Card",
+  "comments": "Line powered BroadBand Accelerator (BBA) - Single Port Line Card. Note that this part number comes without an enclosure.",
+  "listPrice": 200,
+  "category": "A7.1 BBA Cards",
+  "legacy": false
+ },
+ {
+  "partNumber": "503RG3092",
+  "description": "BroadBand Accelerator (BBA) Spectrally Configurable (SC-2) - Dual Port Line Card (G2)",
+  "comments": "Spectrally Configurable Line powered BroadBand Accelerator (BBA) - Dual Port Line Card. Note that this part number comes without an enclosure.",
+  "listPrice": 650,
+  "category": "A7.1 BBA Cards",
+  "legacy": true
+ },
+ {
+  "partNumber": "503RG3093",
+  "description": "ADSL BroadBand Accelerator (ABA) for ML700",
+  "comments": "Standard Reach Line powered BroadBand Accelerator (BBA) for the ML700 - Dual Port Line Card.",
+  "listPrice": 650,
+  "category": "A7.1 BBA Cards",
+  "legacy": true
+ },
+ {
+  "partNumber": "503RG3101",
+  "description": "VDSL BroadBand Accelerator (VBA) Extended Reach (ER) - Dual Port Line Card\t\nExtended Reach (ER) - Dual Port Line Card",
+  "comments": "Extended Reach Line powered VDSL BroadBand Accelerator (VBA) - Dual Port Line Card. Note that this part number comes without an enclosure.",
+  "listPrice": 800,
+  "category": "A7.1 BBA Cards",
+  "legacy": true
+ },
+ {
+  "partNumber": "506R0016R",
+  "description": "ML622R",
+  "comments": "Fanless modem, bonding up to 2 pairs, 4 x10/100BaseT, standard QoS,  ROHS-6 compliant,  12V input, L3 capabilities.",
+  "listPrice": 1395,
+  "category": "A8. L3 CPEs",
+  "legacy": true
+ },
+ {
+  "partNumber": "506R0046R",
+  "description": "ML624R",
+  "comments": "Fanless modem, bonding up to 4 pairs, 4 x10/100BaseT, standard QoS,  ROHS-6 compliant,  12V input, L3 capabilities.",
+  "listPrice": 1595,
+  "category": "A8. L3 CPEs",
+  "legacy": true
+ },
+ {
+  "partNumber": "506R0056R",
+  "description": "ML621R",
+  "comments": "Fanless modem, 1 pair, 4 x10/100BaseT, standard QoS,  ROHS-6 compliant,  12V input, L3 capabilities.",
+  "listPrice": 995,
+  "category": "A8. L3 CPEs",
+  "legacy": true
+ },
+ {
+  "partNumber": "506R20050",
+  "description": "Fan Control Module for CHS-2000/19 (FCM-2000/19) - EOL",
+  "comments": "Fan Control Module for CHS-2000/19\" & ETSI",
+  "listPrice": 595,
+  "category": "A3.7 CHS-2000 Related Items",
+  "legacy": true
+ },
+ {
+  "partNumber": "510K20096",
+  "description": "Kit for PFU8 to ML600",
+  "comments": "PFU-8 Kit (1x PFU-8)(1x MLP cable 8xRJ45->DB25)(1x MGT cable RJ45->RJ45)(1x Alarm 2 wire->2 wire) 0.3m/1ft",
+  "listPrice": 852,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ },
+ {
+  "partNumber": "510K62401",
+  "description": "ML624 Kit",
+  "comments": "ML 624 Kit (1x ML 624 Supports 4 pairs)(1x Wall Mount Kit )(10ft/3m, 4xRJ-45 to open end, solid wires)(1x AC-DC Adapter)",
+  "listPrice": 2133,
+  "category": "A2.1 ML600 configurations",
+  "legacy": false
+ },
+ {
+  "partNumber": "510K62801",
+  "description": "ML628 Kit",
+  "comments": "ML 628 Kit (1x ML 628 Supports 8 pairs)(1x Wall Mount Kit )(10ft/3m, 8xRJ-45 to open end, solid wires)(1x AC-DC Adapter)",
+  "listPrice": 3272,
+  "category": "A2.1 ML600 configurations",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0235",
+  "description": "ML680DFT",
+  "comments": "Managed Fiber Ethernet switch, 2x100/1000Base-FX SFP + 6x10/100Base-T, Serial server, DIN Rail, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1317,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "502R02030",
+  "description": "Chassis 2000 Shelf, ETSI (CHS-2000/ETSI)",
+  "comments": "Includes ETSI chassis, modules & accessories.",
+  "listPrice": 2995,
+  "category": "A3.1 Shelves",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0347",
+  "description": "ML698",
+  "comments": "Micro CO, 8 pairs (HSL x pairs: 1x8, 2x4, 4x2) EFM-bonded G.SHDSL, 4x10/100Base-T+1x100/1000Base-FX SFP, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3445,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0447",
+  "description": "ML688",
+  "comments": "8 pairs  (4+4) Add-Drop EFM-bonded G.SHDSL, 4x10/100Base-T+1x100/1000Base-FX SFP, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2870,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0027",
+  "description": "ML628",
+  "comments": "8 pairs, 4x10/100BaseT+1 SFP for 100BaseFX, standard QoS + DSCP classification over PPPoE tunnel available, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2295,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0037",
+  "description": "ML648",
+  "comments": "8 pairs, 4x10/100BaseT+2x100/1000Base-FX, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2525,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0048",
+  "description": "ML684",
+  "comments": "4 pairs  (2+2) Add-Drop EFM-bonded G.SHDSL, 4x10/100Base-T+1x100/1000Base-FX SFP, standard QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1950,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "506R62003",
+  "description": "ML2424X",
+  "comments": "CE2.0 Fiber Aggregator, 4x10/100/1000BT +24x100/1000B-FX( SFP) +4x10G SFP, -40C+65C, DC input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 9430,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "506R62004",
+  "description": "ML540L AC",
+  "comments": "Fiber EAD, 4x10/100/1000BaseT+2x100/1000Base-FX, CE2.0, advanced QoS, ROHS-6 compliant, AC-input, -10C+50C, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1438,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "506R62005",
+  "description": "ML540L DC",
+  "comments": "Fiber EAD, 4x10/100/1000BaseT+2x100/1000Base-FX, CE2.0, advanced QoS, ROHS-6 compliant,DC-input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1955,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG2096",
+  "description": "XR239 Repeater - No Rewiring",
+  "comments": "2-pairs repeater, 11.4Mbps throughput, 239 mechanics, ROHS-6 Compliant, remote power feeding from CO or CPE with no rewiring, enhanced diagnostics",
+  "listPrice": 1030,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0234",
+  "description": "ML520i",
+  "comments": "5 x10/100BaseT L2 switch, standard QoS, ROHS-6 compliant, -12/24/48VDC",
+  "listPrice": 575,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "503RG3086",
+  "description": "ABA LP SR 2.0",
+  "comments": "ADSL Broadband Accelerator (ABA) Standard  Reach, Dual Port Card, Line Powered, Local mgmt. Enclosure need to be ordered separately",
+  "listPrice": 748,
+  "category": "A7.1 BBA Cards",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG1137",
+  "description": "ML748B-O",
+  "comments": "8 pairs DMT CO, 4x10/100BaseT+2x100/1000Base-FX, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3445,
+  "category": "A6. ML700 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG1156",
+  "description": "ML744B-O",
+  "comments": "4 pairs DMT CO, 4x10/100BaseT+2x100/1000Base-FX, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2645,
+  "category": "A6. ML700 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG1237",
+  "description": "ML748B-R",
+  "comments": "8 pairs DMT CPE, 4x10/100BaseT+2x100/1000Base-FX, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 3445,
+  "category": "A6. ML700 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG1256",
+  "description": "ML744B-R",
+  "comments": "4 pairs DMT CPE, 4x10/100BaseT+2x100/1000Base-FX, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2645,
+  "category": "A6. ML700 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0056",
+  "description": "ML644",
+  "comments": "4 pairs, 4x10/100BaseT+2x100/1000Base-FX, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1950,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0161",
+  "description": "ML6416",
+  "comments": "16 pairs, 4x10/100BaseT+2x100/1000Base-FX, CE2.0 certified, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4020,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0222",
+  "description": "ML684DT",
+  "comments": "4 pairs (2+2 or 1x4) EFM-bonded G.SDHSL, Ethernet Switch and Extender, 6x10/100Base-T+2x100/1000Base-FX SFP, Serial server, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2122,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0231",
+  "description": "ML680DF Dual power",
+  "comments": "Managed Fiber Ethernet switch, 2x100/1000Base-FX SFP + 6x10/100Base-T, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1168,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG1027",
+  "description": "ML628B",
+  "comments": "8 pairs, 4x10/100BaseT+1 SFP for 100BaseFX, standard QoS + DSCP classification over PPPoE tunnel available, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2295,
+  "category": "A2. ML600 Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "506R62000",
+  "description": "ML540S DC",
+  "comments": "Fiber EAD, 4x10/100/1000BaseT+(4+2)x100/1000Base-FX,SyncE/1PPS CLK ,CE2.0, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2703,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "506R62001",
+  "description": "ML540S AC",
+  "comments": "Fiber EAD, 4x10/100/1000BaseT+(4+2)x100/1000Base-FX,SyncE/1PPS CLK, CE2.0, advanced QoS, ROHS-6 compliant, AC-input, -10C+50C , SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2358,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "506R62002",
+  "description": "ML550GS",
+  "comments": "Fiber EAD, PWE, 8xDSX1 + 4x10/100/1000BaseT+ 6x100/1000Base-FX,SyncE/1PPS / GPS RX, 1588v2 Clock solutions,  CE2.0, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 4543,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0250",
+  "description": "ML604D",
+  "comments": "4 pairs, 1x EFM-bonded G.SDHSL, 1x10/100Base-T, standard QoS Ethernet Extender, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Dual power input",
+  "listPrice": 1260,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "510K14496",
+  "description": "XR239 Kit -  Straight Rewiring ( CO side fed)",
+  "comments": "XR239 repeater model with mechanical adapter (AD-14), suitable for MAEC underground waterproof enclosure",
+  "listPrice": 1145,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ },
+ {
+  "partNumber": "510K14596",
+  "description": "Updated XR239 Kit - AD14 - XConnect - Customer side fed (MAEC Enclosure)",
+  "comments": "New XR239 repeater with mechanical adapter. Suitable for MAEC underground waterproof enclosure",
+  "listPrice": 1145,
+  "category": "A4. Repeater Related Products",
+  "legacy": false
+ }
+]

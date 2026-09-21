@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price List — Actelis Price &amp; Quote Tool</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">Actelis Price &amp; Quote Tool</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="price-list.html" class="active">Price List</a>
+    <a href="quote-builder.html">Quote Builder</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Customer &amp; Region</h2>
+    <p style="margin-top:-6px;color:var(--text-muted)">These settings decide which discount applies to the prices shown below. They carry over to the Quote Builder for this browser tab.</p>
+    <div class="grid grid-3">
+      <div class="field">
+        <label for="customerType">Customer Type</label>
+        <select id="customerType">
+          <option>End Customer</option>
+          <option>Reseller</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="region">Region</label>
+        <select id="region"></select>
+      </div>
+      <div class="field" id="dealRegField">
+        <label for="dealRegistration">Deal Registration (NA only)</label>
+        <div class="checkbox-field">
+          <input type="checkbox" id="dealRegistration">
+          <label for="dealRegistration">Apply registration bonus discount</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tabs no-print">
+      <button class="tab-btn active" data-list="priceList">Price List</button>
+      <button class="tab-btn" data-list="typeD">Services / Warranty (Type D)</button>
+      <button class="tab-btn" data-list="priceListArchive">Archive</button>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchBox" placeholder="Search part number or description…">
+      <select id="categoryFilter"><option value="">All categories</option></select>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th class="num">List Price</th>
+            <th class="num">Your Price</th>
+            <th class="num">Discount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="priceTableBody">
+          <tr><td colspan="7">Loading price data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="rowCount" style="color:var(--text-muted);font-size:12px;margin-top:8px;"></p>
+  </div>
+
+  <div class="notice">
+    Adding a part here adds it to the <strong>currently active site</strong> in your Quote Builder session
+    (a new one is created automatically if you haven't started a quote yet). Nothing is saved until you
+    export the quote as PDF/print or CSV.
+  </div>
+
+</div>
+
+<p class="footer-note">Actelis Price &amp; Quote Tool — client-side edition. All calculations run locally in your browser.</p>
+
+<script src="js/data.js"></script>
+<script src="js/discount.js"></script>
+<script src="js/quote.js"></script>
+<script src="js/app.js"></script>
+<script>App.initPriceListPage();</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Builder — Actelis Price &amp; Quote Tool</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header no-print">
+  <a class="brand" href="index.html">Actelis Price &amp; Quote Tool</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="price-list.html">Price List</a>
+    <a href="quote-builder.html" class="active">Quote Builder</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div class="notice no-print">
+    Everything below lives only in this browser tab (it will still be here if you switch to the
+    Price List page, but it clears when you close the tab). Nothing is uploaded anywhere.
+    Use <strong>Export CSV</strong> or <strong>Print / Save as PDF</strong> to keep a copy.
+  </div>
+
+  <div class="card no-print">
+    <h2>Quote Details</h2>
+    <div class="two-col">
+      <div>
+        <div class="field"><label for="q-quotationNumber">Quotation #</label><input id="q-quotationNumber" type="text"></div>
+        <div class="field"><label for="q-customer">Customer</label><input id="q-customer" type="text"></div>
+        <div class="field"><label for="q-customerContact">Customer Contact</label><input id="q-customerContact" type="text"></div>
+        <div class="field"><label for="q-quotedBy">Quoted By</label><input id="q-quotedBy" type="text"></div>
+      </div>
+      <div>
+        <div class="grid grid-2">
+          <div class="field"><label for="q-date">Date</label><input id="q-date" type="date"></div>
+          <div class="field"><label for="q-expirationDate">Expiration Date</label><input id="q-expirationDate" type="date"></div>
+          <div class="field"><label for="q-paymentTerms">Payment Terms</label><select id="q-paymentTerms"></select></div>
+          <div class="field"><label for="q-shippingTerms">Shipping Terms</label><select id="q-shippingTerms"></select></div>
+        </div>
+        <div class="field"><label for="q-comments">Comments</label><textarea id="q-comments"></textarea></div>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="field">
+        <label for="customerType">Customer Type</label>
+        <select id="customerType"><option>End Customer</option><option>Reseller</option></select>
+      </div>
+      <div class="field">
+        <label for="region">Region</label>
+        <select id="region"></select>
+      </div>
+      <div class="field" id="dealRegField">
+        <label for="dealRegistration">Deal Registration (NA only)</label>
+        <div class="checkbox-field">
+          <input type="checkbox" id="dealRegistration">
+          <label for="dealRegistration">Apply registration bonus discount</label>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="checkbox-field">
+        <input type="checkbox" id="salesTaxEnabled">
+        <label for="salesTaxEnabled">Apply sales tax (backed out of total, not added on top)</label>
+      </div>
+      <div class="field">
+        <label for="salesTaxPct">Sales Tax %</label>
+        <input id="salesTaxPct" type="number" step="0.01" min="0" max="100" value="0">
+      </div>
+    </div>
+  </div>
+
+  <div class="card no-print">
+    <h2>Sites</h2>
+    <div class="site-tabs" id="siteTabs"></div>
+    <div class="actions-row">
+      <button class="btn secondary small" id="addSiteBtn">+ Add Site</button>
+      <button class="btn secondary small" id="dupSiteBtn">Duplicate Active Site</button>
+      <button class="btn danger small" id="delSiteBtn">Delete Active Site</button>
+    </div>
+  </div>
+
+  <div class="card no-print">
+    <h3 id="activeSiteLabel">Site 1 — Bill of Materials</h3>
+    <table>
+      <thead>
+        <tr><th>Part Number</th><th>Description</th><th class="num">Qty</th><th class="num">Net Price</th><th class="num">Extended</th><th></th></tr>
+      </thead>
+      <tbody id="bomTableBody"></tbody>
+      <tfoot>
+        <tr class="subtotal-row"><td colspan="4">Site Subtotal</td><td class="num" id="siteSubtotalCell">$0.00</td><td></td></tr>
+      </tfoot>
+    </table>
+
+    <div class="wizard-section">
+      <h4>Add a part manually</h4>
+      <div class="two-col">
+        <div class="field">
+          <label for="manualPartInput">Part Number</label>
+          <input id="manualPartInput" type="text" list="priceListDatalist" placeholder="Type to search…">
+          <datalist id="priceListDatalist"></datalist>
+        </div>
+        <div class="field">
+          <label for="manualQtyInput">Quantity</label>
+          <input id="manualQtyInput" type="number" min="1" value="1">
+        </div>
+      </div>
+      <button class="btn secondary small" id="manualAddBtn">Add to BOM</button>
+    </div>
+  </div>
+
+  <div class="card no-print">
+    <h2>Configurator Wizards</h2>
+    <p style="color:var(--text-muted);margin-top:-6px">Each wizard adds line items to the currently active site above. Model pickers show a broad, searchable list of catalog parts rather than the exact cascading filters of the desktop tool — the underlying BOM math is a faithful port either way.</p>
+
+    <details class="wizard-section">
+      <summary><strong>Node Configurator</strong> (single link, chassis or standalone)</summary>
+      <div id="nodeWizard"></div>
+    </details>
+
+    <details class="wizard-section">
+      <summary><strong>Network / Repeater Configurator</strong> (multi-hop, PFU/repeater)</summary>
+      <div id="networkWizard"></div>
+    </details>
+
+    <details class="wizard-section">
+      <summary><strong>EMS Licensing Wizard</strong></summary>
+      <div id="emsWizard"></div>
+    </details>
+  </div>
+
+  <div class="card no-print">
+    <h2>Services / Warranty</h2>
+    <div class="two-col">
+      <div class="field">
+        <label for="serviceSelect">Service / Warranty Item</label>
+        <select id="serviceSelect"></select>
+      </div>
+      <div class="field">
+        <label for="serviceQty">Qty</label>
+        <input id="serviceQty" type="number" min="1" value="1">
+      </div>
+    </div>
+    <button class="btn secondary small" id="addServiceBtn">Add Service</button>
+
+    <table style="margin-top:14px">
+      <thead><tr><th>Part Number</th><th>Description</th><th class="num">Qty</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="servicesTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="card no-print">
+    <h2>Totals</h2>
+    <table id="totalsTable">
+      <tbody id="totalsBody"></tbody>
+    </table>
+    <div class="actions-row">
+      <button class="btn" id="exportCsvBtn">Export CSV / Excel</button>
+      <button class="btn secondary" id="printBtn">Print / Save as PDF</button>
+      <button class="btn danger" id="resetQuoteBtn">Reset Quote</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="print-area-wrapper" class="container">
+  <div id="print-area"></div>
+</div>
+
+<p class="footer-note no-print">Actelis Price &amp; Quote Tool — client-side edition. All calculations run locally in your browser.</p>
+
+<script src="js/data.js"></script>
+<script src="js/discount.js"></script>
+<script src="js/quote.js"></script>
+<script src="js/wizard-ems.js"></script>
+<script src="js/wizard-node.js"></script>
+<script src="js/wizard-network.js"></script>
+<script src="js/wizard-templates.js"></script>
+<script src="js/export.js"></script>
+<script src="js/app.js"></script>
+<script>App.initQuoteBuilderPage();</script>
+</body>
+</html>

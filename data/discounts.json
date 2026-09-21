@@ -1,0 +1,432 @@
+[
+ {
+  "category": "A2. ML600 Family",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A2.1 ML600D Family",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A2.2 ML600 Configurations",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A2.3 ML600D Configurations",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.1 Shelves",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.2 SDU (Service Dispatch Units)",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.3 MLU (Multiport Line Units)",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A3.2 GL800/GL900ML500/ML600/ML700 Related Items",
+  "categoryType": "Type A Accessories",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.4 CHS-200 Related Items",
+  "categoryType": "Type A Accessories",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.5 CHS-2000 Related Items",
+  "categoryType": "Type A Accessories",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A6. Repeater Related Products",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A7. ML700 Family",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A8.1 BBA Cards",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A8.2 BBA Enclosures",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A8.3 BBA Accessories",
+  "categoryType": "Type A Accessories",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A9. L3 CPEs",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.6 ML230 Configuration Examples",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A4.7 ML2300 Configuration Examples",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "B2.1 MetaASSIST EMS Site Licenses",
+  "categoryType": "Type B",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.3,
+  "discountEndUserEMEA": 0.2,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "B2.2 MetaASSIST EMS NE License Keys",
+  "categoryType": "Type B",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.3,
+  "discountEndUserEMEA": 0.2,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C1. SFP Transceivers",
+  "categoryType": "Type C Certified",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C2. CWDM Products",
+  "categoryType": "Type C Certified",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C3. Power Supply",
+  "categoryType": "Type C Accessories",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C4.1 DSL Cables",
+  "categoryType": "Type C Accessories",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C4.2 Service, Alarm, Clock and Misc. cables",
+  "categoryType": "Type C Accessories",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C4.3 Power and Grounding cables",
+  "categoryType": "Type C Accessories",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C4.5 Cable Kits",
+  "categoryType": "Type C Accessories",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "C6. Remote Line Powered System (X-Pod/Tyco)",
+  "categoryType": "Type C Certified",
+  "discount": 0.1,
+  "discountEndUser": 0,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "B2.3 MetaASSIST EMS Feature Licenses",
+  "categoryType": "Type B",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.3,
+  "discountEndUserEMEA": 0.2,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A5.1 Fiber DIN Rail L2 Switches",
+  "categoryType": "Type A - Fiber",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.35,
+  "discountEndUserEMEA": 0.25,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "categoryType": "Type A - Fiber",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.35,
+  "discountEndUserEMEA": 0.25,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A5.2 Fiber DIN Rail L3 Switches",
+  "categoryType": "Type A - Fiber",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.35,
+  "discountEndUserEMEA": 0.25,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A5.4 Fiber Rackmount L3 Switches",
+  "categoryType": "Type A - Fiber",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.35,
+  "discountEndUserEMEA": 0.25,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A1.1 GL800 Solutions",
+  "categoryType": "Type A",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A1.2 GL9000 Headend Solutions",
+  "categoryType": "Type A - GL900",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.15,
+  "discountEndUserEMEA": 0.1,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A1.5 GL900 CPEs",
+  "categoryType": "Type A - GL90",
+  "discount": 0.1,
+  "discountEndUser": 0.05,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0.05,
+  "warranty": "SVC-HW1WT"
+ },
+ {
+  "category": "A1.6 GL900 Enclosures & Bundles",
+  "categoryType": "Type A - GL900",
+  "discount": 0.1,
+  "discountEndUser": 0.05,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0.05,
+  "warranty": "SVC-HW1WT"
+ },
+ {
+  "category": "A3.1 Power Supplies for GL800/GL900/ML500/ML600/ML700",
+  "categoryType": "Type A Accessories",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.4,
+  "discountEndUserEMEA": 0.3,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A5.5 Fiber In-Pole L2 Switches",
+  "categoryType": "Type A - Fiber",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.35,
+  "discountEndUserEMEA": 0.25,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "A1.3 GL9000 CPEs",
+  "categoryType": "Type A - GL90",
+  "discount": 0.1,
+  "discountEndUser": 0.05,
+  "registrationDiscount": 0,
+  "discountEMEA": 0.1,
+  "discountEndUserEMEA": 0.05,
+  "warranty": "SVC-HW1WT"
+ },
+ {
+  "category": "A1.4 GL900 Headend Solutions",
+  "categoryType": "Type A - GL900",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.15,
+  "discountEndUserEMEA": 0.1,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "B3.1 Netview GL9000 EMS Licenses",
+  "categoryType": "Type B",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.3,
+  "discountEndUserEMEA": 0.2,
+  "warranty": "SVC-HW2WT"
+ },
+ {
+  "category": "B4.1 GL900 ACS Licenses",
+  "categoryType": "Type B",
+  "discount": 0.33,
+  "discountEndUser": 0.33,
+  "registrationDiscount": 0.07,
+  "discountEMEA": 0.3,
+  "discountEndUserEMEA": 0.2,
+  "warranty": "SVC-HW2WT"
+ }
+]

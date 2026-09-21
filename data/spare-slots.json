@@ -1,0 +1,205 @@
+[
+ {
+  "partNumber": "501S20435",
+  "description": "ML2300B 19\" including SDU-450 + MLU-64DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DR SDU-450"
+ },
+ {
+  "partNumber": "501S20436",
+  "description": "ML230 including SDU-450 + MLU-64DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DR SDU-450"
+ },
+ {
+  "partNumber": "501S20441",
+  "description": "ML230 including SDU-450 + MLU-64DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DF SDU-450"
+ },
+ {
+  "partNumber": "501S20442",
+  "description": "ML230 including SDU-450 + MLU-32DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF SDU-450"
+ },
+ {
+  "partNumber": "501S20443",
+  "description": "ML230 including SDU-450 + MLU-32DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DR SDU-450"
+ },
+ {
+  "partNumber": "501S20444",
+  "description": "ML230 including SDU-450G + MLU-64DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DF SDU-450G"
+ },
+ {
+  "partNumber": "501S20445",
+  "description": "ML230 including SDU-450G + MLU-32DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF SDU-450G"
+ },
+ {
+  "partNumber": "501S20446",
+  "description": "ML230 including SDU-450G + MLU-32DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DR SDU-450G"
+ },
+ {
+  "partNumber": "501S20447",
+  "description": "ML2300B 19\" including SDU-450 + MLU-64DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DF SDU-450"
+ },
+ {
+  "partNumber": "501S20448",
+  "description": "ML2300B 19\" including SDU-450 + MLU-32DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF SDU-450"
+ },
+ {
+  "partNumber": "501S20449",
+  "description": "ML2300B 19\" including SDU-450 + MLU-32DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DR SDU-450"
+ },
+ {
+  "partNumber": "501S20450",
+  "description": "ML2300B 19\" including SDU-450G + MLU-64DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DF SDU-450G"
+ },
+ {
+  "partNumber": "501S20451",
+  "description": "ML2300B 19\" including SDU-450G + MLU-32DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF SDU-450G"
+ },
+ {
+  "partNumber": "501S20452",
+  "description": "ML2300B 19\" including SDU-450G + MLU-32DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DR SDU-450G"
+ },
+ {
+  "partNumber": "501S20453",
+  "description": "ML2300 ETSI including SDU-450 + MLU-64DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DF SDU-450"
+ },
+ {
+  "partNumber": "501S20454",
+  "description": "ML2300 ETSI including SDU-450 + MLU-32DF",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF SDU-450"
+ },
+ {
+  "partNumber": "501S20455",
+  "description": "ML2300B/19\" including SDU-450G + MLU-64DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DR SDU-450G"
+ },
+ {
+  "partNumber": "501S20456",
+  "description": "ML230 including SDU-450G + MLU-64DR",
+  "spareSlots": 0,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-64DR SDU-450G"
+ },
+ {
+  "partNumber": "502R02030",
+  "description": "Chassis 2000 Shelf, ETSI (CHS-2000/ETSI)",
+  "spareSlots": 6,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF MLU-64DF SDU-450 SDU-450G SDU-455G"
+ },
+ {
+  "partNumber": "502R02110",
+  "description": "Chassis 2000B Shelf, 19 inch (CHS-2000B/19)",
+  "spareSlots": 6,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF MLU-32DR MLU-64DF MLU-64DR SDU-450 SDU-450G  SDU-455G"
+ },
+ {
+  "partNumber": "502R20230",
+  "description": "Chassis 200 Shelf",
+  "spareSlots": 3,
+  "pnType": "Chassis",
+  "miscInfo": "MLU-32DF MLU-32DR MLU-64DF MLU-64DR SDU-450 SDU-450G  SDU-455G"
+ },
+ {
+  "partNumber": "503R20132",
+  "description": "MLU-32DF",
+  "spareSlots": -1,
+  "pnType": "MLU",
+  "miscInfo": "MLU-32DF"
+ },
+ {
+  "partNumber": "503R20164",
+  "description": "MLU-64DF",
+  "spareSlots": -1,
+  "pnType": "MLU",
+  "miscInfo": "MLU-64DF"
+ },
+ {
+  "partNumber": "503R20232",
+  "description": "MLU-32DR",
+  "spareSlots": -1,
+  "pnType": "MLU",
+  "miscInfo": "MLU-32DR"
+ },
+ {
+  "partNumber": "503R20264",
+  "description": "MLU-64DR",
+  "spareSlots": -1,
+  "pnType": "MLU",
+  "miscInfo": "MLU-64DR"
+ },
+ {
+  "partNumber": "503R60041",
+  "description": "SDU-455G",
+  "spareSlots": -1,
+  "pnType": "SDU",
+  "miscInfo": "MLU-32DF MLU-32DR MLU-64DF MLU-64DR"
+ },
+ {
+  "partNumber": "503R60042",
+  "description": "SDU-450",
+  "spareSlots": -1,
+  "pnType": "SDU",
+  "miscInfo": "MLU-32DF MLU-32DR MLU-64DF MLU-64DR"
+ },
+ {
+  "partNumber": "503R60043",
+  "description": "SDU-450G",
+  "spareSlots": -1,
+  "pnType": "SDU",
+  "miscInfo": "MLU-32DF MLU-32DR MLU-64DF MLU-64DR"
+ },
+ {
+  "partNumber": "508R00680",
+  "description": "Blank Panel Kit",
+  "spareSlots": -4,
+  "pnType": "Blank",
+  "miscInfo": ""
+ }
+]

@@ -1,0 +1,18 @@
+[
+ {
+  "category": "A",
+  "description": "Type-A Items (Systems and Modules)"
+ },
+ {
+  "category": "B",
+  "description": "Type-B Items (Software/Documents)"
+ },
+ {
+  "category": "C",
+  "description": "Type-C Items (Third Party Equipment and Cables)"
+ },
+ {
+  "category": "D",
+  "description": "Type-D Items (Warranty/Services)"
+ }
+]

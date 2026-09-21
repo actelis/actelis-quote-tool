@@ -1,0 +1,482 @@
+[
+ {
+  "regionId": 4,
+  "partNumber": "501RG3276"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R00013"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R00013"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R00013"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R00013"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R00006D"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R00006D"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501RG0157"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501RG0157"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501RG0157"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501RG0158"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501RG0158"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501RG0158"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501RG0157."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501RG0157."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501RG0158."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501RG0158."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R61337"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R61337"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R61337"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R61337."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "506R61337."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R61245"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R61245"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R61245"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R61336."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "506R61336."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R61336"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R61336"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R61336"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501S61245E"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501S61245E"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501S61245U"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501S61245U"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501S61246"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501S61246"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501S61246"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501S61246E"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501S61246E"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501S61246U"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501S61246U"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501S61247"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501S61247"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501S61247"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501S61247."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501S61247."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501RG0300"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501RG0300"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501RG0300"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501RG0301"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501RG0301"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501RG0301"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "501RG0168"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "501RG0168"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "501RG0168"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "199A10040"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "199A10040"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "199A10050"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "199A10050"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "199A10060"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501R20196"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "501RG0110"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "502R04810"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "502R04810"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "502R04810"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "502R04810"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "502R04825"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "502R04825"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "502R04825"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "502R04825"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "503R20270"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "503R20270"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "503R20270"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "504R60085"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "504R60085"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "504R60085"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "504R60088"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "504R60088"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "504R60088"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "504R60088"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R00006"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R00006"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R00006"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R00006"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R00006U"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R00006U"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "506R00006U"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R00008U"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R00008U"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "506R00008U"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R04815"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R04815"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R04815"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R04815"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R04820"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R04820"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R04820"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R04820"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R04830"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R04830"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R04830"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R04830"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "510K20196"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "510K20270"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "510K20270"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "510K20270"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "510KG6241"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "510KG6241"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "510KG6241"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "510KG6381"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "510KG6381"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "510KG6381"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "506R61184"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "506R61184"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "506R61185"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "506R61185"
+ },
+ {
+  "regionId": 6,
+  "partNumber": "506R61185"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501RG3376"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501RG3356"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "501RG3256"
+ }
+]
