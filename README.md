@@ -1,4 +1,4 @@
-# Actelis Price & Quote Tool — Online (Client-Side) Edition
+# Actelis Price & Quote Tool — Online (Client-Side) Edition/
 
 This is a static, client-side reimplementation of the Actelis Access
 Price/Quote Tool (`Price Tool v3.21.accdb`), built to be hosted for free on
