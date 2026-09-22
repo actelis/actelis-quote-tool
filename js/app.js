@@ -1,7 +1,8 @@
 /* app.js
  * DOM wiring for the three HTML pages (index.html has none). Depends on
  * data.js / discount.js / quote.js always; price-list.html needs only those;
- * quote-builder.html additionally needs the wizard-*.js and export.js files.
+ * quote-builder.html additionally needs the wizard-*.js, pdf.js, export.js
+ * and admin.js files.
  */
 const App = (() => {
 
@@ -52,6 +53,18 @@ const App = (() => {
   function fillDatalist(datalistEl, rows) {
     datalistEl.innerHTML = '';
     rows.forEach(r => datalistEl.appendChild(el('option', { value: optionLabel(r) })));
+  }
+  function wireDropzone(zoneId, inputId, onFile) {
+    const zone = document.getElementById(zoneId), input = document.getElementById(inputId);
+    if (!zone || !input) return;
+    zone.addEventListener('click', () => input.click());
+    input.addEventListener('change', () => { if (input.files[0]) onFile(input.files[0]); input.value = ''; });
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.classList.remove('dragover');
+      if (e.dataTransfer.files[0]) onFile(e.dataTransfer.files[0]);
+    });
   }
 
   // ---------------------------------------------------------------------
@@ -141,9 +154,11 @@ const App = (() => {
             discDisplay = pct(discount);
             addFn = () => { Quote.addToQuote(r.partNumber, 1); render(); };
           }
+          const repl = DataStore.getReplacement ? DataStore.getReplacement(r.partNumber) : null;
+          const descCell = el('td', {}, r.description + (repl ? ` (replaced by ${repl.newPartNumber})` : ''));
           body.appendChild(el('tr', {}, [
             el('td', {}, r.partNumber),
-            el('td', {}, r.description),
+            descCell,
             el('td', {}, DataStore.categoryDescription(r.category)),
             el('td', { class: 'num' }, listPriceDisplay),
             el('td', { class: 'num' }, netDisplay),
@@ -197,6 +212,11 @@ const App = (() => {
     return priceable(DataStore.raw.autoRepeaterInfo).sort((a, b) => a.description.localeCompare(b.description));
   }
 
+  // Which "Line Items" pill-tab is active — drives both the launcher grid
+  // shown and what the big catalog search bar searches against.
+  let currentLineItemsTab = 'hardware';
+  let closeCatalogSearchFn = () => {};
+
   function initQuoteBuilderPage() {
     DataStore.load().then(() => {
       wireSessionBar();
@@ -206,9 +226,16 @@ const App = (() => {
       buildNetworkWizard();
       buildEmsWizard();
       wireSiteControls();
-      wireManualAdd();
+      wireLineItemTabs();
+      wireCatalogSearch();
+      wireCustomAdd();
+      wireFinancialOptions();
       wireServices();
       wireExportButtons();
+      wireWizardModal();
+      wireTopbar();
+      wireAdminModal();
+      wireReplacementsModal();
 
       onSessionChange = renderAll;
       renderAll();
@@ -220,6 +247,8 @@ const App = (() => {
     renderBOM();
     renderServicesTable();
     renderTotals();
+    renderSummary();
+    renderQuoteInfo();
   }
 
   // ---- Header fields ----
@@ -228,20 +257,28 @@ const App = (() => {
       'q-quotationNumber': 'quotationNumber', 'q-customer': 'customer',
       'q-customerContact': 'customerContact', 'q-quotedBy': 'quotedBy',
       'q-date': 'date', 'q-expirationDate': 'expirationDate', 'q-comments': 'comments',
+      'q-address': 'address', 'q-phone': 'phone', 'q-email': 'email',
     };
     Object.entries(map).forEach(([id, key]) => {
       const input = document.getElementById(id);
       if (!input) return;
       input.value = Quote.header[key] || '';
-      input.addEventListener('input', () => { Quote.header[key] = input.value; Quote.save(); });
+      input.addEventListener('input', () => { Quote.header[key] = input.value; Quote.save(); renderSummary(); renderQuoteInfo(); });
     });
+
+    const statusSel = document.getElementById('q-status');
+    if (statusSel) {
+      (DataStore.raw.quoteStatus || []).forEach(r => statusSel.appendChild(el('option', { value: r.name }, r.name)));
+      statusSel.value = Quote.header.status || 'New';
+      statusSel.addEventListener('change', () => { Quote.header.status = statusSel.value; Quote.save(); });
+    }
 
     const salesTaxEnabled = document.getElementById('salesTaxEnabled');
     const salesTaxPct = document.getElementById('salesTaxPct');
     salesTaxEnabled.checked = !!Quote.session.salesTaxEnabled;
     salesTaxPct.value = (Quote.session.salesTaxPct || 0) * 100;
-    salesTaxEnabled.addEventListener('change', () => { Quote.session.salesTaxEnabled = salesTaxEnabled.checked; Quote.save(); renderTotals(); });
-    salesTaxPct.addEventListener('input', () => { Quote.session.salesTaxPct = (parseFloat(salesTaxPct.value) || 0) / 100; Quote.save(); renderTotals(); });
+    salesTaxEnabled.addEventListener('change', () => { Quote.session.salesTaxEnabled = salesTaxEnabled.checked; Quote.save(); renderTotals(); renderSummary(); });
+    salesTaxPct.addEventListener('input', () => { Quote.session.salesTaxPct = (parseFloat(salesTaxPct.value) || 0) / 100; Quote.save(); renderTotals(); renderSummary(); });
   }
 
   function populateTermsSelects() {
@@ -249,8 +286,32 @@ const App = (() => {
     const ship = document.getElementById('q-shippingTerms');
     (DataStore.raw.paymentTerms || []).forEach(r => pay.appendChild(el('option', { value: r.name }, r.name)));
     (DataStore.raw.shippingTerms || []).forEach(r => ship.appendChild(el('option', { value: r.name }, r.name)));
-    pay.addEventListener('change', () => { Quote.header.paymentTerms = pay.value; Quote.save(); });
-    ship.addEventListener('change', () => { Quote.header.shippingTerms = ship.value; Quote.save(); });
+    pay.value = Quote.header.paymentTerms || '';
+    ship.value = Quote.header.shippingTerms || '';
+    pay.addEventListener('change', () => { Quote.header.paymentTerms = pay.value; Quote.save(); renderQuoteInfo(); });
+    ship.addEventListener('change', () => { Quote.header.shippingTerms = ship.value; Quote.save(); renderQuoteInfo(); });
+  }
+
+  // Re-populates every form control from the current Quote state — used
+  // after "New Quote" and after a successful PDF import, since both replace
+  // the state wholesale rather than through the individual input handlers.
+  function syncFormFieldsFromState() {
+    const map = {
+      'q-quotationNumber': 'quotationNumber', 'q-customer': 'customer',
+      'q-customerContact': 'customerContact', 'q-quotedBy': 'quotedBy',
+      'q-date': 'date', 'q-expirationDate': 'expirationDate', 'q-comments': 'comments',
+      'q-address': 'address', 'q-phone': 'phone', 'q-email': 'email',
+    };
+    Object.entries(map).forEach(([id, key]) => { const inp = document.getElementById(id); if (inp) inp.value = Quote.header[key] || ''; });
+    const statusSel = document.getElementById('q-status'); if (statusSel) statusSel.value = Quote.header.status || 'New';
+    const pay = document.getElementById('q-paymentTerms'); if (pay) pay.value = Quote.header.paymentTerms || '';
+    const ship = document.getElementById('q-shippingTerms'); if (ship) ship.value = Quote.header.shippingTerms || '';
+    const ctSel = document.getElementById('customerType'); if (ctSel) ctSel.value = Quote.session.customerType;
+    const regionSel = document.getElementById('region'); if (regionSel) regionSel.value = Quote.session.region;
+    const dealChk = document.getElementById('dealRegistration'); if (dealChk) dealChk.checked = !!Quote.session.dealRegistration;
+    const salesTaxEnabled = document.getElementById('salesTaxEnabled'); if (salesTaxEnabled) salesTaxEnabled.checked = !!Quote.session.salesTaxEnabled;
+    const salesTaxPct = document.getElementById('salesTaxPct'); if (salesTaxPct) salesTaxPct.value = (Quote.session.salesTaxPct || 0) * 100;
+    syncFinancialOptionCheckboxes();
   }
 
   // ---- Sites / BOM ----
@@ -272,10 +333,22 @@ const App = (() => {
     body.innerHTML = '';
     site.lines.forEach(l => {
       const row = DataStore.getPriceRow(l.partNumber);
-      const net = Quote.lineNetPrice(l.partNumber);
+      const net = Quote.lineNetPrice(l);
+      const descText = row ? row.description : (l.manual ? l.manualDescription : '(unknown part)');
+      const descCell = el('td', {}, descText);
+      const repl = DataStore.getReplacement ? DataStore.getReplacement(l.partNumber) : null;
+      if (repl) {
+        descCell.appendChild(el('div', { style: 'margin-top:4px' }, [
+          el('span', { class: 'badge local', style: 'margin-right:6px' }, `Replaced by ${repl.newPartNumber}`),
+          el('button', {
+            class: 'btn tiny secondary',
+            onclick: () => { Quote.removeLine(Quote.activeSiteIndex, l.partNumber); Quote.addToQuote(repl.newPartNumber, l.qty); renderAll(); },
+          }, 'Swap'),
+        ]));
+      }
       body.appendChild(el('tr', {}, [
         el('td', {}, l.partNumber),
-        el('td', {}, row ? row.description : '(unknown part)'),
+        descCell,
         el('td', { class: 'num' }, el('input', {
           type: 'number', min: '0', value: l.qty, style: 'width:70px;text-align:right',
           onchange: (e) => { Quote.setLineQty(Quote.activeSiteIndex, l.partNumber, parseFloat(e.target.value) || 0); renderAll(); },
@@ -286,12 +359,6 @@ const App = (() => {
       ]));
     });
     document.getElementById('siteSubtotalCell').textContent = money(Quote.siteSubtotal(site));
-
-    const datalist = document.getElementById('priceListDatalist');
-    if (datalist && !datalist.dataset.filled) {
-      fillDatalist(datalist, DataStore.raw.priceList.filter(r => r.showPriceList !== false));
-      datalist.dataset.filled = '1';
-    }
   }
 
   function wireSiteControls() {
@@ -303,26 +370,124 @@ const App = (() => {
     });
   }
 
-  function wireManualAdd() {
-    document.getElementById('manualAddBtn').addEventListener('click', () => {
-      const pn = parsePN(document.getElementById('manualPartInput').value);
-      const qty = parseFloat(document.getElementById('manualQtyInput').value) || 1;
-      if (!pn || !DataStore.getPriceRow(pn)) { alert('Please pick a valid part number from the list.'); return; }
-      Quote.addToQuote(pn, qty);
-      document.getElementById('manualPartInput').value = '';
+  // ---- Line Items: Hardware/Services tabs + catalog search + custom add ----
+  function wireLineItemTabs() {
+    const tabs = Array.from(document.querySelectorAll('#lineItemTabs .pill-tab'));
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentLineItemsTab = btn.dataset.tab;
+      document.getElementById('hardwareLaunchers').style.display = currentLineItemsTab === 'hardware' ? '' : 'none';
+      document.getElementById('servicesLaunchers').style.display = currentLineItemsTab === 'services' ? '' : 'none';
+      const search = document.getElementById('catalogSearch');
+      search.placeholder = currentLineItemsTab === 'hardware'
+        ? '🔍 Search part #, description or category…'
+        : '🔍 Search services, warranty or support plans…';
+      search.value = '';
+      closeCatalogSearchFn();
+    }));
+  }
+
+  function computeSearchRows(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    const source = currentLineItemsTab === 'hardware'
+      ? DataStore.raw.priceList.filter(r => r.showPriceList !== false)
+      : DataStore.raw.typeD;
+    return source.filter(r => `${r.partNumber} ${r.description} ${r.category}`.toLowerCase().includes(q)).slice(0, 30);
+  }
+
+  function wireCatalogSearch() {
+    const input = document.getElementById('catalogSearch');
+    const resultsBox = document.getElementById('catalogSearchResults');
+    function closeResults() { resultsBox.classList.remove('open'); resultsBox.innerHTML = ''; }
+    closeCatalogSearchFn = closeResults;
+
+    function renderResults() {
+      const rows = computeSearchRows(input.value);
+      resultsBox.innerHTML = '';
+      if (!input.value.trim()) { closeResults(); return; }
+      if (!rows.length) {
+        resultsBox.appendChild(el('div', { class: 'search-result-empty' }, 'No matching items.'));
+        resultsBox.classList.add('open');
+        return;
+      }
+      const ctx = Quote.ctx();
+      const isTypeD = currentLineItemsTab === 'services';
+      rows.forEach(r => {
+        const priceDisplay = isTypeD
+          ? (Quote.isPercentTypeD(r) ? (r.listPriceString || '') : money(r.listPrice))
+          : money(r.listPrice == null ? null : r.listPrice * (1 - (DataStore.getPriceRow(r.partNumber) ? DiscountEngine.getCustomerDiscount(r.partNumber, 1, ctx) : 0)));
+        const repl = DataStore.getReplacement ? DataStore.getReplacement(r.partNumber) : null;
+        resultsBox.appendChild(el('div', {
+          class: 'search-result-row',
+          onclick: () => {
+            if (isTypeD) Quote.addService(r.partNumber); else Quote.addToQuote(r.partNumber, 1);
+            input.value = ''; closeResults(); renderAll();
+          },
+        }, [
+          el('div', { class: 'search-result-main' }, [
+            el('div', { class: 'search-result-pn' }, r.partNumber + (repl ? ' ⚠ replaced' : '')),
+            el('div', { class: 'search-result-desc' }, r.description),
+          ]),
+          el('div', { class: 'search-result-price' }, priceDisplay),
+        ]));
+      });
+      resultsBox.classList.add('open');
+    }
+    input.addEventListener('input', debounce(renderResults, 120));
+    input.addEventListener('focus', renderResults);
+    document.addEventListener('click', (e) => { if (!resultsBox.contains(e.target) && e.target !== input) closeResults(); });
+  }
+
+  function wireCustomAdd() {
+    const toggle = document.getElementById('customAddToggle');
+    const form = document.getElementById('customAddForm');
+    toggle.addEventListener('click', () => { form.style.display = form.style.display === 'none' ? '' : 'none'; });
+    document.getElementById('customAddBtn').addEventListener('click', () => {
+      const pn = document.getElementById('customPartNumber').value.trim() || ('CUSTOM-' + Date.now());
+      const desc = document.getElementById('customDescription').value.trim() || 'Custom item';
+      const price = parseFloat(document.getElementById('customPrice').value) || 0;
+      const qty = parseFloat(document.getElementById('customQty').value) || 1;
+      Quote.addManualLine(pn, desc, price, qty);
+      document.getElementById('customPartNumber').value = '';
+      document.getElementById('customDescription').value = '';
+      document.getElementById('customPrice').value = '0';
+      document.getElementById('customQty').value = '1';
+      form.style.display = 'none';
       renderAll();
+    });
+  }
+
+  // ---- Financial Options ----
+  const FIN_CHECKBOX_MAP = { finShipping: 'shipping', finCreditCard: 'creditCard', finWarranty: 'extendedWarranty' };
+  function wireFinancialOptions() {
+    Object.entries(FIN_CHECKBOX_MAP).forEach(([id, key]) => {
+      const chk = document.getElementById(id);
+      if (!chk) return;
+      chk.checked = !!Quote.session.financialOptions[key];
+      chk.addEventListener('change', () => { Quote.setFinancialOption(key, chk.checked); renderAll(); });
+    });
+  }
+  function syncFinancialOptionCheckboxes() {
+    Object.entries(FIN_CHECKBOX_MAP).forEach(([id, key]) => {
+      const chk = document.getElementById(id);
+      if (chk) chk.checked = !!Quote.session.financialOptions[key];
     });
   }
 
   // ---- Services ----
   function wireServices() {
     const sel = document.getElementById('serviceSelect');
-    DataStore.raw.typeD.forEach(r => sel.appendChild(el('option', { value: r.partNumber }, optionLabel(r))));
-    document.getElementById('addServiceBtn').addEventListener('click', () => {
-      const qty = parseFloat(document.getElementById('serviceQty').value) || 1;
-      Quote.addService(sel.value, { qty });
-      renderAll();
-    });
+    if (sel) {
+      DataStore.raw.typeD.forEach(r => sel.appendChild(el('option', { value: r.partNumber }, optionLabel(r))));
+      const addBtn = document.getElementById('addServiceBtn');
+      if (addBtn) addBtn.addEventListener('click', () => {
+        const qty = parseFloat(document.getElementById('serviceQty').value) || 1;
+        Quote.addService(sel.value, { qty });
+        renderAll();
+      });
+    }
   }
 
   function renderServicesTable() {
@@ -341,10 +506,11 @@ const App = (() => {
     });
   }
 
-  // ---- Totals ----
+  // ---- Totals / Summary sidebar ----
   function renderTotals() {
     const t = Quote.totals();
     const body = document.getElementById('totalsBody');
+    if (!body) return;
     body.innerHTML = '';
     const row = (label, value, cls) => el('tr', cls ? { class: cls } : {}, [el('td', {}, label), el('td', { class: 'num' }, value)]);
     body.appendChild(row('BOM Subtotal', money(t.bom)));
@@ -356,15 +522,288 @@ const App = (() => {
     body.appendChild(row(t.labels.totalIncl, money(t.totalPrice), 'grand-total'));
   }
 
+  function renderSummary() {
+    const badge = document.getElementById('summaryBadge');
+    if (!badge) return; // this page has no summary sidebar
+    badge.textContent = `${Quote.session.region} · ${Quote.session.customerType}`;
+    const custEl = document.getElementById('summaryCustomer');
+    custEl.textContent = Quote.header.customer ? Quote.header.customer : 'No customer yet';
+    const totalLineItems = Quote.sites.reduce((s, site) => s + site.lines.length, 0) + Quote.services.length;
+    document.getElementById('summaryLineItems').textContent = String(totalLineItems);
+    let listTotal = 0;
+    Quote.sites.forEach(site => site.lines.forEach(l => {
+      const row = DataStore.getPriceRow(l.partNumber);
+      const lp = row ? row.listPrice : (l.manual ? l.manualPrice : 0);
+      listTotal += (lp || 0) * l.qty;
+    }));
+    document.getElementById('summaryListTotal').textContent = money(listTotal);
+    document.getElementById('summaryHwSubtotal').textContent = money(Quote.bomSubtotal());
+    document.getElementById('summaryGrandTotal').textContent = money(Quote.totals().totalPrice);
+  }
+
+  function renderQuoteInfo() {
+    const el2 = document.getElementById('qiDate');
+    if (!el2) return;
+    document.getElementById('qiDate').textContent = Quote.header.date || '—';
+    document.getElementById('qiExpires').textContent = Quote.header.expirationDate || '—';
+    document.getElementById('qiPayment').textContent = Quote.header.paymentTerms || '—';
+    document.getElementById('qiShipping').textContent = Quote.header.shippingTerms || '—';
+  }
+
   // ---- Export ----
   function wireExportButtons() {
-    document.getElementById('exportCsvBtn').addEventListener('click', () => Export.downloadCSV());
-    document.getElementById('printBtn').addEventListener('click', () => Export.printQuote());
-    document.getElementById('resetQuoteBtn').addEventListener('click', () => {
+    const csvBtn = document.getElementById('exportCsvBtn');
+    if (csvBtn) csvBtn.addEventListener('click', () => Export.downloadCSV());
+    const xlsxBtn = document.getElementById('exportExcelBtn');
+    if (xlsxBtn) xlsxBtn.addEventListener('click', () => Export.downloadXLSX());
+    const pdfBtn = document.getElementById('exportPdfBtn');
+    if (pdfBtn) pdfBtn.addEventListener('click', async () => {
+      pdfBtn.disabled = true; const orig = pdfBtn.textContent; pdfBtn.textContent = 'Generating…';
+      try { await PdfExport.downloadPdf(); }
+      catch (e) { alert('Could not generate the PDF: ' + e.message); }
+      finally { pdfBtn.disabled = false; pdfBtn.textContent = orig; }
+    });
+    const printBtn = document.getElementById('printBtn');
+    if (printBtn) printBtn.addEventListener('click', () => Export.printQuote());
+    const resetBtn = document.getElementById('resetQuoteBtn');
+    if (resetBtn) resetBtn.addEventListener('click', () => {
       if (confirm('Clear the entire quote (all sites, BOM lines, and services)? This cannot be undone.')) {
         Quote.reset();
+        syncFormFieldsFromState();
         renderAll();
       }
+    });
+  }
+
+  // ---- Top bar: New Quote / Import PDF / Admin / Replacements ----
+  function wireTopbar() {
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+    if (newQuoteBtn) newQuoteBtn.addEventListener('click', () => {
+      if (confirm('Start a new quote? This clears all sites, BOM lines, services and quote details.')) {
+        Quote.reset();
+        syncFormFieldsFromState();
+        renderAll();
+      }
+    });
+
+    const importInput = document.getElementById('importPdfInput');
+    const importBtn = document.getElementById('importPdfBtn');
+    if (importBtn && importInput) {
+      importBtn.addEventListener('click', () => importInput.click());
+      importInput.addEventListener('change', async () => {
+        const file = importInput.files[0];
+        importInput.value = '';
+        if (!file) return;
+        try {
+          const state = await PdfExport.parseFile(file);
+          if (!state) {
+            alert('This PDF does not contain Actelis quote data that this tool recognizes (it may not have been exported by this tool).');
+            return;
+          }
+          Quote.loadFromState(state);
+          syncFormFieldsFromState();
+          renderAll();
+        } catch (e) {
+          alert('Could not read that PDF: ' + e.message);
+        }
+      });
+    }
+
+    const adminBtn = document.getElementById('adminNavBtn');
+    if (adminBtn) adminBtn.addEventListener('click', () => openAdminModal());
+    const replBtn = document.getElementById('replacementsNavBtn');
+    if (replBtn) replBtn.addEventListener('click', () => openReplacementsModal());
+
+    const metaEl = document.getElementById('priceListMeta');
+    if (metaEl && DataStore.meta) {
+      const m = DataStore.meta;
+      metaEl.textContent = (m.priceListVersion || m.priceListDate)
+        ? `Price list ${m.priceListVersion || ''} · ${m.priceListDate || ''}`.trim()
+        : 'Price list — bundled with this site';
+    }
+  }
+
+  // ---- Wizard modal (Node / Network / EMS launched from Line Items cards) ----
+  function wireWizardModal() {
+    const overlay = document.getElementById('wizardModalOverlay');
+    if (!overlay) return;
+    const titleEl = document.getElementById('wizardModalTitle');
+    const titles = { node: 'Node Configurator Wizard', network: 'Network / Repeater Configurator', ems: 'EMS Licensing Wizard' };
+    function open(kind) {
+      titleEl.textContent = titles[kind] || 'Configurator Wizard';
+      ['nodeWizard', 'networkWizard', 'emsWizard'].forEach(id => {
+        const node = document.getElementById(id);
+        if (node) node.style.display = (id === kind + 'Wizard') ? '' : 'none';
+      });
+      overlay.classList.add('open');
+    }
+    function close() { overlay.classList.remove('open'); }
+    document.querySelectorAll('.launcher-launch').forEach(btn => btn.addEventListener('click', () => open(btn.dataset.wizard)));
+    const closeBtn = document.getElementById('wizardModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  }
+
+  // -----------------------------------------------------------------------
+  // ADMIN — Price List Manager modal
+  // -----------------------------------------------------------------------
+  let adminHardwareResult = null;
+  let adminDiscountResult = null;
+
+  function setAdminStep(n) {
+    document.querySelectorAll('#adminSteps .step-item').forEach(item => {
+      const s = parseInt(item.dataset.step, 10);
+      item.classList.toggle('active', s === n);
+      item.classList.toggle('done', s < n);
+    });
+  }
+
+  function openAdminModal() {
+    setAdminStep(1);
+    document.getElementById('adminDownloadBtn').disabled = true;
+    document.getElementById('hardwarePreview').innerHTML = '';
+    document.getElementById('discountPreview').innerHTML = '';
+    adminHardwareResult = null; adminDiscountResult = null;
+    document.getElementById('adminModalOverlay').classList.add('open');
+  }
+  function closeAdminModal() { document.getElementById('adminModalOverlay').classList.remove('open'); }
+
+  function wireAdminModal() {
+    const overlay = document.getElementById('adminModalOverlay');
+    if (!overlay) return;
+    document.getElementById('adminModalClose').addEventListener('click', closeAdminModal);
+    document.getElementById('adminCancelBtn').addEventListener('click', closeAdminModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeAdminModal(); });
+
+    const tabs = Array.from(document.querySelectorAll('.admin-tab'));
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.admintab;
+      document.getElementById('adminHardwarePane').style.display = tab === 'hardware' ? '' : 'none';
+      document.getElementById('adminDiscountPane').style.display = tab === 'discount' ? '' : 'none';
+      document.getElementById('adminDownloadBtn').disabled = tab === 'hardware' ? !adminHardwareResult : !adminDiscountResult;
+    }));
+
+    wireDropzone('hardwareDropzone', 'hardwareFileInput', async (file) => {
+      try {
+        setAdminStep(2);
+        const rawRows = await Admin.readFileAsRows(file);
+        const { hardware, typeD, skipped } = Admin.parseHardwareRows(rawRows);
+        const hardwareMerged = Admin.mergeHardware(hardware);
+        const typeDMerged = Admin.mergeTypeD(typeD);
+        const diffHw = Admin.diffByPartNumber(DataStore.raw.priceList, hardwareMerged, ['description', 'category', 'listPrice']);
+        const diffTd = Admin.diffByPartNumber(DataStore.raw.typeD, typeDMerged, ['description', 'category', 'listPriceString', 'listPrice']);
+        const container = document.getElementById('hardwarePreview');
+        container.innerHTML = '';
+        container.appendChild(el('h4', {}, `Hardware / Price List (A/B/C) — ${hardwareMerged.length} rows`));
+        const hwDiffBox = el('div'); container.appendChild(hwDiffBox);
+        Admin.renderDiffSummary(hwDiffBox, diffHw, 'Part Number');
+        container.appendChild(el('h4', { style: 'margin-top:18px' }, `Services / Warranty (Type D) — ${typeDMerged.length} rows`));
+        const tdDiffBox = el('div'); container.appendChild(tdDiffBox);
+        Admin.renderDiffSummary(tdDiffBox, diffTd, 'Part Number');
+        if (skipped.length) container.appendChild(el('p', { style: 'color:var(--text-muted);font-size:12px;margin-top:10px' }, `${skipped.length} row(s) skipped (missing Category or Part Number).`));
+        adminHardwareResult = { hardwareMerged, typeDMerged };
+        if (document.querySelector('.admin-tab.active').dataset.admintab === 'hardware') document.getElementById('adminDownloadBtn').disabled = false;
+        setAdminStep(3);
+      } catch (e) {
+        alert('Could not parse that file: ' + e.message);
+      }
+    });
+
+    wireDropzone('discountDropzone', 'discountFileInput', async (file) => {
+      try {
+        setAdminStep(2);
+        const rawRows = await Admin.readFileAsRows(file);
+        const discountRows = Admin.parseDiscountRows(rawRows);
+        const diff = Admin.diffByPartNumber(
+          DataStore.raw.discounts.map(r => ({ partNumber: r.category, ...r })),
+          discountRows.map(r => ({ partNumber: r.category, ...r })),
+          ['categoryType', 'discount', 'discountEndUser', 'registrationDiscount', 'discountEMEA', 'discountEndUserEMEA', 'warranty']
+        );
+        const container = document.getElementById('discountPreview');
+        container.innerHTML = '';
+        container.appendChild(el('h4', {}, `Discount Table — ${discountRows.length} rows`));
+        const box = el('div'); container.appendChild(box);
+        Admin.renderDiffSummary(box, diff, 'Category');
+        adminDiscountResult = discountRows;
+        if (document.querySelector('.admin-tab.active').dataset.admintab === 'discount') document.getElementById('adminDownloadBtn').disabled = false;
+        setAdminStep(3);
+      } catch (e) {
+        alert('Could not parse that file: ' + e.message);
+      }
+    });
+
+    document.getElementById('adminDownloadBtn').addEventListener('click', () => {
+      const activeTab = document.querySelector('.admin-tab.active').dataset.admintab;
+      if (activeTab === 'hardware' && adminHardwareResult) {
+        Admin.downloadJSON('price-list.json', adminHardwareResult.hardwareMerged);
+        Admin.downloadJSON('price-list-type-d.json', adminHardwareResult.typeDMerged);
+      } else if (activeTab === 'discount' && adminDiscountResult) {
+        Admin.downloadJSON('discounts.json', adminDiscountResult);
+      }
+      setAdminStep(4);
+    });
+  }
+
+  // -----------------------------------------------------------------------
+  // Replacements Manager modal
+  // -----------------------------------------------------------------------
+  let replacementsList = [];
+
+  function renderReplacementsTable() {
+    const body = document.getElementById('replacementsTableBody');
+    body.innerHTML = '';
+    replacementsList.forEach((r, i) => {
+      body.appendChild(el('tr', {}, [
+        el('td', {}, r.oldPartNumber),
+        el('td', {}, r.newPartNumber),
+        el('td', {}, r.notes || ''),
+        el('td', {}, el('button', {
+          class: 'btn small danger',
+          onclick: () => { replacementsList.splice(i, 1); renderReplacementsTable(); },
+        }, 'Remove')),
+      ]));
+    });
+  }
+
+  function openReplacementsModal() {
+    replacementsList = (DataStore.raw.replacements || []).map(r => ({ ...r }));
+    renderReplacementsTable();
+    document.getElementById('replacementsModalOverlay').classList.add('open');
+  }
+  function closeReplacementsModal() { document.getElementById('replacementsModalOverlay').classList.remove('open'); }
+
+  function wireReplacementsModal() {
+    const overlay = document.getElementById('replacementsModalOverlay');
+    if (!overlay) return;
+    document.getElementById('replacementsModalClose').addEventListener('click', closeReplacementsModal);
+    document.getElementById('replacementsCancelBtn').addEventListener('click', closeReplacementsModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeReplacementsModal(); });
+
+    document.getElementById('replAddRowBtn').addEventListener('click', () => {
+      const oldPn = document.getElementById('replOldPn').value.trim();
+      const newPn = document.getElementById('replNewPn').value.trim();
+      if (!oldPn || !newPn) { alert('Both Old and New part numbers are required.'); return; }
+      replacementsList = replacementsList.filter(r => r.oldPartNumber !== oldPn);
+      replacementsList.push({ oldPartNumber: oldPn, newPartNumber: newPn, notes: '' });
+      document.getElementById('replOldPn').value = ''; document.getElementById('replNewPn').value = '';
+      renderReplacementsTable();
+    });
+
+    wireDropzone('replacementsDropzone', 'replacementsFileInput', async (file) => {
+      try {
+        const rawRows = await Admin.readFileAsRows(file);
+        const parsed = Admin.parseReplacementRows(rawRows);
+        const byOld = new Map(replacementsList.map(r => [r.oldPartNumber, r]));
+        parsed.forEach(p => byOld.set(p.oldPartNumber, p));
+        replacementsList = Array.from(byOld.values());
+        renderReplacementsTable();
+      } catch (e) { alert('Could not parse that file: ' + e.message); }
+    });
+
+    document.getElementById('replacementsDownloadBtn').addEventListener('click', () => {
+      Admin.downloadJSON('replacements.json', replacementsList);
     });
   }
 

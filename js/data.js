@@ -23,6 +23,8 @@ const DataStore = (() => {
     pnRegion: 'data/pn-region.json',
     pnTypeDRegion: 'data/pn-typed-region.json',
     restrictedDefaults: 'data/restricted-defaults.json',
+    meta: 'data/meta.json',
+    replacements: 'data/replacements.json',
   };
 
   const state = {
@@ -36,6 +38,7 @@ const DataStore = (() => {
     categoryHeaderByLetter: new Map(),
     pnRegionSet: new Set(),        // `${regionId}|${partNumber}`
     pnTypeDRegionSet: new Set(),
+    replacementByOldPn: new Map(), // oldPartNumber -> { newPartNumber, notes }
     loaded: false,
   };
 
@@ -81,6 +84,9 @@ const DataStore = (() => {
     for (const row of state.raw.pnTypeDRegion) {
       state.pnTypeDRegionSet.add(`${row.regionId}|${row.partNumber}`);
     }
+    for (const row of (state.raw.replacements || [])) {
+      if (row.oldPartNumber) state.replacementByOldPn.set(row.oldPartNumber, row);
+    }
 
     state.loaded = true;
     return state;
@@ -94,6 +100,15 @@ const DataStore = (() => {
       || state.typeDByPartNumber.get(partNumber)
       || state.archiveByPartNumber.get(partNumber)
       || null;
+  }
+
+  // Authorized-personnel-maintained, global replacement mapping (see
+  // js/admin.js "Replacements Manager"). Returns the replacement row
+  // ({ oldPartNumber, newPartNumber, notes }) for a discontinued part number,
+  // or null if it has no recorded replacement. This is read-only data loaded
+  // from data/replacements.json — the same file every visitor sees.
+  function getReplacement(partNumber) {
+    return state.replacementByOldPn.get(partNumber) || null;
   }
 
   function getListPrice(partNumber) {
@@ -151,11 +166,13 @@ const DataStore = (() => {
     findByPnType,
     findOneByPnType,
     isVisibleInRegion,
+    getReplacement,
     get discountsByCategory() { return state.discountsByCategory; },
     get regions() { return state.raw.regions; },
     get customerTypes() { return state.raw.customerTypes; },
     get paymentTerms() { return state.raw.paymentTerms; },
     get shippingTerms() { return state.raw.shippingTerms; },
     get restrictedDefaults() { return state.raw.restrictedDefaults; },
+    get meta() { return state.raw.meta || {}; },
   };
 })();

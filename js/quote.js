@@ -26,18 +26,39 @@ const Quote = (() => {
     includeLegacy: false,
     salesTaxEnabled: false,
     salesTaxPct: 0,                 // fraction, e.g. 0.08
+    // Financial Options (bottom of the Quote Builder page) — each toggle
+    // simply adds/removes a real Type-D catalog line via addService/
+    // removeServicesByPn below, so the amounts always come from the same
+    // global price list everyone else sees (see FIN_OPTION_PARTS).
+    financialOptions: { shipping: false, creditCard: false, extendedWarranty: false },
   };
 
   const header = {
     quotationNumber: '',
+    status: 'New',
     customer: '',
     customerContact: '',
+    address: '',
+    phone: '',
+    email: '',
     date: new Date().toISOString().slice(0, 10),
     expirationDate: '',
     paymentTerms: '',
     shippingTerms: '',
     quotedBy: '',
     comments: '',
+  };
+
+  // Maps each Financial Options toggle to the real Type-D part number(s) it
+  // adds to the Services/Warranty section (see data/price-list-type-d.json:
+  // SVC-FREIGHT = "Shipping Costs, 2% of product price", SVC-CC = "Credit
+  // Card Costs, 3% of product price", SVC-HW2WT/SVC-SW2WT = the standard
+  // included HW/SW warranty lines, added at $0 purely so they show up in the
+  // exported quote when "Extended Warranty" is toggled on).
+  const FIN_OPTION_PARTS = {
+    shipping: ['SVC-FREIGHT'],
+    creditCard: ['SVC-CC'],
+    extendedWarranty: ['SVC-HW2WT', 'SVC-SW2WT'],
   };
 
   // sites: [{ name, lines: [{ partNumber, qty }] }]
@@ -64,7 +85,11 @@ const Quote = (() => {
       const raw = window.sessionStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const d = JSON.parse(raw);
-      if (d.session) Object.assign(session, d.session);
+      if (d.session) {
+        const fin = { ...session.financialOptions, ...(d.session.financialOptions || {}) };
+        Object.assign(session, d.session);
+        session.financialOptions = fin;
+      }
       if (d.header) Object.assign(header, d.header);
       if (Array.isArray(d.sites) && d.sites.length) sites = d.sites;
       if (Number.isInteger(d.activeSiteIndex)) activeSiteIndex = d.activeSiteIndex;
@@ -113,6 +138,17 @@ const Quote = (() => {
 
   function setActiveSite(index) {
     if (index >= 0 && index < sites.length) { activeSiteIndex = index; persist(); }
+  }
+
+  // Adds a custom / non-catalog BOM line with a manually-entered description
+  // and unit price (see the "Line Items" card's "+ Add" custom-item form).
+  // Unlike addToQuote(), this never merges into an existing line — each
+  // manual add is its own line, since two manual lines might share a made-up
+  // part number but mean different things.
+  function addManualLine(partNumber, description, price, qty, siteIndex = activeSiteIndex) {
+    if (!partNumber || !qty) return;
+    sites[siteIndex].lines.push({ partNumber, qty, manual: true, manualDescription: description, manualPrice: price });
+    persist();
   }
 
   // Mirrors AddToQuote(PartNumber, Qty): merges into an existing line for the
@@ -181,13 +217,47 @@ const Quote = (() => {
     persist();
   }
 
+  function removeServicesByPn(partNumbers) {
+    services = services.filter(s => !partNumbers.includes(s.partNumber));
+    persist();
+  }
+
+  // ---- Financial Options (Shipping / Credit Card / Extended Warranty) ----
+  // Turning a toggle on adds the corresponding real Type-D catalog line(s)
+  // (see FIN_OPTION_PARTS) to Services/Warranty if not already present;
+  // turning it off removes exactly those lines. This keeps the amounts tied
+  // to the same globally-maintained price list every visitor sees, rather
+  // than a hard-coded percentage baked into the UI.
+  function setFinancialOption(key, enabled) {
+    const partNumbers = FIN_OPTION_PARTS[key];
+    if (!partNumbers) return;
+    session.financialOptions[key] = !!enabled;
+    if (enabled) {
+      partNumbers.forEach(pn => {
+        if (!services.some(s => s.partNumber === pn) && DataStore.raw.typeD.some(r => r.partNumber === pn)) {
+          addService(pn);
+        }
+      });
+    } else {
+      removeServicesByPn(partNumbers);
+    }
+    persist();
+  }
+
   // ---- Totals (Report_QuoteReport A4 / QuoteSubReport control sources) ----
-  function lineNetPrice(partNumber) {
-    return DiscountEngine.netPrice(partNumber, 1, ctx());
+  // Accepts either a plain part number (legacy call sites) or a BOM line
+  // object — a manual/custom line (see addManualLine) carries its own
+  // manually-entered price instead of a catalog lookup.
+  function lineNetPrice(lineOrPn) {
+    if (lineOrPn && typeof lineOrPn === 'object') {
+      if (lineOrPn.manual) return lineOrPn.manualPrice || 0;
+      return DiscountEngine.netPrice(lineOrPn.partNumber, 1, ctx());
+    }
+    return DiscountEngine.netPrice(lineOrPn, 1, ctx());
   }
 
   function siteSubtotal(site) {
-    return site.lines.reduce((sum, l) => sum + l.qty * lineNetPrice(l.partNumber), 0);
+    return site.lines.reduce((sum, l) => sum + l.qty * lineNetPrice(l), 0);
   }
 
   function bomSubtotal() {
@@ -229,6 +299,35 @@ const Quote = (() => {
     sites = [{ name: 'Site 1', lines: [] }];
     activeSiteIndex = 0;
     services = [];
+    session.financialOptions = { shipping: false, creditCard: false, extendedWarranty: false };
+    Object.assign(header, {
+      quotationNumber: '', status: 'New', customer: '', customerContact: '',
+      address: '', phone: '', email: '',
+      date: new Date().toISOString().slice(0, 10), expirationDate: '',
+      paymentTerms: '', shippingTerms: '', quotedBy: '', comments: '',
+    });
+    persist();
+  }
+
+  // ---- Full-state serialize / restore, used for the PDF round-trip ----
+  // (js/pdf.js embeds the object returned by serialize() as JSON inside the
+  // exported PDF's metadata, and loadFromState() rehydrates it on import.)
+  function serialize() {
+    return JSON.parse(JSON.stringify({ session, header, sites, activeSiteIndex, services }));
+  }
+
+  function loadFromState(data) {
+    if (!data) return;
+    if (data.session) {
+      const fin = { ...session.financialOptions, ...(data.session.financialOptions || {}) };
+      Object.assign(session, data.session);
+      session.financialOptions = fin;
+    }
+    if (data.header) Object.assign(header, data.header);
+    if (Array.isArray(data.sites) && data.sites.length) sites = data.sites;
+    activeSiteIndex = Number.isInteger(data.activeSiteIndex) ? data.activeSiteIndex : 0;
+    if (activeSiteIndex >= sites.length) activeSiteIndex = 0;
+    if (Array.isArray(data.services)) services = data.services;
     persist();
   }
 
@@ -238,10 +337,10 @@ const Quote = (() => {
     get services() { return services; },
     get activeSiteIndex() { return activeSiteIndex; },
     activeSite, addSite, duplicateSite, deleteSite, setActiveSite,
-    addToQuote, setLineQty, removeLine,
-    addService, removeService, isPercentTypeD,
+    addToQuote, addManualLine, setLineQty, removeLine,
+    addService, removeService, removeServicesByPn, setFinancialOption, isPercentTypeD,
     lineNetPrice, siteSubtotal, bomSubtotal, servicesSubtotal, totals,
-    reset, ctx,
+    reset, ctx, serialize, loadFromState,
     save: persist, // call after directly mutating session/header fields from the UI
   };
 })();

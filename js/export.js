@@ -31,13 +31,13 @@ const Export = (() => {
     const sites = Quote.sites.map(site => {
       const lines = site.lines.map(l => {
         const row = DataStore.getPriceRow(l.partNumber);
-        const listPrice = row ? row.listPrice : null;
-        const discount = DiscountEngine.getCustomerDiscount(l.partNumber, l.qty, ctx);
-        const netPrice = Quote.lineNetPrice(l.partNumber);
+        const listPrice = row ? row.listPrice : (l.manual ? l.manualPrice : null);
+        const discount = row ? DiscountEngine.getCustomerDiscount(l.partNumber, l.qty, ctx) : 0;
+        const netPrice = Quote.lineNetPrice(l);
         return {
           partNumber: l.partNumber,
-          description: row ? row.description : '(unknown part)',
-          category: row ? DataStore.categoryDescription(row.category) : '',
+          description: row ? row.description : (l.manual ? l.manualDescription : '(unknown part)'),
+          category: row ? DataStore.categoryDescription(row.category) : (l.manual ? 'Custom' : ''),
           qty: l.qty,
           listPrice,
           discountPct: discount,
@@ -118,6 +118,65 @@ const Export = (() => {
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // ---- Real .xlsx export (SheetJS, vendored at js/vendor/xlsx.full.min.js) ----
+  function toAOA() {
+    const data = buildQuoteData();
+    const rows = [];
+    rows.push(['Actelis Price/Quote Tool - Export']);
+    rows.push(['Quotation #', data.header.quotationNumber || '']);
+    rows.push(['Customer', data.header.customer || '']);
+    rows.push(['Date', data.header.date || '']);
+    rows.push(['Customer Type', data.session.customerType]);
+    rows.push(['Region', data.session.region]);
+    rows.push([]);
+
+    data.sites.forEach(site => {
+      rows.push([`Site: ${site.name}`]);
+      rows.push(['Part Number', 'Description', 'Category', 'Qty', 'List Price', 'Discount %', 'Net Price', 'Extended Price']);
+      site.lines.forEach(l => {
+        rows.push([
+          l.partNumber, l.description, l.category, l.qty,
+          l.listPrice == null ? '' : Number(money(l.listPrice)),
+          l.discountPct == null ? '' : (Math.round(l.discountPct * 10000) / 100) + '%',
+          Number(money(l.netPrice)), Number(money(l.extended)),
+        ]);
+      });
+      rows.push(['', '', '', '', '', '', 'Site Subtotal', Number(money(site.subtotal))]);
+      rows.push([]);
+    });
+
+    if (data.services.length) {
+      rows.push(['Services / Warranty']);
+      rows.push(['Part Number', 'Description', 'Qty', 'Type', 'Amount']);
+      data.services.forEach(s => {
+        rows.push([s.partNumber, s.description, s.qty, s.isPercent ? `${Math.round(s.percent * 10000) / 100}% of BOM` : 'Flat', Number(money(s.amount))]);
+      });
+      rows.push([]);
+    }
+
+    const t = data.totals;
+    rows.push(['', '', '', '', '', '', 'BOM Subtotal', Number(money(t.bom))]);
+    rows.push(['', '', '', '', '', '', 'Services Subtotal', Number(money(t.svc))]);
+    if (data.session.salesTaxEnabled) {
+      rows.push(['', '', '', '', '', '', t.labels.totalIncl + ' (before tax)', Number(money(t.priceNoTax))]);
+      rows.push(['', '', '', '', '', '', 'Sales Tax', Number(money(t.salesTax))]);
+    }
+    rows.push(['', '', '', '', '', '', t.labels.totalIncl, Number(money(t.totalPrice))]);
+    return rows;
+  }
+
+  function downloadXLSX(filename) {
+    if (typeof XLSX === 'undefined') {
+      console.warn('Export.downloadXLSX: SheetJS (xlsx) is not loaded on this page.');
+      return;
+    }
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(toAOA());
+    ws['!cols'] = [{ wch: 16 }, { wch: 38 }, { wch: 16 }, { wch: 8 }, { wch: 12 }, { wch: 12 }, { wch: 14 }, { wch: 14 }];
+    XLSX.utils.book_append_sheet(wb, ws, 'Quote');
+    XLSX.writeFile(wb, filename || `quote-${(Quote.header.quotationNumber || 'draft')}.xlsx`);
   }
 
   // ---- Print / PDF view ----
@@ -217,5 +276,5 @@ const Export = (() => {
     window.print();
   }
 
-  return { buildQuoteData, toCSV, downloadCSV, renderPrintable, printQuote };
+  return { buildQuoteData, toCSV, downloadCSV, toAOA, downloadXLSX, renderPrintable, printQuote };
 })();

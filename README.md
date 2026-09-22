@@ -4,8 +4,11 @@ This is a static, client-side reimplementation of the Actelis Access
 Price/Quote Tool (`Price Tool v3.21.accdb`), built to be hosted for free on
 **GitHub Pages**. It reproduces the price list, discount engine, the Node
 Configurator, the Network/Repeater Configurator, the EMS Licensing Wizard,
-multi-site quote building, and PDF/print + CSV/Excel export — all running
-entirely in the visitor's browser.
+multi-site quote building, a real PDF export that matches the original
+`QuoteReport Letter` layout (and can be re-imported to reload a quote), a
+real `.xlsx` export, and an authorized-personnel-only, git-push-based
+workflow for updating pricing/discount data and discontinued-part
+replacements — all running entirely in the visitor's browser.
 
 **There is no server, no database, and no login.** Pricing/discount data is
 bundled into the site as JSON files and every calculation happens in
@@ -38,18 +41,32 @@ redeploys automatically.
 ```
 index.html            Landing page
 price-list.html        Browsable price list + Type-D (services/warranty) list
-quote-builder.html      Multi-site quote builder + all three configurator wizards
-css/style.css           All styles, including a print stylesheet for PDF export
-js/data.js              Loads/indexes the JSON data files
+quote-builder.html      Quote builder: details/summary, line items, wizards,
+                         Financial Options, Admin + Replacements managers
+css/style.css           All styles (navy/orange visual language, toggles,
+                         modals, print stylesheet for the legacy Print view)
+js/data.js              Loads/indexes the JSON data files, replacements lookup
 js/discount.js          Region x customer-type discount engine
-js/quote.js             In-memory quote/BOM state + totals (tax-inclusive formula)
+js/quote.js             In-memory quote/BOM state, Financial Options, totals,
+                         serialize()/loadFromState() for the PDF round-trip
 js/wizard-ems.js         EMS Licensing Wizard engine
 js/wizard-node.js        Node Configurator engine (single link, chassis/standalone)
 js/wizard-network.js     Network/Repeater Configurator engine (multi-hop, PFU)
 js/wizard-templates.js   Save/load named wizard configurations (localStorage)
-js/export.js             CSV/Excel export + Print/PDF view
-js/app.js                DOM wiring for price-list.html and quote-builder.html
-data/*.json              Price list, discount matrix, and part-classification tables
+js/pdf.js                Generates the QuoteReport-style PDF (pdf-lib) and
+                         parses a previously-exported PDF back into a quote
+js/export.js             CSV export, real .xlsx export (SheetJS), legacy
+                         Print/PDF view
+js/admin.js              CSV/XLSX parsing, diffing and JSON generation used
+                         by the Admin — Price List Manager and Replacements
+                         Manager modals (no GitHub API calls — see below)
+js/app.js                DOM wiring for all three pages
+js/vendor/               Vendored copies of pdf-lib and SheetJS (xlsx) —
+                         served same-origin, no CDN dependency at runtime
+data/*.json              Price list, discount matrix, part-classification
+                         tables, replacements map, and site metadata
+assets/                  Actelis logo, used in the page header and in
+                         generated PDFs
 ```
 
 ## How state is stored (and why nothing is "stored online")
@@ -67,8 +84,16 @@ data/*.json              Price list, discount matrix, and part-classification ta
   clearly labelled "Saved on this device only" in the UI. It holds only
   wizard input fields (model choices, quantities, checkboxes) — never a
   customer name, quote number, or price.
-- **Exports** (CSV and the Print/PDF view) are generated on demand and
-  simply download or print — nothing is uploaded.
+- **Exports** (PDF, Excel, CSV, and the legacy Print/PDF view) are generated
+  on demand and simply download or print — nothing is uploaded.
+- **Custom / non-catalog line items** (the "+ Add" row on the Line Items
+  card) carry their own manually-typed description and price instead of a
+  catalog lookup — they live in the same in-memory/`sessionStorage` quote
+  state as everything else and are included in every export.
+- **The price list, discount table, and replacements map** are the opposite
+  of per-device state: they're the same `data/*.json` files bundled into the
+  site for every visitor, and the only way to change them is the Admin /
+  Replacements git-push workflow described below — never a local override.
 
 ## What's different from the desktop Access tool
 
@@ -109,12 +134,92 @@ data/*.json              Price list, discount matrix, and part-classification ta
   total rather than added on top), matching the original `QuoteReport A4`
   report logic exactly.
 
+## PDF export / import (round-trip)
+
+**Export PDF** (in the Quote Summary panel) generates a PDF that mirrors the
+original Access `QuoteReport Letter` layout: the Actelis logo and Actelis
+address block, a 3-column quote-meta header (Quotation #/Customer/Status,
+Contact/Address/Phone/Email, Date/Valid Until/Terms/Quoted By), a per-site
+BOM table with a "Total Site Price" row, a bold "Total Price Excluding
+Services/Warranty" line, a Services/Warranty table, and a bold "Total Price
+Including Services/Warranty" line, plus a footer with the export date, "All
+prices are in USD", the page number, and the tool version.
+
+The full in-memory quote (every field, every site/line, every service, every
+Financial Options toggle) is also embedded as JSON in the PDF's own metadata
+(the Subject field, base64-encoded, behind an `ACTELIS_QUOTE_DATA_V1:`
+marker) — it is not parsed back out of the visible page text. **Import PDF**
+(top-right, green button) reads that metadata back out and fully repopulates
+the quote, so a quote can be exported, emailed, and re-opened later (by
+anyone, in any browser) with everything intact. Importing a PDF that wasn't
+exported by this tool (no matching metadata) shows a clear message instead
+of guessing at page content.
+
+Both this and **Export Excel** run entirely client-side using two vendored
+libraries — [pdf-lib](https://pdf-lib.js.org/) and
+[SheetJS (xlsx)](https://sheetjs.com/) — copied into `js/vendor/` at build
+time rather than loaded from a CDN, so the export/import features work with
+no external network dependency and no CDN outage risk. Their licenses are
+included alongside them (`js/vendor/LICENSE-*.txt`).
+
+## Financial Options
+
+The three toggles at the bottom of the Quote Builder page (**Add Shipping
+Cost**, **Add Credit Card Fee**, **Extended Warranty**) don't hard-code a
+percentage in the UI — each one simply adds or removes a real Type-D catalog
+line to Services/Warranty (`SVC-FREIGHT` = 2% of product price,
+`SVC-CC` = 3% of product price, and the two standard included-warranty lines
+`SVC-HW2WT`/`SVC-SW2WT` for Extended Warranty). That means the amounts always
+come from the same globally-maintained price list every visitor sees, and
+they show up as ordinary, editable Services/Warranty lines.
+
+## Admin — Price List Manager & Replacements Manager (authorized-personnel-only, global updates)
+
+Per an explicit requirement for this tool: **price and part-replacement
+updates must be restricted to authorized personnel and must be the same for
+every visitor** — not a per-device/per-browser override. Since the site has
+no server, no database, and no login, that's implemented the same way the
+site itself gets updated: a manual, git-push-based workflow with **no
+GitHub API calls and no token ever entering this app**:
+
+1. **Upload** a CSV/XLSX file (via the 🔒 **ADMIN** or ⇄ **Replacements**
+   button in the Quote Builder's top bar).
+   - Hardware Price List tab: accepts the same flat shape as the master
+     price list export (`Category, Part Num, Description, Comments, LP $`)
+     — it splits A/B/C rows into the hardware shape and D rows into the
+     Type-D shape automatically, and infers percentage vs. flat vs.
+     "Included in Initial Purchase" Type-D pricing from the `LP $` text.
+   - Discount Table tab: accepts `Category, Category Type, Discount,
+     Discount End User, Registration Discount, Discount EMEA, Discount End
+     User EMEA, Warranty`.
+   - Replacements Manager: accepts `Old Part Number, New Part Number,
+     Notes`, or rows can be added one at a time in the modal.
+2. **Preview** — the modal diffs the upload against the data currently
+   bundled in the site and shows exactly what's added, changed, or dropped
+   before anything is generated.
+3. **Download** the regenerated `data/price-list.json` +
+   `data/price-list-type-d.json` (or `data/discounts.json`, or
+   `data/replacements.json`).
+4. **git push** — the authorized person commits and pushes those files to
+   this repository exactly the way the site itself was originally deployed.
+   GitHub Pages redeploys automatically, and every visitor then sees the
+   update — nothing is stored per-browser, and nothing can be changed by an
+   ordinary visitor.
+
+When a part number has a recorded replacement, it's surfaced everywhere that
+part shows up — the Price List page, catalog search results, and existing
+BOM lines all show a "Replaced by `<new PN>`" badge (with a one-click "Swap"
+button on BOM lines) — but the replacement *mapping* itself can only be
+changed through the authorized flow above.
+
 ## Refreshing pricing data
 
-The `data/*.json` files were generated from a one-time export of the Access
-database's tables (Price List, Price List - Type D, Discounts,
+The `data/*.json` files were originally generated from a one-time export of
+the Access database's tables (Price List, Price List - Type D, Discounts,
 AutoRepeaterInfo, Bundles, Spare Slots, Regions, Payment/Shipping Terms,
-etc.). To refresh them after the desktop tool's data changes:
+etc.). Going forward, prefer the **Admin — Price List Manager** flow above
+for routine price/discount updates. For a data file that manager doesn't
+cover (AutoRepeaterInfo, Bundles, Spare Slots, region/terms tables, etc.):
 
 1. In Access, use **File → Save As → CSV** (or a DAO export macro) for each
    table listed above, or re-run an equivalent export.
@@ -125,7 +230,9 @@ etc.). To refresh them after the desktop tool's data changes:
 3. Replace the files in `data/` and push — no code changes are needed
    unless a table gains/loses a column that the JS relies on (see
    `js/data.js`, `js/discount.js`, `js/wizard-*.js` for exactly which
-   columns are read).
+   columns are read). `data/meta.json` holds the version/date shown under
+   the logo in the top bar — bump it whenever you push a data update so
+   visitors can tell the price list is current.
 
 ## Verifying calculations
 
