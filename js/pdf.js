@@ -11,13 +11,24 @@
  * parsed from the visible page content, so formatting changes to the layout
  * below never break round-trip import.
  *
+ * Foreign-PDF import: a PDF that has no such metadata (most notably a real,
+ * historical quote printed by the original Access desktop tool's own
+ * "QuoteReport" report — same visual layout, just no embedded JSON) is
+ * parsed from its VISIBLE TEXT instead, using the vendored pdfjs-dist
+ * (js/vendor/pdfjs.min.js, global `pdfjsLib`) to read each page's text items
+ * with position data. See parseForeignPdf() below for the approach.
+ *
  * Nothing here uploads or stores anything — the PDF is generated and parsed
  * entirely in the browser.
  */
 const PdfExport = (() => {
   const META_PREFIX = 'ACTELIS_QUOTE_DATA_V1:';
-  const PAGE_W = 612, PAGE_H = 792; // US Letter, points
+  const PAGE_W = 612, PAGE_H = 792; // US Letter, points — used by our own generator
   const MARGIN = 40;
+
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/vendor/pdfjs.worker.min.js';
+  }
 
   function money(n) {
     return '$' + (Math.round((n || 0) * 100) / 100).toFixed(2);
@@ -319,17 +330,321 @@ const PdfExport = (() => {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  // Reads a previously-exported PDF's embedded quote state back out. Returns
-  // the parsed state object, or null if the PDF has no recognizable Actelis
-  // quote metadata (e.g. it's some other PDF entirely).
+  // ---- Foreign-PDF (non-round-trip) text-extraction import ----
+  //
+  // Groups text items into visual rows by y-position, then — within a row —
+  // buckets items into columns by their x-position as a FRACTION of the
+  // page's width. This two-step approach is what makes the original report's
+  // 3-column header (and the BOM/Services tables) parseable: a naive
+  // top-to-bottom read of the raw text stream interleaves columns whenever
+  // any field's value wraps across more than one line.
+  function groupRows(items, tol = 2.5) {
+    const sorted = items.slice().sort((a, b) => b.y - a.y); // descending y = top of page first
+    const rows = [];
+    let cur = null;
+    sorted.forEach(it => {
+      if (!cur || Math.abs(it.y - cur.y) > tol) {
+        cur = { y: it.y, items: [it] };
+        rows.push(cur);
+      } else {
+        cur.items.push(it);
+      }
+    });
+    return rows;
+  }
+
+  function rowText(r) {
+    return r.items.slice().sort((a, b) => a.x - b.x).map(it => it.str).join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  // Buckets a row's items into zones by x-fraction of the page width.
+  // `thresholds` is an ascending list of zone-boundary fractions; there is
+  // one more zone than there are thresholds (the last zone is "> last
+  // threshold"). Returns one joined, trimmed text string per zone.
+  function bucketRow(r, thresholds) {
+    const zones = thresholds.length + 1;
+    const buckets = Array.from({ length: zones }, () => []);
+    r.items.forEach(it => {
+      const frac = it.x / r.pageWidth;
+      let zi = thresholds.findIndex(t => frac < t);
+      if (zi === -1) zi = zones - 1;
+      buckets[zi].push(it);
+    });
+    return buckets.map(b => b.sort((a, b2) => a.x - b2.x).map(it => it.str).join(' ').trim());
+  }
+
+  // Extracts label:value fields from a single column's full (possibly
+  // multi-line) text, given an ordered list of {key, pattern} label
+  // definitions (pattern = a regex source, matched case-insensitively). Each
+  // field's value is everything between its label and the NEXT label found
+  // after it (or the end of the text) — this is what lets a value safely
+  // wrap across several source lines without needing to know its length in
+  // advance. A label that isn't found is simply left out of the result.
+  function extractLabeledFields(text, labelDefs) {
+    const starts = [];
+    let searchFrom = 0;
+    labelDefs.forEach(def => {
+      const re = new RegExp(def.pattern, 'i');
+      const m = text.slice(searchFrom).match(re);
+      if (m) {
+        const start = searchFrom + m.index;
+        const end = start + m[0].length;
+        starts.push({ key: def.key, start, end });
+        searchFrom = end;
+      }
+    });
+    const result = {};
+    starts.forEach((m, i) => {
+      const stop = i + 1 < starts.length ? starts[i + 1].start : text.length;
+      result[m.key] = text.slice(m.end, stop).replace(/\s+/g, ' ').trim();
+    });
+    return result;
+  }
+
+  function parseMoney(s) {
+    if (!s) return null;
+    const n = parseFloat(String(s).replace(/[^0-9.\-]/g, ''));
+    return Number.isFinite(n) ? n : null;
+  }
+  function parseQty(s) {
+    const n = parseInt(String(s || '').replace(/[^0-9]/g, ''), 10);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+
+  // M/D/YYYY (as printed by the Access report) -> YYYY-MM-DD (as needed by
+  // an HTML date input). Falls back to the original string if it doesn't
+  // parse, rather than guessing.
+  function convertDate(str) {
+    const m = String(str || '').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (!m) return str;
+    const [, mo, d, y] = m;
+    return `${y}-${mo.padStart(2, '0')}-${d.padStart(2, '0')}`;
+  }
+
+  const FOREIGN_RE = {
+    quotationNum: /quotation\s*#/i,
+    siteName: /^site\s*name\s*:\s*(.*)$/i,
+    pnHeader: /^part\s*number\b/i,
+    totalSite: /^total\s+site\s+(?:transfer\s+)?price\b/i,
+    totalExcl: /^total\s+.*price\s+excluding\b/i,
+    servicesMarker: /^services\s*\/\s*warranty\s*:?\s*$/i,
+    totalService: /^total\s+service\s*\/\s*warranty\s+price\b/i,
+    totalIncl: /^total\s+.*price.*including\b/i,
+    additionalInfo: /^additional\s+information\s*:?/i,
+    footer: /all prices are in usd/i,
+  };
+
+  // Best-effort parse of a foreign (non-round-trip) PDF's VISIBLE text into
+  // the same shape Quote.importForeignData() expects. Returns null if the
+  // PDF doesn't look like an Actelis quote report at all (no "Quotation #"
+  // field and no recognizable BOM/services tables found).
+  async function parseForeignPdf(arrayBuffer) {
+    if (typeof pdfjsLib === 'undefined') {
+      console.warn('PdfExport: pdfjsLib is not loaded — cannot parse a foreign PDF.');
+      return null;
+    }
+    const pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+
+    const allRows = [];
+    for (let p = 1; p <= pdfDoc.numPages; p++) {
+      const page = await pdfDoc.getPage(p);
+      const viewport = page.getViewport({ scale: 1 });
+      const content = await page.getTextContent();
+      const items = content.items
+        .filter(it => it.str && it.str.trim())
+        .map(it => ({ str: it.str, x: it.transform[4], y: it.transform[5] }));
+      groupRows(items).forEach(r => allRows.push({ y: r.y, items: r.items, pageWidth: viewport.width }));
+    }
+    if (!allRows.length) return null;
+
+    // ---- Header: 3-column quote-meta grid, between "Quotation #" and the
+    // first "Site Name:" marker. Column boundaries (as fractions of page
+    // width) were measured directly off the original Access report's fixed
+    // control layout — see the reference QuoteReport PDF.
+    const startIdx = allRows.findIndex(r => FOREIGN_RE.quotationNum.test(rowText(r)));
+    const header = {};
+    let firstSiteIdx = -1;
+    if (startIdx >= 0) {
+      firstSiteIdx = allRows.findIndex((r, i) => i > startIdx && FOREIGN_RE.siteName.test(rowText(r)));
+      const endIdx = firstSiteIdx >= 0 ? firstSiteIdx : allRows.length;
+      const headerRows = allRows.slice(startIdx, endIdx);
+      const colTexts = ['', '', ''];
+      headerRows.forEach(r => {
+        const cols = bucketRow(r, [0.30, 0.55]);
+        cols.forEach((t, ci) => { if (t) colTexts[ci] += (colTexts[ci] ? ' ' : '') + t; });
+      });
+      Object.assign(header, extractLabeledFields(colTexts[0], [
+        { key: 'quotationNumber', pattern: 'quotation\\s*#\\s*:?' },
+        { key: 'customer', pattern: 'customer\\s*name\\s*:?' },
+      ]));
+      Object.assign(header, extractLabeledFields(colTexts[1], [
+        { key: 'customerContact', pattern: 'customer\\s*contact\\s*:?' },
+        { key: 'address', pattern: 'address\\s*:?' },
+        { key: 'phone', pattern: 'phone\\s*/?\\s*fax\\s*:?' },
+        { key: 'email', pattern: 'email\\s*:?' },
+      ]));
+      Object.assign(header, extractLabeledFields(colTexts[2], [
+        { key: 'date', pattern: 'date\\s*:?' },
+        { key: 'expirationDate', pattern: 'quote\\s*valid\\s*until\\s*:?' },
+        { key: 'paymentTerms', pattern: 'payment\\s*terms\\s*:?' },
+        { key: 'shippingTerms', pattern: 'shipping\\s*terms\\s*:?' },
+        { key: 'quotedBy', pattern: 'quoted\\s*by\\s*:?' },
+      ]));
+      if (header.date) header.date = convertDate(header.date);
+      if (header.expirationDate) header.expirationDate = convertDate(header.expirationDate);
+    }
+
+    // ---- BOM (per site) / Services tables: a marker-driven state machine
+    // walking the rows top-to-bottom (and page-to-page, in order). A row
+    // "starts" a new line item when it has text in the part-number zone;
+    // otherwise, if it has text in the description zone, it's a wrapped
+    // continuation of the previous line's description.
+    const sites = [];
+    const services = [];
+    let printedGrandTotal = null;
+    let comments = '';
+    let collectingComments = false;
+    let state = 'seek'; // seek | bomHeader | bomRows | servicesHeader | servicesRows
+    let currentSite = null;
+    let currentLine = null;
+    let currentService = null;
+
+    for (let i = 0; i < allRows.length; i++) {
+      const r = allRows[i];
+      const full = rowText(r);
+      if (!full) continue;
+
+      if (collectingComments) {
+        if (FOREIGN_RE.footer.test(full)) { collectingComments = false; }
+        else { comments += (comments ? ' ' : '') + full; continue; }
+      }
+
+      if (FOREIGN_RE.additionalInfo.test(full)) {
+        const rest = full.replace(FOREIGN_RE.additionalInfo, '').trim();
+        if (rest) comments += (comments ? ' ' : '') + rest;
+        collectingComments = true;
+        continue;
+      }
+
+      const siteMatch = full.match(FOREIGN_RE.siteName);
+      if (siteMatch) {
+        if (currentLine && currentSite) { currentSite.lines.push(currentLine); currentLine = null; }
+        if (currentSite) sites.push(currentSite);
+        currentSite = { name: siteMatch[1].trim() || `Site ${sites.length + 1}`, lines: [] };
+        state = 'bomHeader';
+        continue;
+      }
+
+      switch (state) {
+        case 'bomHeader':
+          if (FOREIGN_RE.pnHeader.test(full)) state = 'bomRows';
+          break;
+
+        case 'bomRows': {
+          if (FOREIGN_RE.totalSite.test(full)) {
+            if (currentLine && currentSite) currentSite.lines.push(currentLine);
+            currentLine = null;
+            if (currentSite) { sites.push(currentSite); currentSite = null; }
+            state = 'seek';
+            break;
+          }
+          const [pnText, descText, unitText, qtyText, totalText] = bucketRow(r, [0.15, 0.58, 0.70, 0.80]);
+          if (pnText) {
+            if (currentLine && currentSite) currentSite.lines.push(currentLine);
+            currentLine = {
+              partNumber: pnText, description: descText,
+              unitPrice: parseMoney(unitText), qty: parseQty(qtyText) || 1,
+              totalPrice: parseMoney(totalText),
+            };
+          } else if (descText && currentLine) {
+            currentLine.description = (currentLine.description ? currentLine.description + ' ' : '') + descText;
+          }
+          break;
+        }
+
+        case 'seek':
+          if (FOREIGN_RE.servicesMarker.test(full)) {
+            if (currentService) { services.push(currentService); currentService = null; }
+            state = 'servicesHeader';
+          } else if (FOREIGN_RE.totalIncl.test(full)) {
+            const m = full.match(/\$?\s*[\d,]+\.\d{2}/);
+            if (m) printedGrandTotal = parseMoney(m[0]);
+          }
+          // FOREIGN_RE.totalExcl and any other stray rows between tables
+          // (e.g. blank spacer lines) are informational only — ignored.
+          break;
+
+        case 'servicesHeader':
+          if (FOREIGN_RE.pnHeader.test(full)) state = 'servicesRows';
+          break;
+
+        case 'servicesRows': {
+          if (FOREIGN_RE.totalService.test(full)) {
+            if (currentService) { services.push(currentService); currentService = null; }
+            state = 'seek';
+            break;
+          }
+          // % / Qty / Unit Price sub-columns are inconsistently populated
+          // and positioned in real data, so they're merged into the
+          // description zone here rather than parsed as separate fields —
+          // a stray "3.0%" is stripped back out below.
+          const [pnText, descRaw, totalText] = bucketRow(r, [0.15, 0.80]);
+          const descText = descRaw.replace(/\d+(?:\.\d+)?%/g, '').replace(/\s+/g, ' ').trim();
+          if (pnText) {
+            if (currentService) services.push(currentService);
+            currentService = { partNumber: pnText, description: descText, qty: 1, totalPrice: parseMoney(totalText) };
+          } else if (descText && currentService) {
+            currentService.description = (currentService.description ? currentService.description + ' ' : '') + descText;
+          }
+          break;
+        }
+      }
+    }
+    if (currentLine && currentSite) currentSite.lines.push(currentLine);
+    if (currentSite) sites.push(currentSite);
+    if (currentService) services.push(currentService);
+
+    if (!Object.keys(header).length && !sites.length && !services.length) return null;
+
+    // Map services' totalPrice -> unitPrice (qty is always 1 for a parsed
+    // service line, since the original report's Qty sub-column isn't
+    // reliably extractable — see above), so importForeignData's fallback
+    // pricing (unitPrice ?? totalPrice/qty) works the same as for BOM lines.
+    services.forEach(s => { s.unitPrice = s.totalPrice; });
+
+    return { header, sites, services, printedGrandTotal, comments: comments.trim() };
+  }
+
+  // Tries to read a PDF as one of THIS tool's own exports first (exact,
+  // via embedded metadata); if that fails, falls back to a best-effort
+  // text-extraction parse for a foreign PDF (e.g. a real historical quote
+  // printed by the original Access desktop tool). Returns:
+  //   { kind: 'roundtrip', state }  — our own export, exact round-trip
+  //   { kind: 'foreign', data }     — parsed from visible text, best-effort
+  //   null                          — not a recognizable Actelis quote PDF
   async function parseFile(file) {
-    const { PDFDocument } = PDFLib;
     const buf = await file.arrayBuffer();
-    const doc = await PDFDocument.load(buf, { ignoreEncryption: true, updateMetadata: false });
-    const subject = doc.getSubject();
-    if (!subject || !subject.startsWith(META_PREFIX)) return null;
-    const json = b64DecodeUnicode(subject.slice(META_PREFIX.length));
-    return JSON.parse(json);
+
+    try {
+      const { PDFDocument } = PDFLib;
+      const doc = await PDFDocument.load(buf.slice(0), { ignoreEncryption: true, updateMetadata: false });
+      const subject = doc.getSubject();
+      if (subject && subject.startsWith(META_PREFIX)) {
+        const json = b64DecodeUnicode(subject.slice(META_PREFIX.length));
+        return { kind: 'roundtrip', state: JSON.parse(json) };
+      }
+    } catch (e) {
+      console.warn('PdfExport: could not read this PDF with pdf-lib; will try foreign-PDF text extraction.', e);
+    }
+
+    try {
+      const data = await parseForeignPdf(buf.slice(0));
+      if (data) return { kind: 'foreign', data };
+    } catch (e) {
+      console.warn('PdfExport: foreign-PDF text extraction failed.', e);
+    }
+
+    return null;
   }
 
   return { generate, downloadPdf, parseFile };

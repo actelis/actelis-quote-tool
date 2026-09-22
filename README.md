@@ -1,4 +1,4 @@
-# Actelis Price & Quote Tool — Online (Client-Side) Edition/
+# Actelis Price & Quote Tool — Online (Client-Side) Edition
 
 This is a static, client-side reimplementation of the Actelis Access
 Price/Quote Tool (`Price Tool v3.21.accdb`), built to be hosted for free on
@@ -53,16 +53,18 @@ js/wizard-ems.js         EMS Licensing Wizard engine
 js/wizard-node.js        Node Configurator engine (single link, chassis/standalone)
 js/wizard-network.js     Network/Repeater Configurator engine (multi-hop, PFU)
 js/wizard-templates.js   Save/load named wizard configurations (localStorage)
-js/pdf.js                Generates the QuoteReport-style PDF (pdf-lib) and
-                         parses a previously-exported PDF back into a quote
+js/pdf.js                Generates the QuoteReport-style PDF (pdf-lib);
+                         parses it back (metadata round-trip for our own
+                         exports, pdfjs.js text-extraction fallback for a
+                         foreign/historical Access-tool PDF)
 js/export.js             CSV export, real .xlsx export (SheetJS), legacy
                          Print/PDF view
 js/admin.js              CSV/XLSX parsing, diffing and JSON generation used
                          by the Admin — Price List Manager and Replacements
                          Manager modals (no GitHub API calls — see below)
 js/app.js                DOM wiring for all three pages
-js/vendor/               Vendored copies of pdf-lib and SheetJS (xlsx) —
-                         served same-origin, no CDN dependency at runtime
+js/vendor/               Vendored copies of pdf-lib, pdfjs-dist and SheetJS
+                         (xlsx) — served same-origin, no CDN dependency
 data/*.json              Price list, discount matrix, part-classification
                          tables, replacements map, and site metadata
 assets/                  Actelis logo, used in the page header and in
@@ -148,19 +150,50 @@ prices are in USD", the page number, and the tool version.
 The full in-memory quote (every field, every site/line, every service, every
 Financial Options toggle) is also embedded as JSON in the PDF's own metadata
 (the Subject field, base64-encoded, behind an `ACTELIS_QUOTE_DATA_V1:`
-marker) — it is not parsed back out of the visible page text. **Import PDF**
-(top-right, green button) reads that metadata back out and fully repopulates
-the quote, so a quote can be exported, emailed, and re-opened later (by
-anyone, in any browser) with everything intact. Importing a PDF that wasn't
-exported by this tool (no matching metadata) shows a clear message instead
-of guessing at page content.
+marker) — it is not parsed back out of the visible page text for this case.
+**Import PDF** (top-right, green button) reads that metadata back out and
+fully repopulates the quote, so a quote exported by this tool can be
+exported, emailed, and re-opened later (by anyone, in any browser) with
+everything intact.
 
-Both this and **Export Excel** run entirely client-side using two vendored
-libraries — [pdf-lib](https://pdf-lib.js.org/) and
-[SheetJS (xlsx)](https://sheetjs.com/) — copied into `js/vendor/` at build
-time rather than loaded from a CDN, so the export/import features work with
-no external network dependency and no CDN outage risk. Their licenses are
-included alongside them (`js/vendor/LICENSE-*.txt`).
+**Importing a PDF that wasn't exported by this tool** — most notably a real,
+historical quote printed by the *original Access desktop tool*, which uses
+the same `QuoteReport` layout but obviously has no embedded metadata — falls
+back to a best-effort parse of the PDF's **visible text**, using the vendored
+[pdfjs-dist](https://mozilla.github.io/pdf.js/) (`js/vendor/pdfjs.min.js`) to
+read each page's text with position data:
+
+- The 3-column quote-meta header (Quotation #/Customer Name, Customer
+  Contact/Address/Phone-Fax/Email, Date/Valid Until/Payment Terms/Shipping
+  Terms/Quoted By) is reconstructed by bucketing text into columns by
+  x-position, then reading label→value pairs within each column — this
+  correctly handles values that wrap across more than one printed line.
+- Each BOM and Services/Warranty line is read from its table, then
+  **reconciled against the current live catalog by part number**: a match is
+  added the normal way, so it's priced at *today's* list price and discount
+  — never the price that happened to be printed on the old PDF — exactly
+  like every other line added to a quote. A part number that no longer
+  exists in the catalog (discontinued, renumbered, or simply not
+  recognized) is added instead as a manual line, using the description and
+  price that were printed.
+- After import, a summary shows how many lines/services matched the catalog
+  vs. were added manually, plus a comparison between the PDF's own printed
+  grand total and the freshly recomputed one — these can legitimately
+  differ (price list changes, or a different customer type/region/deal
+  registration than when the original was printed), so the summary flags a
+  mismatch rather than hiding it.
+- If a PDF has neither this tool's metadata nor a recognizable
+  `Quotation #` / BOM table, Import PDF still shows a clear "not
+  recognized" message rather than guessing at page content.
+
+Both this and **Export Excel** run entirely client-side using vendored
+libraries — [pdf-lib](https://pdf-lib.js.org/) (PDF generation and metadata
+round-trip), [pdfjs-dist](https://mozilla.github.io/pdf.js/) (text extraction
+for foreign PDFs), and [SheetJS (xlsx)](https://sheetjs.com/) (Excel) —
+copied into `js/vendor/` at build time rather than loaded from a CDN, so the
+export/import features work with no external network dependency and no CDN
+outage risk. Their licenses are included alongside them
+(`js/vendor/LICENSE-*.txt`).
 
 ## Financial Options
 

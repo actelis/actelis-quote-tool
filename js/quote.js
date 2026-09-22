@@ -212,6 +212,15 @@ const Quote = (() => {
     persist();
   }
 
+  // Adds a service/warranty line that isn't a recognized Type-D catalog part
+  // number (used when importing a foreign PDF — see js/pdf.js — whose line
+  // items no longer exist in the current catalog). Carries its own
+  // description and flat price, same shape as a manual BOM line.
+  function addManualService(partNumber, description, price, qty = 1) {
+    services.push({ partNumber, description, qty, isPercent: false, percent: 0, manualPrice: price || 0 });
+    persist();
+  }
+
   function removeService(index) {
     services.splice(index, 1);
     persist();
@@ -331,6 +340,89 @@ const Quote = (() => {
     persist();
   }
 
+  // ---- Foreign-PDF import (see js/pdf.js: parseForeignPdf) ----
+  // Unlike loadFromState(), this is a *partial* merge: it's used for a PDF
+  // that was NOT produced by this tool (e.g. a real historical quote printed
+  // by the original Access desktop tool) and therefore carries no reliable
+  // session context (customer type / region / deal registration / sales tax
+  // / financial options) — session is deliberately left untouched. Header
+  // fields are merged in as parsed. Sites/services are only replaced if the
+  // PDF actually yielded some (an empty/failed parse shouldn't wipe out
+  // whatever the user already had on screen).
+  //
+  // Each BOM/service line is reconciled against the CURRENT live catalog by
+  // part number: a match is added the normal way (so it always prices off
+  // today's list price + discount, exactly like every other line in the
+  // app — see the module doc's "no frozen historical prices" design), and a
+  // non-match (discontinued / re-numbered / not recognized) becomes a manual
+  // line carrying the description and price the PDF printed. Returns a
+  // summary the caller can show the user, including a comparison against
+  // the PDF's own printed grand total (recomputed total may legitimately
+  // differ — different price list, different customer/region session).
+  function importForeignData({ header: hdr, sites: parsedSites, services: parsedServices, printedGrandTotal } = {}) {
+    const result = {
+      matchedLines: 0, manualLines: 0,
+      matchedServices: 0, manualServices: 0,
+      printedGrandTotal: printedGrandTotal != null ? printedGrandTotal : null,
+      recomputedGrandTotal: null,
+    };
+
+    if (hdr) Object.assign(header, hdr);
+
+    if (Array.isArray(parsedSites) && parsedSites.length) {
+      sites = parsedSites.map((ps, i) => {
+        const lines = (ps.lines || []).map(pl => {
+          const row = pl.partNumber ? DataStore.getPriceRow(pl.partNumber) : null;
+          if (row) {
+            result.matchedLines++;
+            return { partNumber: pl.partNumber, qty: pl.qty || 1 };
+          }
+          result.manualLines++;
+          const qty = pl.qty || 1;
+          const fallbackPrice = pl.unitPrice != null ? pl.unitPrice
+            : (pl.totalPrice != null ? pl.totalPrice / qty : 0);
+          return {
+            partNumber: pl.partNumber || `UNMATCHED-${i}-${result.manualLines}`,
+            qty, manual: true,
+            manualDescription: pl.description || '(imported line — part not found in current catalog)',
+            manualPrice: fallbackPrice,
+          };
+        });
+        return { name: ps.name || `Site ${i + 1}`, lines };
+      });
+      activeSiteIndex = 0;
+    }
+
+    if (Array.isArray(parsedServices) && parsedServices.length) {
+      services = parsedServices.map(psvc => {
+        const row = psvc.partNumber ? DataStore.raw.typeD.find(r => r.partNumber === psvc.partNumber) : null;
+        if (row) {
+          result.matchedServices++;
+          const percentBased = isPercentTypeD(row);
+          return {
+            partNumber: psvc.partNumber,
+            description: row.description,
+            qty: psvc.qty || row.defaultQty || 1,
+            isPercent: percentBased,
+            percent: percentBased ? (row.listPrice || 0) : 0,
+            manualPrice: row.listPrice == null ? 0 : row.listPrice,
+          };
+        }
+        result.manualServices++;
+        return {
+          partNumber: psvc.partNumber || '',
+          description: psvc.description || '(imported service — not found in current catalog)',
+          qty: psvc.qty || 1, isPercent: false, percent: 0,
+          manualPrice: psvc.unitPrice != null ? psvc.unitPrice : (psvc.totalPrice || 0),
+        };
+      });
+    }
+
+    persist();
+    result.recomputedGrandTotal = totals().totalPrice;
+    return result;
+  }
+
   return {
     session, header,
     get sites() { return sites; },
@@ -338,9 +430,9 @@ const Quote = (() => {
     get activeSiteIndex() { return activeSiteIndex; },
     activeSite, addSite, duplicateSite, deleteSite, setActiveSite,
     addToQuote, addManualLine, setLineQty, removeLine,
-    addService, removeService, removeServicesByPn, setFinancialOption, isPercentTypeD,
+    addService, addManualService, removeService, removeServicesByPn, setFinancialOption, isPercentTypeD,
     lineNetPrice, siteSubtotal, bomSubtotal, servicesSubtotal, totals,
-    reset, ctx, serialize, loadFromState,
+    reset, ctx, serialize, loadFromState, importForeignData,
     save: persist, // call after directly mutating session/header fields from the UI
   };
 })();

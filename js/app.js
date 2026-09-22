@@ -575,6 +575,35 @@ const App = (() => {
     });
   }
 
+  // Applies a foreign (non-round-trip) PDF's best-effort parsed data — see
+  // js/pdf.js: parseForeignPdf() and js/quote.js: Quote.importForeignData().
+  // Unlike a round-trip import, this doesn't touch customer type / region /
+  // deal registration / sales tax / financial options (a foreign PDF has no
+  // reliable session context for those), and it re-prices every matched
+  // line/service off TODAY's catalog rather than freezing what was printed.
+  function applyForeignImport(data) {
+    const result = Quote.importForeignData(data);
+    syncFormFieldsFromState();
+    renderAll();
+
+    const lines = [
+      'Imported this PDF using best-effort text extraction (it was not exported by this tool, so quantities, prices and wording may not match exactly).',
+      '',
+      `BOM lines: ${result.matchedLines} matched the current catalog (re-priced at today's list price/discount), ${result.manualLines} not found (added as manual lines using the price printed on the PDF).`,
+      `Services/Warranty: ${result.matchedServices} matched the current catalog, ${result.manualServices} not found (added as manual lines).`,
+    ];
+    if (result.printedGrandTotal != null) {
+      const diff = Math.abs(result.recomputedGrandTotal - result.printedGrandTotal);
+      lines.push('');
+      lines.push(`Printed grand total on the PDF: ${money(result.printedGrandTotal)}`);
+      lines.push(`Recomputed grand total (today's pricing/session): ${money(result.recomputedGrandTotal)}`);
+      if (diff > 0.01) {
+        lines.push('These differ — expected if pricing has changed, or the customer type/region/discounts differ from when the original quote was printed. Review the quote before sending it.');
+      }
+    }
+    alert(lines.join('\n'));
+  }
+
   // ---- Top bar: New Quote / Import PDF / Admin / Replacements ----
   function wireTopbar() {
     const newQuoteBtn = document.getElementById('newQuoteBtn');
@@ -595,14 +624,18 @@ const App = (() => {
         importInput.value = '';
         if (!file) return;
         try {
-          const state = await PdfExport.parseFile(file);
-          if (!state) {
-            alert('This PDF does not contain Actelis quote data that this tool recognizes (it may not have been exported by this tool).');
+          const result = await PdfExport.parseFile(file);
+          if (!result) {
+            alert('This PDF does not contain Actelis quote data that this tool recognizes (it may not have been exported by this tool, and does not look like an Actelis quote report).');
             return;
           }
-          Quote.loadFromState(state);
-          syncFormFieldsFromState();
-          renderAll();
+          if (result.kind === 'roundtrip') {
+            Quote.loadFromState(result.state);
+            syncFormFieldsFromState();
+            renderAll();
+          } else if (result.kind === 'foreign') {
+            applyForeignImport(result.data);
+          }
         } catch (e) {
           alert('Could not read that PDF: ' + e.message);
         }
