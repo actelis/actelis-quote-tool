@@ -292,8 +292,11 @@
     <div class="modal-body">
       <div class="notice info">
         <strong>Recommended:</strong> upload a CSV/XLSX with columns:
-        <code>Old Part Number, New Part Number, Notes</code>. The current list already loaded is shown below —
-        add rows manually, or upload a file to merge in bulk.
+        <code>Old Part Number, New Part Number, AC/DC Adapter PN(s), Cable PN(s), Notes</code>. The AC/DC Adapter
+        and Cable columns are optional — separate multiple part numbers with a comma or semicolon — and only
+        needed to pin exactly which options the Node/Network Configurator wizards should offer for the new part
+        number (see below). The current list already loaded is shown below — add rows manually, or upload a file
+        to merge in bulk.
       </div>
       <div class="dropzone" id="replacementsDropzone">
         <input type="file" id="replacementsFileInput" accept=".csv,.xlsx" hidden>
@@ -307,9 +310,24 @@
         <div class="field"><label for="replNewPn">New Part Number</label><input id="replNewPn" type="text"></div>
         <div><button class="btn secondary small" id="replAddRowBtn">+ Add Row</button></div>
       </div>
+      <div class="grid grid-2" style="margin-bottom:6px">
+        <div class="field">
+          <label for="replAcdcPns">AC/DC Adapter PN(s) for the new part <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+          <input id="replAcdcPns" type="text" placeholder="e.g. 506R61181, 506R61182">
+        </div>
+        <div class="field">
+          <label for="replCablePns">Cable PN(s) for the new part <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+          <input id="replCablePns" type="text" placeholder="e.g. 504R60101">
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:12px;margin-top:0;margin-bottom:12px">
+        Filling these in tells the Node/Network Configurator wizards exactly which AC/DC Adapter and Cable options
+        to offer once this new part number is picked as the CO/Node model — overriding the wizard's automatic,
+        family-based guess for just those two fields. Leave blank to keep the wizard's automatic behavior.
+      </p>
 
       <table>
-        <thead><tr><th>Old Part #</th><th>New Part #</th><th>Notes</th><th></th></tr></thead>
+        <thead><tr><th>Old Part #</th><th>New Part #</th><th>AC/DC Adapter PN(s)</th><th>Cable PN(s)</th><th>Notes</th><th></th></tr></thead>
         <tbody id="replacementsTableBody"></tbody>
       </table>
     </div>

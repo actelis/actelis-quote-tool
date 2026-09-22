@@ -39,6 +39,17 @@ const DataStore = (() => {
     pnRegionSet: new Set(),        // `${regionId}|${partNumber}`
     pnTypeDRegionSet: new Set(),
     replacementByOldPn: new Map(), // oldPartNumber -> { newPartNumber, notes }
+    // newPartNumber -> { acdcPartNumbers: [...], cablePartNumbers: [...] } --
+    // admin-specified (Replacements Manager) AC/DC Adapter / Cable part
+    // numbers to offer in the Node/Network Configurator wizards when this
+    // part number is picked as the CO/Node model, overriding the wizards'
+    // automatic family-based guess for a device the guess doesn't cover
+    // correctly (see NodeWizard.compatibleAccessoryTypes and
+    // App.getReplacementAccessories's call sites in app.js). Built up from
+    // every replacements.json row targeting this part number as its
+    // "New Part Number" -- normally just one, but merged across all of them
+    // if more than one old part was superseded by the same new one.
+    replacementAccessoriesByNewPn: new Map(),
     loaded: false,
   };
 
@@ -86,6 +97,14 @@ const DataStore = (() => {
     }
     for (const row of (state.raw.replacements || [])) {
       if (row.oldPartNumber) state.replacementByOldPn.set(row.oldPartNumber, row);
+      if (row.newPartNumber && ((row.acdcPartNumbers && row.acdcPartNumbers.length) || (row.cablePartNumbers && row.cablePartNumbers.length))) {
+        const existing = state.replacementAccessoriesByNewPn.get(row.newPartNumber) || { acdcPartNumbers: [], cablePartNumbers: [] };
+        const mergeUnique = (a, b) => Array.from(new Set([...(a || []), ...(b || [])]));
+        state.replacementAccessoriesByNewPn.set(row.newPartNumber, {
+          acdcPartNumbers: mergeUnique(existing.acdcPartNumbers, row.acdcPartNumbers),
+          cablePartNumbers: mergeUnique(existing.cablePartNumbers, row.cablePartNumbers),
+        });
+      }
     }
 
     state.loaded = true;
@@ -109,6 +128,15 @@ const DataStore = (() => {
   // from data/replacements.json — the same file every visitor sees.
   function getReplacement(partNumber) {
     return state.replacementByOldPn.get(partNumber) || null;
+  }
+
+  // Admin-specified AC/DC Adapter / Cable part numbers for a part number
+  // that is itself the "New Part Number" of a recorded replacement (see
+  // js/admin.js "Replacements Manager") -- returns null if none were
+  // specified for it, in which case callers should fall back to the
+  // wizards' automatic family-based accessory filtering.
+  function getReplacementAccessories(partNumber) {
+    return state.replacementAccessoriesByNewPn.get(partNumber) || null;
   }
 
   function getListPrice(partNumber) {
@@ -167,6 +195,7 @@ const DataStore = (() => {
     findOneByPnType,
     isVisibleInRegion,
     getReplacement,
+    getReplacementAccessories,
     get discountsByCategory() { return state.discountsByCategory; },
     get regions() { return state.raw.regions; },
     get customerTypes() { return state.raw.customerTypes; },

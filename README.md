@@ -298,6 +298,51 @@ still valid and otherwise resetting that field to "— None —". Previously
 these dropdowns were only populated once, when the wizard first opened, and
 never updated afterward.
 
+A brand-new device model (e.g. one just added as the "New Part Number" of a
+replacement — see "Admin — Price List Manager & Replacements Manager" below)
+usually isn't one of the specific models `NodeWizard.classify` recognizes by
+name, so it falls back to being treated like a generic member of its
+AutoRepeaterInfo family — which can guess the wrong AC/DC Adapter or Cable
+for a device whose real accessories differ from that family's norm. The
+Replacements Manager's optional **AC/DC Adapter PN(s)** / **Cable PN(s)**
+columns exist for exactly this: when set for a part number, the wizards show
+*only* those exact part numbers for that device's AC/DC Adapter and/or Cable
+field, completely overriding the automatic guess for just those two fields
+(Mounting Kit and everything else are unaffected, and still filtered
+automatically as above).
+
+## MLU / SDU chassis compatibility (ML230 / ML2300 / ML2300B)
+
+The Node and Network wizards' **MLU Model**, **SDU Model**, **MLU Qty per
+shelf**, and **SDU Redundancy** fields are now compliant with the Actelis ML
+Chassis / MLU Compatibility Reference (source: ML230/ML2300 User Manual
+520R69659E, Release R7.45, Table 10). This is encoded in
+`NodeWizard.chassisMluSduCompat` (and the `excludedMluPns` /
+`sduPnsForSelection` / `mluConditionNote` helpers built on it) in
+`js/wizard-node.js`, keyed by the classified chassis (`CHS-200` = ML230,
+`CHS-2000` = ML2300, `CHS-2000B` = ML2300B):
+
+- **MLU Qty per shelf** now offers only `1–2` on ML230/CHS-200 and `1–4` on
+  ML2300/ML2300B/CHS-2000/CHS-2000B, matching each chassis's actual MLU slot
+  count (previously this always offered `1–4` regardless of chassis).
+- **SDU Redundancy** is disabled (and unchecked) on ML230/CHS-200, which only
+  has one SDU slot — redundancy needs two.
+- **MLU Model** no longer offers **MLU-64DR** when the recognized chassis is
+  ML2300/CHS-2000 — the reference marks that combination unsupported. It
+  remains available on ML230 and ML2300B.
+- **SDU Model** is narrowed to whichever SDU part numbers are actually valid
+  for the currently-selected MLU on the currently-recognized chassis (falling
+  back to every SDU valid for *some* supported MLU on that chassis when no
+  MLU is picked yet).
+- Picking an MLU that's only **conditionally** supported on the recognized
+  chassis (MLU-64DF on ML2300/ML2300B, or MLU-64DR on ML2300B) shows an
+  inline note under the MLU/SDU fields naming the specific SDU part numbers
+  that combination requires.
+
+A part number the reference doesn't mention (e.g. a future catalog addition)
+is never blocked by this table — it's treated as unrestricted, so this only
+ever narrows options the reference actually covers.
+
 ## Financial Options
 
 The three toggles at the bottom of the Quote Builder page (**Add Shipping
@@ -329,7 +374,15 @@ GitHub API calls and no token ever entering this app**:
      Discount End User, Registration Discount, Discount EMEA, Discount End
      User EMEA, Warranty`.
    - Replacements Manager: accepts `Old Part Number, New Part Number,
-     Notes`, or rows can be added one at a time in the modal.
+     AC/DC Adapter PN(s), Cable PN(s), Notes`, or rows can be added one at a
+     time in the modal. The AC/DC Adapter and Cable columns are optional
+     (comma- or semicolon-separated for more than one part number) and only
+     needed when the new part number's automatic wizard filtering (see
+     "Wizard accessory & region filtering" above) guesses wrong — filling
+     them in pins the Node/Network Configurator wizards to exactly those
+     part numbers for that device's AC/DC Adapter / Cable fields. The modal
+     flags any part number that doesn't resolve to a known catalog item (in
+     red, with a tooltip) so a typo doesn't silently ship.
 2. **Preview** — the modal diffs the upload against the data currently
    bundled in the site and shows exactly what's added, changed, or dropped
    before anything is generated.

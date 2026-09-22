@@ -396,6 +396,36 @@ const App = (() => {
     return priceable(DataStore.raw.autoRepeaterInfo).sort((a, b) => a.description.localeCompare(b.description));
   }
 
+  // Resolves admin-specified accessory part numbers (Replacements Manager's
+  // "AC/DC Adapter PN(s)" / "Cable PN(s)" columns) into option rows for
+  // fillSelect -- these can be ANY catalog part, not necessarily one that
+  // even has an AutoRepeaterInfo entry, so they're looked up via
+  // DataStore.getPriceRow rather than requiring one.
+  function resolveManualAccessoryRows(partNumbers) {
+    return (partNumbers || []).map(pn => {
+      const row = DataStore.getPriceRow(pn);
+      return { partNumber: pn, description: row ? row.description : '(unknown part — check Replacements Manager)' };
+    });
+  }
+
+  // The AC/DC Adapter and Cable options for a wizard's currently-recognized
+  // CO/Node model: an admin-specified override (DataStore.
+  // getReplacementAccessories, set via the Replacements Manager's optional
+  // "AC/DC Adapter PN(s)" / "Cable PN(s)" columns) entirely replaces the
+  // wizard's automatic family-based guess for whichever of the two fields
+  // it specifies -- since it means "I know exactly what this device uses,"
+  // not merely "also allow these" -- and is used as-is regardless of the
+  // quote's region (an admin picking exact part numbers already knows which
+  // ones are correct for the customer in question). A field the admin left
+  // blank keeps using the normal automatic/region-filtered rows passed in.
+  function withAccessoryOverrides(coModelPn, defaultAcdcRows, defaultCableRows) {
+    const override = coModelPn ? DataStore.getReplacementAccessories(coModelPn) : null;
+    return {
+      acdcRows: (override && override.acdcPartNumbers.length) ? resolveManualAccessoryRows(override.acdcPartNumbers) : defaultAcdcRows,
+      cableRows: (override && override.cablePartNumbers.length) ? resolveManualAccessoryRows(override.cablePartNumbers) : defaultCableRows,
+    };
+  }
+
   // Which "Line Items" pill-tab is active — drives both the launcher grid
   // shown and what the big catalog search bar searches against.
   let currentLineItemsTab = 'hardware';
@@ -1002,6 +1032,20 @@ const App = (() => {
   // -----------------------------------------------------------------------
   let replacementsList = [];
 
+  // Renders one AC/DC Adapter / Cable PN cell: each part number as a small
+  // chip, flagged in red with a tooltip if it doesn't resolve to any known
+  // catalog part (typo protection before the admin downloads the file).
+  function partNumberChips(partNumbers) {
+    if (!partNumbers || !partNumbers.length) return el('span', { style: 'color:var(--text-muted)' }, '—');
+    return el('span', {}, partNumbers.map((pn, i) => {
+      const row = DataStore.getPriceRow(pn);
+      return el('span', {
+        style: 'display:inline-block;margin:1px 4px 1px 0' + (row ? '' : ';color:#c0392b;font-weight:600'),
+        title: row ? row.description : 'Not found in the current catalog — check this part number',
+      }, pn + (i < partNumbers.length - 1 ? ',' : ''));
+    }));
+  }
+
   function renderReplacementsTable() {
     const body = document.getElementById('replacementsTableBody');
     body.innerHTML = '';
@@ -1009,6 +1053,8 @@ const App = (() => {
       body.appendChild(el('tr', {}, [
         el('td', {}, r.oldPartNumber),
         el('td', {}, r.newPartNumber),
+        el('td', {}, partNumberChips(r.acdcPartNumbers)),
+        el('td', {}, partNumberChips(r.cablePartNumbers)),
         el('td', {}, r.notes || ''),
         el('td', {}, el('button', {
           class: 'btn small danger',
@@ -1035,10 +1081,13 @@ const App = (() => {
     document.getElementById('replAddRowBtn').addEventListener('click', () => {
       const oldPn = document.getElementById('replOldPn').value.trim();
       const newPn = document.getElementById('replNewPn').value.trim();
+      const acdcPartNumbers = Admin.splitPartNumbers(document.getElementById('replAcdcPns').value);
+      const cablePartNumbers = Admin.splitPartNumbers(document.getElementById('replCablePns').value);
       if (!oldPn || !newPn) { alert('Both Old and New part numbers are required.'); return; }
       replacementsList = replacementsList.filter(r => r.oldPartNumber !== oldPn);
-      replacementsList.push({ oldPartNumber: oldPn, newPartNumber: newPn, notes: '' });
+      replacementsList.push({ oldPartNumber: oldPn, newPartNumber: newPn, acdcPartNumbers, cablePartNumbers, notes: '' });
       document.getElementById('replOldPn').value = ''; document.getElementById('replNewPn').value = '';
+      document.getElementById('replAcdcPns').value = ''; document.getElementById('replCablePns').value = '';
       renderReplacementsTable();
     });
 
@@ -1076,6 +1125,7 @@ const App = (() => {
     const mluQtySel = el('select'); [1, 2, 3, 4].forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
     const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, Quote.session.region), { none: '— None —' });
     const sduRedundancy = el('input', { type: 'checkbox' });
+    const mluSduNote = el('div', { class: 'notice info', style: 'display:none;margin-top:4px' });
     const coPoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
     // AC/DC Adapter, Mounting Kit and CO Copper Cable start out showing every
     // family's options (no CO model picked yet) — refreshDependentSelects()
@@ -1117,6 +1167,7 @@ const App = (() => {
       checkboxField('Use PTMP bundle (if a matching bundle exists for chassis+SDU+MLU)', bundles),
       el('div', { class: 'two-col' }, [field('MLU Model (chassis only)', mluModelSel), field('MLU Qty per shelf', mluQtySel)]),
       el('div', { class: 'two-col' }, [field('SDU Model (chassis only)', sduModelSel), checkboxField('SDU Redundancy', sduRedundancy)]),
+      mluSduNote,
       el('div', { class: 'two-col' }, [field('CO Powering', coPoweringSel), field('AC/DC Adapter Model', acdcModelSel)]),
       el('div', { class: 'two-col' }, [field('AC Cable', acCableSel), checkboxField('Include DC power cable', codcPower)]),
       el('div', { class: 'two-col' }, [field('Alarm Cable (chassis only)', alarmCableSel), checkboxField('Include mounting kit', mountingKit)]),
@@ -1138,16 +1189,52 @@ const App = (() => {
     function refreshDependentSelects() {
       const region = Quote.session.region;
       const compat = NodeWizard.compatibleAccessoryTypes(lastClassified);
-      fillSelect(acdcModelSel, rowsByTypes(compat.acdc, region), { none: '— None —', selected: acdcModelSel.value });
+      const coModelPn = lastClassified && lastClassified.ari ? lastClassified.ari.partNumber : null;
+      const { acdcRows, cableRows } = withAccessoryOverrides(
+        coModelPn, rowsByTypes(compat.acdc, region), rowsByTypes(compat.copperCO, region));
+      fillSelect(acdcModelSel, acdcRows, { none: '— None —', selected: acdcModelSel.value });
       fillSelect(mountingModelSel, rowsByTypes(compat.mounting, region), { none: '— None —', selected: mountingModelSel.value });
-      fillSelect(coCopperCableSel, rowsByTypes(compat.copperCO, region), { none: '— None —', selected: coCopperCableSel.value });
+      fillSelect(coCopperCableSel, cableRows, { none: '— None —', selected: coCopperCableSel.value });
       fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, region), { none: '— None —', selected: acCableSel.value });
-      fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu, region), { none: '— None —', selected: mluModelSel.value });
-      fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, region), { none: '— None —', selected: sduModelSel.value });
+      // MLU/SDU chassis compatibility (Actelis ML Chassis / MLU Compatibility
+      // Reference) -- exclude MLU part numbers this chassis doesn't support
+      // at all (e.g. MLU-64DR on CHS-2000/ML2300), then narrow the SDU
+      // dropdown to whatever the (now chassis-filtered) MLU selection
+      // actually requires.
+      const chassisModel = lastClassified ? lastClassified.ptmpModel : null;
+      const mluCompat = chassisModel ? NodeWizard.chassisMluSduCompat(chassisModel) : null;
+      const excludedMlu = chassisModel ? NodeWizard.excludedMluPns(chassisModel) : [];
+      const mluRows = rowsByTypes(PNTYPES.mlu, region).filter(r => !excludedMlu.includes(r.partNumber));
+      fillSelect(mluModelSel, mluRows, { none: '— None —', selected: mluModelSel.value });
+      const allowedSdu = chassisModel ? NodeWizard.sduPnsForSelection(chassisModel, mluModelSel.value) : null;
+      const sduRows = allowedSdu ? rowsByTypes(PNTYPES.sdu, region).filter(r => allowedSdu.includes(r.partNumber)) : rowsByTypes(PNTYPES.sdu, region);
+      fillSelect(sduModelSel, sduRows, { none: '— None —', selected: sduModelSel.value });
+
+      // MLU Qty per shelf: cap the options to this chassis's actual slot
+      // count (2 for ML230/CHS-200, 4 for ML2300/ML2300B) instead of the
+      // previous always-1-to-4 list.
+      const mluQtyOptions = (lastClassified && lastClassified.mluQtyOptions) || [1, 2, 3, 4];
+      const prevMluQty = mluQtySel.value;
+      mluQtySel.innerHTML = '';
+      mluQtyOptions.forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
+      mluQtySel.value = mluQtyOptions.includes(parseInt(prevMluQty, 10)) ? prevMluQty : String(mluQtyOptions[0]);
+
+      // SDU Redundancy needs a second SDU slot -- ML230/CHS-200 only has one
+      // (Max SDU Cards = 1), so disable/clear the checkbox there.
+      const maxSduCards = mluCompat ? mluCompat.maxSduCards : null;
+      sduRedundancy.disabled = maxSduCards === 1;
+      if (maxSduCards === 1) sduRedundancy.checked = false;
+
+      // Surface the "conditional" note (e.g. MLU-64DF/64DR require a
+      // specific SDU family on this chassis) right under the fields.
+      const mluNote = chassisModel ? NodeWizard.mluConditionNote(chassisModel, mluModelSel.value) : null;
+      mluSduNote.style.display = mluNote ? '' : 'none';
+      mluSduNote.textContent = mluNote || '';
       fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: coSfpModelSel.value });
       fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, region), { none: '— None —', selected: alarmCableSel.value });
     }
     wizardDropdownRefreshers.push(refreshDependentSelects);
+    mluModelSel.addEventListener('change', refreshDependentSelects);
 
     let lastClassified = null;
     coModelInput.addEventListener('change', () => {
@@ -1279,6 +1366,7 @@ const App = (() => {
     const mluQtySel = el('select'); [1, 2, 3, 4].forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
     const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, Quote.session.region), { none: '— None —' });
     const sduRedundancy = el('input', { type: 'checkbox' });
+    const mluSduNote = el('div', { class: 'notice info', style: 'display:none;margin-top:4px' });
     const mleExt = el('input', { type: 'checkbox' });
     const coPoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
     const cpePoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
@@ -1333,6 +1421,7 @@ const App = (() => {
       checkboxField('Use PTMP bundle (chassis configs)', bundles),
       el('div', { class: 'two-col' }, [field('MLU Model (chassis)', mluModelSel), field('MLU Qty per shelf', mluQtySel)]),
       el('div', { class: 'two-col' }, [field('SDU Model (chassis)', sduModelSel), checkboxField('SDU Redundancy', sduRedundancy)]),
+      mluSduNote,
       checkboxField('Add TDM/MLE-16E extension', mleExt),
       el('h4', {}, 'Powering'),
       el('div', { class: 'two-col' }, [field('CO Powering', coPoweringSel), field('CPE Powering', cpePoweringSel)]),
@@ -1364,13 +1453,48 @@ const App = (() => {
     function refreshDependentSelects() {
       const region = Quote.session.region;
       const compat = NodeWizard.compatibleAccessoryTypes(lastClassified);
-      fillSelect(acdcModelSel, rowsByTypes(compat.acdc, region), { none: '— None —', selected: acdcModelSel.value });
+      const coModelPn = lastClassified && lastClassified.ari ? lastClassified.ari.partNumber : null;
+      const { acdcRows, cableRows } = withAccessoryOverrides(
+        coModelPn, rowsByTypes(compat.acdc, region), rowsByTypes(compat.copperCO, region));
+      fillSelect(acdcModelSel, acdcRows, { none: '— None —', selected: acdcModelSel.value });
       fillSelect(mountingModelSel, rowsByTypes(compat.mounting, region), { none: '— None —', selected: mountingModelSel.value });
-      fillSelect(coCopperCableSel, rowsByTypes(compat.copperCO, region), { none: '— None —', selected: coCopperCableSel.value });
+      fillSelect(coCopperCableSel, cableRows, { none: '— None —', selected: coCopperCableSel.value });
       fillSelect(copperCableSel, rowsByTypes(compat.copperGeneric, region), { none: '— None —', selected: copperCableSel.value });
       fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, region), { none: '— None —', selected: acCableSel.value });
-      fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu, region), { none: '— None —', selected: mluModelSel.value });
-      fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, region), { none: '— None —', selected: sduModelSel.value });
+      // MLU/SDU chassis compatibility (Actelis ML Chassis / MLU Compatibility
+      // Reference) -- exclude MLU part numbers this chassis doesn't support
+      // at all (e.g. MLU-64DR on CHS-2000/ML2300), then narrow the SDU
+      // dropdown to whatever the (now chassis-filtered) MLU selection
+      // actually requires.
+      const chassisModel = lastClassified ? lastClassified.ptmpModel : null;
+      const mluCompat = chassisModel ? NodeWizard.chassisMluSduCompat(chassisModel) : null;
+      const excludedMlu = chassisModel ? NodeWizard.excludedMluPns(chassisModel) : [];
+      const mluRows = rowsByTypes(PNTYPES.mlu, region).filter(r => !excludedMlu.includes(r.partNumber));
+      fillSelect(mluModelSel, mluRows, { none: '— None —', selected: mluModelSel.value });
+      const allowedSdu = chassisModel ? NodeWizard.sduPnsForSelection(chassisModel, mluModelSel.value) : null;
+      const sduRows = allowedSdu ? rowsByTypes(PNTYPES.sdu, region).filter(r => allowedSdu.includes(r.partNumber)) : rowsByTypes(PNTYPES.sdu, region);
+      fillSelect(sduModelSel, sduRows, { none: '— None —', selected: sduModelSel.value });
+
+      // MLU Qty per shelf: cap the options to this chassis's actual slot
+      // count (2 for ML230/CHS-200, 4 for ML2300/ML2300B) instead of the
+      // previous always-1-to-4 list.
+      const mluQtyOptions = (lastClassified && lastClassified.mluQtyOptions) || [1, 2, 3, 4];
+      const prevMluQty = mluQtySel.value;
+      mluQtySel.innerHTML = '';
+      mluQtyOptions.forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
+      mluQtySel.value = mluQtyOptions.includes(parseInt(prevMluQty, 10)) ? prevMluQty : String(mluQtyOptions[0]);
+
+      // SDU Redundancy needs a second SDU slot -- ML230/CHS-200 only has one
+      // (Max SDU Cards = 1), so disable/clear the checkbox there.
+      const maxSduCards = mluCompat ? mluCompat.maxSduCards : null;
+      sduRedundancy.disabled = maxSduCards === 1;
+      if (maxSduCards === 1) sduRedundancy.checked = false;
+
+      // Surface the "conditional" note (e.g. MLU-64DF/64DR require a
+      // specific SDU family on this chassis) right under the fields.
+      const mluNote = chassisModel ? NodeWizard.mluConditionNote(chassisModel, mluModelSel.value) : null;
+      mluSduNote.style.display = mluNote ? '' : 'none';
+      mluSduNote.textContent = mluNote || '';
       fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: coSfpModelSel.value });
       fillSelect(cpeSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: cpeSfpModelSel.value });
       fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, region), { none: '— None —', selected: alarmCableSel.value });
@@ -1378,6 +1502,7 @@ const App = (() => {
       fillSelect(pfuCableLengthSel, rowsByTypes(PNTYPES.pfuCable, region), { none: '— None —', selected: pfuCableLengthSel.value });
     }
     wizardDropdownRefreshers.push(refreshDependentSelects);
+    mluModelSel.addEventListener('change', refreshDependentSelects);
 
     function updateClassifyInfo() {
       const pn = parsePN(co.input.value);

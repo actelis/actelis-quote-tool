@@ -77,6 +77,95 @@ const NodeWizard = (() => {
     return { acdc, mounting, copperCO, copperGeneric };
   }
 
+  // Chassis / MLU / SDU compatibility, per the Actelis ML Chassis / MLU
+  // Compatibility Reference (source: ML230/ML2300 User Manual 520R69659E,
+  // Release R7.45, Table 10; legacy configurations excluded). Keyed by the
+  // classified chassis `ptmpModel` (CHS-200 = ML230, CHS-2000 = ML2300,
+  // CHS-2000B = ML2300B). For each MLU part number: 'yes' = supported on
+  // that chassis with no restriction beyond the listed SDU family; 'no' =
+  // not supported on that chassis at all (must not be offered); 'conditional'
+  // = supported only when paired with one of the listed SDU part numbers.
+  // An MLU part number not listed here (e.g. a future catalog addition) is
+  // treated as unrestricted, so this table only ever narrows, never blocks,
+  // anything the reference doesn't cover.
+  const MLU_PN = { '32EF': '503R20053', '32ER': '503R30055', '32DF': '503R20132', '32DR': '503R20232', '64DF': '503R20164', '64DR': '503R20264' };
+  const SDU_PN = { '440': '503R60039', '440G': '503R60040', '450': '503R60042', '450G': '503R60043', '455G': '503R60041' };
+  const SDU_450_ONLY = [SDU_PN['450'], SDU_PN['450G']];
+  const SDU_450_455 = [SDU_PN['450'], SDU_PN['450G'], SDU_PN['455G']];
+  const SDU_440_450 = [SDU_PN['440'], SDU_PN['440G'], SDU_PN['450'], SDU_PN['450G']];
+  const CHASSIS_MLU_COMPAT = {
+    'CHS-200': {
+      maxMluSlots: 2, maxSduCards: 1,
+      mlu: {
+        [MLU_PN['32EF']]: { support: 'yes', sdu: SDU_450_ONLY },
+        [MLU_PN['32ER']]: { support: 'yes', sdu: SDU_450_ONLY },
+        [MLU_PN['32DF']]: { support: 'yes', sdu: SDU_450_455 },
+        [MLU_PN['32DR']]: { support: 'yes', sdu: SDU_450_455 },
+        [MLU_PN['64DF']]: { support: 'yes', sdu: SDU_450_455 },
+        [MLU_PN['64DR']]: { support: 'yes', sdu: SDU_450_455 },
+      },
+    },
+    'CHS-2000': {
+      maxMluSlots: 4, maxSduCards: 2,
+      mlu: {
+        [MLU_PN['32EF']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['32ER']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['32DF']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['32DR']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['64DF']]: { support: 'conditional', sdu: SDU_450_455 },
+        [MLU_PN['64DR']]: { support: 'no', sdu: [] },
+      },
+    },
+    'CHS-2000B': {
+      maxMluSlots: 4, maxSduCards: 2,
+      mlu: {
+        [MLU_PN['32EF']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['32ER']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['32DF']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['32DR']]: { support: 'yes', sdu: SDU_440_450 },
+        [MLU_PN['64DF']]: { support: 'conditional', sdu: SDU_450_455 },
+        [MLU_PN['64DR']]: { support: 'conditional', sdu: SDU_450_455 },
+      },
+    },
+  };
+
+  function chassisMluSduCompat(ptmpModel) {
+    return CHASSIS_MLU_COMPAT[ptmpModel] || null;
+  }
+  // Part numbers that must never be offered in the MLU dropdown for this
+  // chassis (support === 'no'), e.g. MLU-64DR on CHS-2000/ML2300.
+  function excludedMluPns(ptmpModel) {
+    const compat = CHASSIS_MLU_COMPAT[ptmpModel];
+    if (!compat) return [];
+    return Object.entries(compat.mlu).filter(([, info]) => info.support === 'no').map(([pn]) => pn);
+  }
+  function allSduPnsForChassis(compat) {
+    const set = new Set();
+    Object.values(compat.mlu).forEach(info => { if (info.support !== 'no') info.sdu.forEach(pn => set.add(pn)); });
+    return Array.from(set);
+  }
+  // Which SDU part numbers are valid to pair with the given (already
+  // chassis-filtered) MLU selection. Pass mluPn = null/'None' (nothing
+  // chosen yet) to get the union of every SDU that's valid for *some*
+  // supported MLU on this chassis. Returns null when there's no reference
+  // data for this chassis (i.e. don't restrict the SDU dropdown at all).
+  function sduPnsForSelection(ptmpModel, mluPn) {
+    const compat = CHASSIS_MLU_COMPAT[ptmpModel];
+    if (!compat) return null;
+    if (mluPn && mluPn !== 'None' && compat.mlu[mluPn]) return compat.mlu[mluPn].sdu;
+    return allSduPnsForChassis(compat);
+  }
+  // Human-readable note for a 'conditional' MLU pick, naming the SDU
+  // part numbers/descriptions it requires -- null when no note applies.
+  function mluConditionNote(ptmpModel, mluPn) {
+    const compat = CHASSIS_MLU_COMPAT[ptmpModel];
+    if (!compat || !mluPn || mluPn === 'None') return null;
+    const info = compat.mlu[mluPn];
+    if (!info || info.support !== 'conditional') return null;
+    const names = info.sdu.map(pn => (ariRow(pn) && ariRow(pn).description) || pn);
+    return `Requires SDU: ${names.join(' / ')}.`;
+  }
+
   // ---- Phase 1: classify (CO_Model_AfterUpdate) ----
   function classify(coModel, legacyOk) {
     const pnType = dlPnType(coModel);
@@ -325,5 +414,5 @@ const NodeWizard = (() => {
     return note;
   }
 
-  return { classify, calculate, apply, calcBlankPanels, getCablePN, compatibleAccessoryTypes };
+  return { classify, calculate, apply, calcBlankPanels, getCablePN, compatibleAccessoryTypes, chassisMluSduCompat, excludedMluPns, sduPnsForSelection, mluConditionNote };
 })();

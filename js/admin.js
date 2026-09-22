@@ -272,14 +272,29 @@ const Admin = (() => {
     })).filter(r => r.category);
   }
 
+  // Splits a comma- or semicolon-separated cell of part numbers into a
+  // clean array (used for the Replacements Manager's optional AC/DC
+  // Adapter / Cable PN(s) columns) -- trims whitespace, drops empties.
+  function splitPartNumbers(v) {
+    return String(v ?? '')
+      .split(/[,;]+/)
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+
   // ---------------------------------------------------------------------
   // Replacements (discontinued -> current part number), surfaced in the
-  // BOM/search UI by DataStore.getReplacement().
+  // BOM/search UI by DataStore.getReplacement(). A row can optionally also
+  // pin which AC/DC Adapter and Cable part number(s) the Node/Network
+  // Configurator wizards should offer for the new part number -- see
+  // DataStore.getReplacementAccessories and its call sites in app.js.
   // ---------------------------------------------------------------------
   function parseReplacementRows(rawRows) {
     return rawRows.map(r => ({
       oldPartNumber: String(pickField(r, ['Old Part Number', 'Old PN', 'Old Part #', 'Discontinued']) ?? '').trim(),
       newPartNumber: String(pickField(r, ['New Part Number', 'New PN', 'New Part #', 'Replacement']) ?? '').trim(),
+      acdcPartNumbers: splitPartNumbers(pickField(r, ['AC/DC Adapter PN(s)', 'AC/DC Adapter PNs', 'AC/DC Adapter Part Numbers', 'Power Supply PN(s)'])),
+      cablePartNumbers: splitPartNumbers(pickField(r, ['Cable PN(s)', 'Cable PNs', 'Cable Part Numbers'])),
       notes: String(pickField(r, ['Notes', 'Comments']) ?? '').trim(),
     })).filter(r => r.oldPartNumber);
   }
@@ -287,6 +302,6 @@ const Admin = (() => {
   return {
     parseCSV, readFileAsRows, pickField, toNum, money, el, downloadJSON,
     parseHardwareRows, mergeHardware, mergeTypeD, diffByPartNumber, renderDiffSummary,
-    parseDiscountRows, parseReplacementRows,
+    parseDiscountRows, parseReplacementRows, splitPartNumbers,
   };
 })();
