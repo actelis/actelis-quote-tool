@@ -647,5 +647,192 @@ const PdfExport = (() => {
     return null;
   }
 
-  return { generate, downloadPdf, parseFile };
+  // ---- Price List PDF (price-list.html "Export PDF") ----
+  //
+  // A category-grouped listing of whichever list is currently open on the
+  // Price List page (Price List / Services-Warranty / Archive), using the
+  // discount actually in effect for each row -- its per-item or
+  // per-category override from PriceListPricing (pricelist.js), or the
+  // standard region/customer-type default otherwise. Always the FULL list
+  // for that tab: it deliberately ignores whatever is currently typed in
+  // the search box or picked in the category filter, so "Export PDF"
+  // always produces a complete price list rather than a partial one a
+  // visitor might not realize was filtered.
+  //
+  // `payload` is a plain-data object built by app.js (see buildPriceListPdfData):
+  //   { title, customerName, customerType, region, date, dealRegistration,
+  //     categories: [ { category, rows: [ { partNumber, description,
+  //       listPriceDisplay, discountDisplay, netDisplay } ] } ] }
+  async function generatePriceList(payload) {
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const meta = (typeof DataStore !== 'undefined' && DataStore.meta) || {};
+
+    const doc = await PDFDocument.create();
+    doc.setTitle(`Actelis Price List${payload.customerName ? ' — ' + payload.customerName : ''}`);
+    doc.setProducer('Actelis Price & Quote Tool (online edition)');
+    doc.setCreator('Actelis Price & Quote Tool (online edition)');
+
+    const helv = await doc.embedFont(StandardFonts.Helvetica);
+    const helvBold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const helvOblique = await doc.embedFont(StandardFonts.HelveticaOblique);
+
+    let logoImage = null, logoDims = null;
+    try {
+      const logoBytes = await fetchBytes('assets/actelis-logo.png');
+      logoImage = await doc.embedPng(logoBytes);
+      logoDims = logoImage.scale(26 / logoImage.height);
+    } catch (e) { /* logo optional -- PDF still generates without it */ }
+
+    const navy = rgb(0.063, 0.122, 0.235);
+    const accent = rgb(0.933, 0.490, 0.122);
+    const grey = rgb(0.35, 0.41, 0.46);
+    const lightGrey = rgb(0.85, 0.88, 0.91);
+    const black = rgb(0.12, 0.15, 0.19);
+
+    const pages = [];
+    let page, y;
+
+    function addPage() {
+      page = doc.addPage([PAGE_W, PAGE_H]);
+      pages.push(page);
+      y = PAGE_H - MARGIN;
+      return page;
+    }
+    function ensureSpace(h) {
+      if (y - h < MARGIN + 30) addPage();
+    }
+    function text(str, x, yy, opts = {}) {
+      page.drawText(String(str == null ? '' : str), {
+        x, y: yy, size: opts.size || 9, font: opts.font || helv, color: opts.color || black,
+      });
+    }
+    function line(x1, yy1, x2, yy2, opts = {}) {
+      page.drawLine({ start: { x: x1, y: yy1 }, end: { x: x2, y: yy2 }, thickness: opts.thickness || 0.75, color: opts.color || lightGrey });
+    }
+    function rightText(str, xRight, yy, opts = {}) {
+      const f = opts.font || helv, size = opts.size || 9;
+      const w = f.widthOfTextAtSize(String(str == null ? '' : str), size);
+      text(str, xRight - w, yy, opts);
+    }
+
+    // ---- Header: logo + Actelis address block (right), same as the Quote PDF ----
+    addPage();
+    if (logoImage) {
+      page.drawImage(logoImage, { x: MARGIN, y: y - logoDims.height, width: logoDims.width, height: logoDims.height });
+    } else {
+      text('ACTELIS', MARGIN, y - 16, { font: helvBold, size: 16, color: navy });
+    }
+    rightText('Actelis', PAGE_W - MARGIN, y - 8, { font: helvBold, size: 10, color: navy });
+    rightText('4039 Clipper Court', PAGE_W - MARGIN, y - 20, { size: 8.5, color: grey });
+    rightText('Fremont, CA 94538', PAGE_W - MARGIN, y - 31, { size: 8.5, color: grey });
+    rightText('P: 510-545-1045', PAGE_W - MARGIN, y - 42, { size: 8.5, color: grey });
+    rightText('F: 510-545-1075', PAGE_W - MARGIN, y - 53, { size: 8.5, color: grey });
+    y -= 62;
+    text(payload.title || 'PRICE LIST', MARGIN, y, { font: helvBold, size: 15, color: navy });
+    y -= 8;
+    line(MARGIN, y, PAGE_W - MARGIN, y, { thickness: 1.5, color: accent });
+    y -= 20;
+
+    // ---- "Prepared for" info block: customer name + the settings that ----
+    // ---- actually drove the discounts shown (customer type, region) -----
+    function metaField(x, yy, label, value) {
+      text(label, x, yy, { font: helvBold, size: 7.5, color: grey });
+      text(value || '—', x, yy - 11, { size: 9.5, color: black });
+    }
+    const colW = (PAGE_W - MARGIN * 2) / 4;
+    metaField(MARGIN, y, 'PREPARED FOR', payload.customerName);
+    metaField(MARGIN + colW, y, 'CUSTOMER TYPE', payload.customerType);
+    metaField(MARGIN + colW * 2, y, 'REGION', payload.region);
+    metaField(MARGIN + colW * 3, y, 'DATE', payload.date);
+    y -= 30;
+    if (payload.dealRegistration) {
+      text('Includes NA Deal Registration bonus discount.', MARGIN, y, { size: 7.5, font: helvOblique, color: grey });
+      y -= 14;
+    }
+    line(MARGIN, y, PAGE_W - MARGIN, y, { color: lightGrey });
+    y -= 18;
+
+    // ---- Item table, grouped by category ----
+    const cols = [
+      { key: 'partNumber', label: 'Part Number', x: MARGIN, w: 85 },
+      { key: 'description', label: 'Description', x: MARGIN + 85, w: 230 },
+      { key: 'listPrice', label: 'List Price', x: MARGIN + 315, w: 65, num: true },
+      { key: 'discount', label: 'Discount', x: MARGIN + 380, w: 55, num: true },
+      { key: 'netPrice', label: 'Your Price', x: MARGIN + 435, w: PAGE_W - MARGIN - (MARGIN + 435), num: true },
+    ];
+    function tableHeader(title) {
+      ensureSpace(40);
+      if (title) { text(title, MARGIN, y, { font: helvBold, size: 10, color: navy }); y -= 14; }
+      cols.forEach(c => {
+        const opts = { font: helvBold, size: 7.5, color: grey };
+        if (c.num) rightText(c.label.toUpperCase(), c.x + c.w, y, opts);
+        else text(c.label.toUpperCase(), c.x, y, opts);
+      });
+      y -= 4;
+      line(MARGIN, y, PAGE_W - MARGIN, y, { color: grey, thickness: 1 });
+      y -= 12;
+    }
+    function tableRow(getters) {
+      const lineHeights = cols.map(c => wrapText(getters[c.key](), helv, 8.5, c.w - 4).length);
+      const nLines = Math.max(1, ...lineHeights);
+      const rowH = nLines * 10 + 4;
+      ensureSpace(rowH + 20);
+      cols.forEach(c => {
+        wrapText(getters[c.key](), helv, 8.5, c.w - 4).forEach((ln, i) => {
+          const yy = y - i * 10;
+          if (c.num) rightText(ln, c.x + c.w, yy, { size: 8.5 });
+          else text(ln, c.x, yy, { size: 8.5 });
+        });
+      });
+      y -= rowH;
+      line(MARGIN, y + 3, PAGE_W - MARGIN, y + 3, { color: lightGrey, thickness: 0.5 });
+    }
+
+    (payload.categories || []).forEach(cat => {
+      ensureSpace(50);
+      y -= 6;
+      tableHeader(cat.category);
+      cat.rows.forEach(r => {
+        tableRow({
+          partNumber: () => r.partNumber,
+          description: () => r.description,
+          listPrice: () => r.listPriceDisplay,
+          discount: () => r.discountDisplay,
+          netPrice: () => r.netDisplay,
+        });
+      });
+      y -= 6;
+    });
+
+    // ---- Footer on every page ----
+    const todayStr = new Date().toLocaleDateString('en-US');
+    pages.forEach((p, i) => {
+      const oldPage = page; page = p;
+      const fy = MARGIN - 16;
+      line(MARGIN, fy + 14, PAGE_W - MARGIN, fy + 14, { color: lightGrey });
+      text(todayStr, MARGIN, fy, { size: 7.5, color: grey });
+      const mid = 'All prices are in USD — subject to change without notice';
+      const midW = helv.widthOfTextAtSize(mid, 7.5);
+      text(mid, (PAGE_W - midW) / 2, fy, { size: 7.5, color: grey });
+      rightText(`Page ${i + 1} of ${pages.length}  ·  ${meta.toolVersion || 'V3.21'}`, PAGE_W - MARGIN, fy, { size: 7.5, color: grey });
+      page = oldPage;
+    });
+
+    return doc.save();
+  }
+
+  async function downloadPriceListPdf(payload, filename) {
+    const bytes = await generatePriceList(payload);
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'actelis-price-list.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  return { generate, downloadPdf, parseFile, generatePriceList, downloadPriceListPdf };
 })();

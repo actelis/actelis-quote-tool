@@ -56,7 +56,11 @@ js/wizard-templates.js   Save/load named wizard configurations (localStorage)
 js/pdf.js                Generates the QuoteReport-style PDF (pdf-lib);
                          parses it back (metadata round-trip for our own
                          exports, pdfjs.js text-extraction fallback for a
-                         foreign/historical Access-tool PDF)
+                         foreign/historical Access-tool PDF); also generates
+                         the Price List page's own PDF export (see below)
+js/pricelist.js          Price List page's per-category/per-item discount
+                         overrides and PDF-export data prep (independent of
+                         the Quote Builder's BOM discount override)
 js/export.js             CSV export, real .xlsx export (SheetJS), legacy
                          Print/PDF view
 js/admin.js              CSV/XLSX parsing, diffing and JSON generation used
@@ -216,6 +220,53 @@ there's no catalog discount to override. CSV and Excel exports' "Discount
 generated PDF's BOM table (matching the original Access report layout)
 doesn't print a discount column at all, on either our own export or the
 original — only Unit Price/Qty/Total — so it's unaffected either way.
+
+## Discount overrides & PDF export (Price List page)
+
+The **Price List** page (`price-list.html`) has its own, separate set of
+discount overrides — independent of the Quote Builder's BOM discount
+override above, since this page isn't tied to a quote or a BOM at all. It's
+meant for handing a customer-specific price list to someone without
+starting a quote:
+
+- **Category filter, fixed.** The category dropdown above the table used to
+  only offer the four broad Type-A/B/C/D groups, which never actually
+  matched any row's real category (the price list's true categories are the
+  ~40 fine-grained discount-matrix buckets, e.g. `A2. ML600 Family`) — so
+  picking a category previously always emptied the table. It now lists the
+  real categories present on whichever tab is open, and filtering actually
+  narrows the list.
+- **Discount Overrides card** (above the table, hidden on the Services/
+  Warranty tab since Type-D pricing isn't category-discount-driven): pick a
+  category and a percentage and click **Apply to Category** to override the
+  discount for every item in that category. Active category overrides are
+  listed as removable chips.
+- **Per-item override**: the table's **Discount** column is directly
+  editable per row, the same way the BOM's Discount column works — typing a
+  new percentage overrides just that one part number (beating any category
+  override for that row), and a small **↺** button resets it back to
+  whatever the category override or standard default would otherwise be.
+- Both levels only change what this page displays and what its PDF export
+  prints — like everything else on this site, they never touch the saved
+  price list or discount-matrix data (`data/*.json`), which stays
+  admin/git-push-only (see "Admin — Price List Manager" below).
+- Overrides (and the Customer Name field, see below) are mirrored to
+  `sessionStorage` under their own key, same convention as the Quote
+  Builder's state — they survive navigating between this page and the Quote
+  Builder in the same tab, and are gone once the tab closes.
+
+**Export PDF** (top of the table, next to the tabs) generates a PDF of
+whichever tab is currently open (Price List / Services-Warranty / Archive),
+using the discount actually in effect for each row (item override, then
+category override, then the standard default) — **always the complete list
+for that tab**, deliberately ignoring whatever is currently typed in the
+search box or picked in the category filter, so it always produces a full
+price list rather than a partial one someone might not realize was
+filtered. The PDF has the Actelis logo and address block (matching the
+Quote Builder's own PDF), a "Prepared For" block with the **Customer Name**
+you type into the Customer & Region card plus the Customer Type and Region
+currently selected (since those are what determined the discounts shown),
+and the items grouped under their real category as section headings.
 
 ## Wizard accessory & region filtering (Node / Network wizards)
 

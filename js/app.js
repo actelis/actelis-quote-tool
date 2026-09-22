@@ -107,21 +107,154 @@ const App = (() => {
   // ---------------------------------------------------------------------
   // PRICE LIST PAGE
   // ---------------------------------------------------------------------
+  // Every category actually present in a given raw list (priceList /
+  // priceListArchive / typeD), respecting the same showPriceList visibility
+  // rule the table itself uses — used to populate both the category filter
+  // and the "apply discount to category" select, so both only ever offer
+  // categories that exist on the currently active tab.
+  function categoriesIn(list) {
+    const set = new Set();
+    (DataStore.raw[list] || []).forEach(r => {
+      if (r.showPriceList !== false && r.category) set.add(r.category);
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }
+
+  // Builds the full (unfiltered by search box / category filter — see the
+  // Export PDF button's own doc comment) categorized row data the Price
+  // List page's PDF export needs, using whichever discount is actually in
+  // effect for each row (item override, then category override, then the
+  // standard default — see PriceListPricing.effectiveDiscount).
+  function buildPriceListPdfPayload(list) {
+    const rows = (DataStore.raw[list] || []).filter(r => r.showPriceList !== false);
+    const ctx = Quote.ctx();
+    const isTypeD = list === 'typeD';
+    const byCategory = new Map();
+    rows.forEach(r => {
+      let listPriceDisplay, netDisplay, discountDisplay;
+      if (isTypeD) {
+        const isPercent = Quote.isPercentTypeD(r);
+        listPriceDisplay = isPercent ? (r.listPriceString || '') : money(r.listPrice);
+        netDisplay = isPercent ? '—' : money(r.listPrice);
+        discountDisplay = isPercent ? 'per BOM' : '—';
+      } else {
+        const discount = PriceListPricing.effectiveDiscount(r, ctx);
+        listPriceDisplay = money(r.listPrice);
+        netDisplay = money(r.listPrice == null ? null : r.listPrice * (1 - discount));
+        discountDisplay = pct(discount);
+      }
+      const key = r.category || '(Uncategorized)';
+      if (!byCategory.has(key)) byCategory.set(key, []);
+      byCategory.get(key).push({ partNumber: r.partNumber, description: r.description, listPriceDisplay, discountDisplay, netDisplay });
+    });
+    const categories = Array.from(byCategory.keys()).sort((a, b) => a.localeCompare(b)).map(cat => ({
+      category: cat,
+      rows: byCategory.get(cat).sort((a, b) => a.partNumber.localeCompare(b.partNumber)),
+    }));
+    const titleMap = { priceList: 'PRICE LIST', typeD: 'SERVICES / WARRANTY PRICE LIST', priceListArchive: 'ARCHIVE PRICE LIST' };
+    return {
+      title: titleMap[list] || 'PRICE LIST',
+      customerName: PriceListPricing.getCustomerName(),
+      customerType: Quote.session.customerType,
+      region: Quote.session.region,
+      date: new Date().toLocaleDateString('en-US'),
+      dealRegistration: !!Quote.session.dealRegistration && !DiscountEngine.isEmeaApac(Quote.session.region),
+      categories,
+    };
+  }
+
   function initPriceListPage() {
     DataStore.load().then(() => {
       wireSessionBar();
 
       const categoryFilter = document.getElementById('categoryFilter');
-      DataStore.raw.categoryHeaders.forEach(c => {
-        categoryFilter.appendChild(el('option', { value: c.category }, `${c.category} — ${c.description}`));
-      });
+      const discCategorySelect = document.getElementById('discCategorySelect');
+      const discountOverridesCard = document.getElementById('discountOverridesCard');
+      const customerNameInput = document.getElementById('plCustomerName');
+      customerNameInput.value = PriceListPricing.getCustomerName();
+      customerNameInput.addEventListener('input', debounce(() => PriceListPricing.setCustomerName(customerNameInput.value), 200));
 
       let activeList = 'priceList';
+
+      // Repopulates both the category filter and the category-discount
+      // select for whichever tab is now active — categories differ between
+      // the main Price List, the Archive, and Type-D Services/Warranty, and
+      // Type-D items aren't category-discount-driven at all (see the
+      // render() isTypeD branch below), so the whole "Discount Overrides"
+      // card is hidden while that tab is open.
+      function refreshCategorySelects() {
+        const cats = categoriesIn(activeList);
+        const prevFilter = categoryFilter.value;
+        categoryFilter.innerHTML = '';
+        categoryFilter.appendChild(el('option', { value: '' }, 'All categories'));
+        cats.forEach(c => categoryFilter.appendChild(el('option', { value: c }, c)));
+        if (cats.includes(prevFilter)) categoryFilter.value = prevFilter;
+
+        const isTypeD = activeList === 'typeD';
+        discountOverridesCard.style.display = isTypeD ? 'none' : '';
+        if (!isTypeD) {
+          const prevDisc = discCategorySelect.value;
+          discCategorySelect.innerHTML = '';
+          cats.forEach(c => discCategorySelect.appendChild(el('option', { value: c }, c)));
+          if (cats.includes(prevDisc)) discCategorySelect.value = prevDisc;
+        }
+      }
+
+      function renderCategoryOverridesList() {
+        const container = document.getElementById('categoryOverridesList');
+        container.innerHTML = '';
+        const entries = Object.entries(PriceListPricing.categoryOverrides);
+        if (!entries.length) {
+          container.appendChild(el('span', { style: 'color:var(--text-muted);font-size:12px' }, 'No category overrides applied yet — the standard discount matrix is in effect for every category.'));
+          return;
+        }
+        entries.forEach(([cat, disc]) => {
+          container.appendChild(el('span', { class: 'badge local', style: 'margin-right:8px;margin-bottom:6px;display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px' }, [
+            document.createTextNode(`${cat}: ${pct(disc)}`),
+            el('button', {
+              class: 'btn tiny secondary', style: 'padding:0 6px;line-height:1.5',
+              title: 'Remove this category override',
+              onclick: () => { PriceListPricing.setCategoryOverride(cat, null); renderCategoryOverridesList(); render(); },
+            }, '×'),
+          ]));
+        });
+      }
+
+      document.getElementById('applyCategoryDiscountBtn').addEventListener('click', () => {
+        const cat = discCategorySelect.value;
+        if (!cat) return;
+        const v = document.getElementById('discCategoryPct').value.trim();
+        PriceListPricing.setCategoryOverride(cat, v === '' ? null : (parseFloat(v) || 0) / 100);
+        renderCategoryOverridesList();
+        render();
+      });
+
+      document.getElementById('exportPriceListPdfBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('exportPriceListPdfBtn');
+        const prevLabel = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Generating…';
+        try {
+          const payload = buildPriceListPdfPayload(activeList);
+          const nameSlug = (PriceListPricing.getCustomerName() || '').trim().replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase();
+          const listSlug = activeList === 'typeD' ? 'services-warranty' : (activeList === 'priceListArchive' ? 'archive' : 'price-list');
+          const filename = `actelis-${listSlug}${nameSlug ? '-' + nameSlug : ''}-${new Date().toISOString().slice(0, 10)}.pdf`;
+          await PdfExport.downloadPriceListPdf(payload, filename);
+        } catch (e) {
+          console.error('Price list PDF export failed', e);
+          alert('Sorry, something went wrong generating the PDF. Please try again.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = prevLabel;
+        }
+      });
+
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       tabs.forEach(btn => btn.addEventListener('click', () => {
         tabs.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeList = btn.dataset.list;
+        refreshCategorySelects();
         render();
       }));
 
@@ -146,18 +279,44 @@ const App = (() => {
         const isTypeD = activeList === 'typeD';
 
         rows.forEach(r => {
-          let listPriceDisplay, netDisplay, discDisplay, addFn;
+          let listPriceDisplay, netDisplay, discountCell, addFn;
           if (isTypeD) {
             const isPercent = Quote.isPercentTypeD(r);
             listPriceDisplay = isPercent ? (r.listPriceString || '') : money(r.listPrice);
             netDisplay = isPercent ? '—' : money(r.listPrice);
-            discDisplay = isPercent ? 'per BOM' : '—';
+            discountCell = el('td', { class: 'num' }, isPercent ? 'per BOM' : '—');
             addFn = () => { Quote.addService(r.partNumber); render(); };
           } else {
-            const discount = DataStore.getPriceRow(r.partNumber) ? DiscountEngine.getCustomerDiscount(r.partNumber, 1, ctx) : 0;
+            const effective = PriceListPricing.effectiveDiscount(r, ctx);
+            const itemOverride = PriceListPricing.getItemOverride(r.partNumber);
+            const catOverride = PriceListPricing.getCategoryOverride(r.category);
+            const isItemOverridden = itemOverride != null;
             listPriceDisplay = money(r.listPrice);
-            netDisplay = money(r.listPrice == null ? null : r.listPrice * (1 - discount));
-            discDisplay = pct(discount);
+            netDisplay = money(r.listPrice == null ? null : r.listPrice * (1 - effective));
+            const defaultDisc = DataStore.getPriceRow(r.partNumber) ? DiscountEngine.getCustomerDiscount(r.partNumber, 1, ctx) : 0;
+            let title = 'Default discount for this catalog item';
+            if (isItemOverridden) title = `Overridden for this item — category/default is ${pct(catOverride != null ? catOverride : defaultDisc)}`;
+            else if (catOverride != null) title = `From the "${r.category}" category override — catalog default is ${pct(defaultDisc)}`;
+            discountCell = el('td', { class: 'num' });
+            discountCell.appendChild(el('input', {
+              type: 'number', min: '0', max: '100', step: '0.1',
+              value: Math.round(effective * 10000) / 100,
+              style: 'width:64px;text-align:right' + (isItemOverridden ? ';border-color:var(--accent,#ee7d1f);font-weight:600' : (catOverride != null ? ';border-color:#8ab4d8' : '')),
+              title,
+              onchange: (e) => {
+                const v = e.target.value.trim();
+                PriceListPricing.setItemOverride(r.partNumber, v === '' ? null : (parseFloat(v) || 0) / 100);
+                render();
+              },
+            }));
+            discountCell.appendChild(el('span', {}, '%'));
+            if (isItemOverridden) {
+              discountCell.appendChild(el('button', {
+                class: 'btn tiny secondary', style: 'margin-left:4px',
+                title: 'Reset to category/default discount',
+                onclick: () => { PriceListPricing.setItemOverride(r.partNumber, null); render(); },
+              }, '↺'));
+            }
             addFn = () => { Quote.addToQuote(r.partNumber, 1); render(); };
           }
           const repl = DataStore.getReplacement ? DataStore.getReplacement(r.partNumber) : null;
@@ -168,13 +327,15 @@ const App = (() => {
             el('td', {}, DataStore.categoryDescription(r.category)),
             el('td', { class: 'num' }, listPriceDisplay),
             el('td', { class: 'num' }, netDisplay),
-            el('td', { class: 'num' }, discDisplay),
+            discountCell,
             el('td', {}, el('button', { class: 'btn small secondary', onclick: addFn }, isTypeD ? 'Add Service' : 'Add')),
           ]));
         });
         document.getElementById('rowCount').textContent = `${rows.length} item(s)`;
       }
 
+      refreshCategorySelects();
+      renderCategoryOverridesList();
       render();
     });
   }
