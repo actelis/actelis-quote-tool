@@ -26,13 +26,12 @@ const Export = (() => {
 
   // ---- Build a flat description of the current quote (shared by CSV + print) ----
   function buildQuoteData() {
-    const ctx = Quote.ctx();
     const totals = Quote.totals();
     const sites = Quote.sites.map(site => {
       const lines = site.lines.map(l => {
         const row = DataStore.getPriceRow(l.partNumber);
         const listPrice = row ? row.listPrice : (l.manual ? l.manualPrice : null);
-        const discount = row ? DiscountEngine.getCustomerDiscount(l.partNumber, l.qty, ctx) : 0;
+        const discount = row ? Quote.effectiveDiscount(l) : 0;
         const netPrice = Quote.lineNetPrice(l);
         return {
           partNumber: l.partNumber,

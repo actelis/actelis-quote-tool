@@ -1,8 +1,8 @@
 /* app.js
- * DOM wiring for the three HTML pages (index.html has none). Depends on
- * data.js / discount.js / quote.js always; price-list.html needs only those;
- * quote-builder.html additionally needs the wizard-*.js, pdf.js, export.js
- * and admin.js files.
+ * DOM wiring for the two HTML pages. Depends on data.js / discount.js /
+ * quote.js always; price-list.html needs only those; index.html (the
+ * quote builder, and the site's main page) additionally needs the
+ * wizard-*.js, pdf.js, export.js and admin.js files.
  */
 const App = (() => {
 
@@ -91,7 +91,13 @@ const App = (() => {
     syncDealVisibility();
 
     ctSel.addEventListener('change', () => { Quote.session.customerType = ctSel.value; Quote.save(); onSessionChange(); });
-    regionSel.addEventListener('change', () => { Quote.session.region = regionSel.value; Quote.save(); syncDealVisibility(); onSessionChange(); });
+    regionSel.addEventListener('change', () => {
+      Quote.session.region = regionSel.value;
+      Quote.save();
+      syncDealVisibility();
+      wizardDropdownRefreshers.forEach(fn => fn());
+      onSessionChange();
+    });
     if (dealChk) dealChk.addEventListener('change', () => { Quote.session.dealRegistration = dealChk.checked; Quote.save(); onSessionChange(); });
   }
 
@@ -204,9 +210,26 @@ const App = (() => {
   function priceable(rows) {
     return rows.filter(r => r.partNumber && DataStore.getPriceRow(r.partNumber));
   }
-  function rowsByTypes(types) {
-    return priceable(DataStore.raw.autoRepeaterInfo.filter(r => types.includes(r.pnType)))
-      .sort((a, b) => a.description.localeCompare(b.description));
+  // AutoRepeaterInfo rows carry their own space-separated `region` string
+  // (e.g. "NA Enterprise APAC CALA ALL", or "EMEA ALL") — a real, separate
+  // restriction from the price-list-wide pnRegion.json mapping, used mainly
+  // for country-specific power cords/adapters (a UK/EU-plug adapter has no
+  // business showing up on an NA-region quote). An empty region string
+  // means "no restriction recorded" (mirrors DataStore.isVisibleInRegion's
+  // same convention) — everything else must explicitly list the quote's
+  // current region (or the literal "All" region) to be considered visible.
+  function ariRegionOk(row, region) {
+    const raw = (row.region || '').trim();
+    if (!raw) return true;
+    const tokens = raw.toUpperCase().split(/\s+/);
+    return tokens.includes(String(region || '').toUpperCase());
+  }
+  // `region` is optional — omit it to skip region filtering entirely (used
+  // where a class of parts genuinely never carries a region restriction).
+  function rowsByTypes(types, region) {
+    let rows = DataStore.raw.autoRepeaterInfo.filter(r => types.includes(r.pnType));
+    if (region) rows = rows.filter(r => ariRegionOk(r, region));
+    return priceable(rows).sort((a, b) => a.description.localeCompare(b.description));
   }
   function allAriRows() {
     return priceable(DataStore.raw.autoRepeaterInfo).sort((a, b) => a.description.localeCompare(b.description));
@@ -216,6 +239,13 @@ const App = (() => {
   // shown and what the big catalog search bar searches against.
   let currentLineItemsTab = 'hardware';
   let closeCatalogSearchFn = () => {};
+
+  // Wizard dropdowns whose compatible options depend on the selected CO
+  // model and/or the quote's region — each wizard builder pushes its own
+  // refresh closure here, and both the CO-model "change" handler and a
+  // region change re-run every one of them (see wireSessionBar's region
+  // listener), so a dropdown never shows a stale, unfiltered option list.
+  let wizardDropdownRefreshers = [];
 
   function initQuoteBuilderPage() {
     DataStore.load().then(() => {
@@ -346,6 +376,32 @@ const App = (() => {
           }, 'Swap'),
         ]));
       }
+      const discountCell = el('td', { class: 'num' });
+      if (l.manual) {
+        discountCell.appendChild(el('span', { style: 'color:var(--muted, #7a8595)' }, '—'));
+      } else {
+        const effective = Quote.effectiveDiscount(l);
+        const isOverridden = l.discountOverride != null;
+        discountCell.appendChild(el('input', {
+          type: 'number', min: '0', max: '100', step: '0.1',
+          value: Math.round(effective * 10000) / 100,
+          style: 'width:64px;text-align:right' + (isOverridden ? ';border-color:var(--accent,#ee7d1f);font-weight:600' : ''),
+          title: isOverridden ? 'Discount overridden for this line — default is ' + pct(row ? DiscountEngine.getCustomerDiscount(l.partNumber, l.qty, Quote.ctx()) : 0) : 'Default discount for this catalog item',
+          onchange: (e) => {
+            const v = e.target.value.trim();
+            Quote.setLineDiscount(Quote.activeSiteIndex, l.partNumber, v === '' ? null : (parseFloat(v) || 0) / 100);
+            renderAll();
+          },
+        }));
+        discountCell.appendChild(el('span', {}, '%'));
+        if (isOverridden) {
+          discountCell.appendChild(el('button', {
+            class: 'btn tiny secondary', style: 'margin-left:4px',
+            title: 'Reset to default discount',
+            onclick: () => { Quote.setLineDiscount(Quote.activeSiteIndex, l.partNumber, null); renderAll(); },
+          }, '↺'));
+        }
+      }
       body.appendChild(el('tr', {}, [
         el('td', {}, l.partNumber),
         descCell,
@@ -353,6 +409,7 @@ const App = (() => {
           type: 'number', min: '0', value: l.qty, style: 'width:70px;text-align:right',
           onchange: (e) => { Quote.setLineQty(Quote.activeSiteIndex, l.partNumber, parseFloat(e.target.value) || 0); renderAll(); },
         })),
+        discountCell,
         el('td', { class: 'num' }, money(net)),
         el('td', { class: 'num' }, money(net * l.qty)),
         el('td', {}, el('button', { class: 'btn small danger', onclick: () => { Quote.removeLine(Quote.activeSiteIndex, l.partNumber); renderAll(); } }, 'Remove')),
@@ -849,28 +906,32 @@ const App = (() => {
 
     const coModelInput = el('input', { type: 'text', list: 'nodeCoModelList' });
     const coModelList = el('datalist', { id: 'nodeCoModelList' });
-    fillDatalist(coModelList, rowsByTypes(PNTYPES.coCpe).length ? rowsByTypes(PNTYPES.coCpe) : allAriRows());
+    fillDatalist(coModelList, rowsByTypes(PNTYPES.coCpe, Quote.session.region).length ? rowsByTypes(PNTYPES.coCpe, Quote.session.region) : allAriRows());
 
     const coQuantity = el('input', { type: 'number', min: '1', value: '1' });
     const craftCable = el('input', { type: 'checkbox' });
     const bundles = el('input', { type: 'checkbox' });
-    const mluModelSel = el('select'); fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu), { none: '— None —' });
+    const mluModelSel = el('select'); fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu, Quote.session.region), { none: '— None —' });
     const mluQtySel = el('select'); [1, 2, 3, 4].forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
-    const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu), { none: '— None —' });
+    const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, Quote.session.region), { none: '— None —' });
     const sduRedundancy = el('input', { type: 'checkbox' });
     const coPoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
-    const acdcModelSel = el('select'); fillSelect(acdcModelSel, rowsByTypes(PNTYPES.acdc), { none: '— None —' });
-    const acCableSel = el('select'); fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable), { none: '— None —' });
+    // AC/DC Adapter, Mounting Kit and CO Copper Cable start out showing every
+    // family's options (no CO model picked yet) — refreshDependentSelects()
+    // below narrows each down to only what's compatible once a device is
+    // recognized, and re-narrows on every subsequent device or region change.
+    const acdcModelSel = el('select'); fillSelect(acdcModelSel, rowsByTypes(PNTYPES.acdc, Quote.session.region), { none: '— None —' });
+    const acCableSel = el('select'); fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, Quote.session.region), { none: '— None —' });
     const codcPower = el('input', { type: 'checkbox' });
-    const alarmCableSel = el('select'); fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm), { none: '— None —' });
+    const alarmCableSel = el('select'); fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, Quote.session.region), { none: '— None —' });
     const mountingKit = el('input', { type: 'checkbox' });
-    const mountingModelSel = el('select'); fillSelect(mountingModelSel, rowsByTypes(PNTYPES.mounting), { none: '— None —' });
-    const coSfpModelSel = el('select'); fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp), { none: '— None —' });
+    const mountingModelSel = el('select'); fillSelect(mountingModelSel, rowsByTypes(PNTYPES.mounting, Quote.session.region), { none: '— None —' });
+    const coSfpModelSel = el('select'); fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, Quote.session.region), { none: '— None —' });
     const sfpQuantity = el('input', { type: 'number', min: '1', value: '1' });
     const coFiberCableInput = el('input', { type: 'text', list: 'nodeFiberCableList' });
     const coFiberCableList = el('datalist', { id: 'nodeFiberCableList' });
     fillDatalist(coFiberCableList, allAriRows());
-    const coCopperCableSel = el('select'); fillSelect(coCopperCableSel, rowsByTypes(PNTYPES.copper), { none: '— None —' });
+    const coCopperCableSel = el('select'); fillSelect(coCopperCableSel, rowsByTypes(PNTYPES.copper, Quote.session.region), { none: '— None —' });
     const ptmpCopperCables = el('input', { type: 'checkbox' });
     const cableTypeSel = el('select', {}, [el('option', { value: 'US Color Code (ft)' }, 'US Color Code (ft)'), el('option', { value: 'EU Color Code (m)' }, 'EU Color Code (m)')]);
     const cableLength = el('input', { type: 'text', placeholder: 'e.g. 25' });
@@ -907,6 +968,26 @@ const App = (() => {
       checkboxField('Add TDM/MLE-16E extension', mleExt),
     ]));
 
+    // Re-filters AC/DC Adapter, Mounting Kit, and CO Copper Cable to only
+    // the option(s) actually compatible with `lastClassified` (see
+    // NodeWizard.compatibleAccessoryTypes) and the quote's current region —
+    // this is the fix for the wizard offering, say, an ML700 AC adapter for
+    // an ML600 chassis. Each select's current selection is preserved if it's
+    // still in the narrowed list; otherwise it falls back to "— None —".
+    function refreshDependentSelects() {
+      const region = Quote.session.region;
+      const compat = NodeWizard.compatibleAccessoryTypes(lastClassified);
+      fillSelect(acdcModelSel, rowsByTypes(compat.acdc, region), { none: '— None —', selected: acdcModelSel.value });
+      fillSelect(mountingModelSel, rowsByTypes(compat.mounting, region), { none: '— None —', selected: mountingModelSel.value });
+      fillSelect(coCopperCableSel, rowsByTypes(compat.copperCO, region), { none: '— None —', selected: coCopperCableSel.value });
+      fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, region), { none: '— None —', selected: acCableSel.value });
+      fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu, region), { none: '— None —', selected: mluModelSel.value });
+      fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, region), { none: '— None —', selected: sduModelSel.value });
+      fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: coSfpModelSel.value });
+      fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, region), { none: '— None —', selected: alarmCableSel.value });
+    }
+    wizardDropdownRefreshers.push(refreshDependentSelects);
+
     let lastClassified = null;
     coModelInput.addEventListener('change', () => {
       const pn = parsePN(coModelInput.value);
@@ -918,6 +999,7 @@ const App = (() => {
         lastClassified = null;
         classifyInfo.style.display = 'none';
       }
+      refreshDependentSelects();
     });
 
     const templateBar = buildTemplateBar('node', () => collectState(), (state) => applyState(state));
@@ -1026,35 +1108,39 @@ const App = (() => {
     }
 
     const configTypeSel = el('select', {}, [el('option', { value: 'PTP' }, 'Point-to-Point (PTP)'), el('option', { value: 'PTMP' }, 'Point-to-Multipoint (PTMP)')]);
-    const co = searchField('CO Model', 'netCoModelList', rowsByTypes(PNTYPES.coCpe).length ? rowsByTypes(PNTYPES.coCpe) : allAriRows());
-    const cpe = searchField('CPE Model', 'netCpeModelList', rowsByTypes(PNTYPES.coCpe).length ? rowsByTypes(PNTYPES.coCpe) : allAriRows());
+    const co = searchField('CO Model', 'netCoModelList', rowsByTypes(PNTYPES.coCpe, Quote.session.region).length ? rowsByTypes(PNTYPES.coCpe, Quote.session.region) : allAriRows());
+    const cpe = searchField('CPE Model', 'netCpeModelList', rowsByTypes(PNTYPES.coCpe, Quote.session.region).length ? rowsByTypes(PNTYPES.coCpe, Quote.session.region) : allAriRows());
     const coQuantity = el('input', { type: 'number', min: '1', value: '1' });
     const numLinks = el('input', { type: 'number', min: '1', value: '1' });
     const craftCable = el('input', { type: 'checkbox' });
     const bundles = el('input', { type: 'checkbox' });
-    const mluModelSel = el('select'); fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu), { none: '— None —' });
+    const mluModelSel = el('select'); fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu, Quote.session.region), { none: '— None —' });
     const mluQtySel = el('select'); [1, 2, 3, 4].forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
-    const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu), { none: '— None —' });
+    const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, Quote.session.region), { none: '— None —' });
     const sduRedundancy = el('input', { type: 'checkbox' });
     const mleExt = el('input', { type: 'checkbox' });
     const coPoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
     const cpePoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
-    const acdcModelSel = el('select'); fillSelect(acdcModelSel, rowsByTypes(PNTYPES.acdc), { none: '— None —' });
-    const acCableSel = el('select'); fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable), { none: '— None —' });
+    // AC/DC Adapter, Mounting Kit, and both Copper Cable fields start out
+    // showing every family's options (no CO model recognized yet) —
+    // refreshDependentSelects() below (wired to the CO Model field) narrows
+    // each down to only what's compatible with the recognized device.
+    const acdcModelSel = el('select'); fillSelect(acdcModelSel, rowsByTypes(PNTYPES.acdc, Quote.session.region), { none: '— None —' });
+    const acCableSel = el('select'); fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, Quote.session.region), { none: '— None —' });
     const codcPower = el('input', { type: 'checkbox' });
     const cpeDcPower = el('input', { type: 'checkbox' });
 
     const repeaterConfig = el('input', { type: 'checkbox' });
-    const pfuModelSel = el('select'); fillSelect(pfuModelSel, rowsByTypes(PNTYPES.pfu), { none: '— None —' });
+    const pfuModelSel = el('select'); fillSelect(pfuModelSel, rowsByTypes(PNTYPES.pfu, Quote.session.region), { none: '— None —' });
     const repeaterHops = el('input', { type: 'number', min: '1', value: '1' });
     const numPairs = el('input', { type: 'number', min: '1', value: '8' });
     const adapter = searchField('Adapter Model (repeater cross-connect; leave blank for a standalone repeater)', 'netAdapterList', allAriRows());
     const repeater = searchField('Repeater Model', 'netRepeaterList', allAriRows());
     const pfuDcCable = el('input', { type: 'checkbox' });
-    const pfuCableLengthSel = el('select'); fillSelect(pfuCableLengthSel, rowsByTypes(PNTYPES.pfuCable), { none: '— None —' });
+    const pfuCableLengthSel = el('select'); fillSelect(pfuCableLengthSel, rowsByTypes(PNTYPES.pfuCable, Quote.session.region), { none: '— None —' });
 
     const mountingKitSel = el('select');
-    const mountingModelSel = el('select'); fillSelect(mountingModelSel, rowsByTypes(PNTYPES.mounting), { none: '— None —' });
+    const mountingModelSel = el('select'); fillSelect(mountingModelSel, rowsByTypes(PNTYPES.mounting, Quote.session.region), { none: '— None —' });
     function refreshMountingOptions() {
       const opts = configTypeSel.value === 'PTP'
         ? ['None', 'CPE Only', 'CO Only', 'CO and CPE']
@@ -1065,15 +1151,15 @@ const App = (() => {
     refreshMountingOptions();
     configTypeSel.addEventListener('change', refreshMountingOptions);
 
-    const coSfpModelSel = el('select'); fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp), { none: '— None —' });
+    const coSfpModelSel = el('select'); fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, Quote.session.region), { none: '— None —' });
     const sfpQuantity = el('input', { type: 'number', min: '1', value: '1' });
-    const cpeSfpModelSel = el('select'); fillSelect(cpeSfpModelSel, rowsByTypes(PNTYPES.sfp), { none: '— None —' });
+    const cpeSfpModelSel = el('select'); fillSelect(cpeSfpModelSel, rowsByTypes(PNTYPES.sfp, Quote.session.region), { none: '— None —' });
     const cpeSfpQuantity = el('input', { type: 'number', min: '1', value: '1' });
-    const copperCableSel = el('select'); fillSelect(copperCableSel, rowsByTypes(PNTYPES.copper), { none: '— None —' });
-    const coCopperCableSel = el('select'); fillSelect(coCopperCableSel, rowsByTypes(PNTYPES.copper), { none: '— None —' });
+    const copperCableSel = el('select'); fillSelect(copperCableSel, rowsByTypes(PNTYPES.copper, Quote.session.region), { none: '— None —' });
+    const coCopperCableSel = el('select'); fillSelect(coCopperCableSel, rowsByTypes(PNTYPES.copper, Quote.session.region), { none: '— None —' });
     const cableTypeSel = el('select', {}, [el('option', { value: 'US Color Code (ft)' }, 'US Color Code (ft)'), el('option', { value: 'EU Color Code (m)' }, 'EU Color Code (m)')]);
     const cableLength = el('input', { type: 'text', placeholder: 'e.g. 25' });
-    const alarmCableSel = el('select'); fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm), { none: '— None —' });
+    const alarmCableSel = el('select'); fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, Quote.session.region), { none: '— None —' });
 
     const classifyInfo = el('div', { class: 'notice info', style: 'display:none' });
 
@@ -1107,15 +1193,42 @@ const App = (() => {
       field('Alarm Cable (chassis)', alarmCableSel),
     ]));
 
+    // Re-filters AC/DC Adapter, Mounting Kit, and both Copper Cable fields to
+    // only the option(s) compatible with the recognized CO model and the
+    // quote's current region (see NodeWizard.compatibleAccessoryTypes and
+    // wizard-node.js's header comment on why this matters) — the chassis-
+    // side "Copper Cable (CPE side / chassis)" field uses `copperGeneric`
+    // since it applies to both PTMP-chassis and PTP-CPE-side contexts.
+    let lastClassified = null;
+    function refreshDependentSelects() {
+      const region = Quote.session.region;
+      const compat = NodeWizard.compatibleAccessoryTypes(lastClassified);
+      fillSelect(acdcModelSel, rowsByTypes(compat.acdc, region), { none: '— None —', selected: acdcModelSel.value });
+      fillSelect(mountingModelSel, rowsByTypes(compat.mounting, region), { none: '— None —', selected: mountingModelSel.value });
+      fillSelect(coCopperCableSel, rowsByTypes(compat.copperCO, region), { none: '— None —', selected: coCopperCableSel.value });
+      fillSelect(copperCableSel, rowsByTypes(compat.copperGeneric, region), { none: '— None —', selected: copperCableSel.value });
+      fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, region), { none: '— None —', selected: acCableSel.value });
+      fillSelect(mluModelSel, rowsByTypes(PNTYPES.mlu, region), { none: '— None —', selected: mluModelSel.value });
+      fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, region), { none: '— None —', selected: sduModelSel.value });
+      fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: coSfpModelSel.value });
+      fillSelect(cpeSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: cpeSfpModelSel.value });
+      fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, region), { none: '— None —', selected: alarmCableSel.value });
+      fillSelect(pfuModelSel, rowsByTypes(PNTYPES.pfu, region), { none: '— None —', selected: pfuModelSel.value });
+      fillSelect(pfuCableLengthSel, rowsByTypes(PNTYPES.pfuCable, region), { none: '— None —', selected: pfuCableLengthSel.value });
+    }
+    wizardDropdownRefreshers.push(refreshDependentSelects);
+
     function updateClassifyInfo() {
       const pn = parsePN(co.input.value);
       if (pn && DataStore.raw.autoRepeaterInfo.some(r => r.partNumber === pn)) {
-        const c = NodeWizard.classify(pn);
+        lastClassified = NodeWizard.classify(pn);
         classifyInfo.style.display = '';
-        classifyInfo.textContent = `CO recognized as: ${c.ptmpType} / ${c.ptmpModel}`;
+        classifyInfo.textContent = `CO recognized as: ${lastClassified.ptmpType} / ${lastClassified.ptmpModel}`;
       } else {
+        lastClassified = null;
         classifyInfo.style.display = 'none';
       }
+      refreshDependentSelects();
     }
     co.input.addEventListener('change', updateClassifyInfo);
 
@@ -1250,9 +1363,15 @@ const App = (() => {
     const existingSiteLicenses = el('input', { type: 'text', placeholder: "number, '>1000', or 'Right to Use'" });
     const rtuLicense = el('input', { type: 'checkbox' });
     const siteLicenses = el('input', { type: 'number', min: '0', value: '100' });
-    const nodeLicensesSel = el('select'); fillSelect(nodeLicensesSel, rowsByTypes(['EMSNODE']), { none: '— None —' });
-    const aggregatorLicensesSel = el('select'); fillSelect(aggregatorLicensesSel, rowsByTypes(['EMSAGG']), { none: '— None —' });
-    const thirdPartyLicensesSel = el('select'); fillSelect(thirdPartyLicensesSel, rowsByTypes(['PTMP EMS', 'PTMP ML230 EMS', 'PTP EMS']), { none: '— None —' });
+    const nodeLicensesSel = el('select'); fillSelect(nodeLicensesSel, rowsByTypes(['EMSNODE'], Quote.session.region), { none: '— None —' });
+    const aggregatorLicensesSel = el('select'); fillSelect(aggregatorLicensesSel, rowsByTypes(['EMSAGG'], Quote.session.region), { none: '— None —' });
+    const thirdPartyLicensesSel = el('select'); fillSelect(thirdPartyLicensesSel, rowsByTypes(['PTMP EMS', 'PTMP ML230 EMS', 'PTP EMS'], Quote.session.region), { none: '— None —' });
+    wizardDropdownRefreshers.push(() => {
+      const region = Quote.session.region;
+      fillSelect(nodeLicensesSel, rowsByTypes(['EMSNODE'], region), { none: '— None —', selected: nodeLicensesSel.value });
+      fillSelect(aggregatorLicensesSel, rowsByTypes(['EMSAGG'], region), { none: '— None —', selected: aggregatorLicensesSel.value });
+      fillSelect(thirdPartyLicensesSel, rowsByTypes(['PTMP EMS', 'PTMP ML230 EMS', 'PTP EMS'], region), { none: '— None —', selected: thirdPartyLicensesSel.value });
+    });
     const clients = el('input', { type: 'number', min: '0', value: '0' });
     const redundancy = el('input', { type: 'checkbox' });
     const redundancyExtn = el('input', { type: 'checkbox' });

@@ -188,6 +188,22 @@ const Quote = (() => {
     persist();
   }
 
+  // Overrides the default region/customer-type discount (see discount.js)
+  // for one BOM line, so a user can negotiate a different discount on a
+  // per-line basis without that affecting every other quote. Passing
+  // `discount` as null/undefined/NaN clears the override and reverts the
+  // line to the standard discount matrix. Does nothing for a manual/custom
+  // line (addManualLine) — those already carry their own directly-entered
+  // price and have no catalog discount to override.
+  function setLineDiscount(siteIndex, partNumber, discount) {
+    const site = sites[siteIndex];
+    const line = site.lines.find(l => l.partNumber === partNumber);
+    if (!line || line.manual) return;
+    if (discount == null || Number.isNaN(discount)) delete line.discountOverride;
+    else line.discountOverride = discount;
+    persist();
+  }
+
   // ---- Services (Type-D) ----
   // A Type-D row whose "List Price String" mentions a percentage is treated
   // as a percent-of-BOM-subtotal line (mirrors the Access QuoteTable-Part D
@@ -256,13 +272,29 @@ const Quote = (() => {
   // ---- Totals (Report_QuoteReport A4 / QuoteSubReport control sources) ----
   // Accepts either a plain part number (legacy call sites) or a BOM line
   // object — a manual/custom line (see addManualLine) carries its own
-  // manually-entered price instead of a catalog lookup.
+  // manually-entered price instead of a catalog lookup, and a line with a
+  // discountOverride (see setLineDiscount) prices off the catalog's list
+  // price at that discount instead of the standard discount-matrix lookup.
   function lineNetPrice(lineOrPn) {
     if (lineOrPn && typeof lineOrPn === 'object') {
       if (lineOrPn.manual) return lineOrPn.manualPrice || 0;
+      if (lineOrPn.discountOverride != null) {
+        const row = DataStore.getPriceRow(lineOrPn.partNumber);
+        if (!row || row.listPrice == null) return 0;
+        return row.listPrice * (1 - lineOrPn.discountOverride);
+      }
       return DiscountEngine.netPrice(lineOrPn.partNumber, 1, ctx());
     }
     return DiscountEngine.netPrice(lineOrPn, 1, ctx());
+  }
+
+  // The discount actually in effect for a BOM line: its override if one is
+  // set, otherwise the standard region/customer-type default from the
+  // discount matrix. Used by the UI to populate/reset the Discount column.
+  function effectiveDiscount(line) {
+    if (!line || line.manual) return 0;
+    if (line.discountOverride != null) return line.discountOverride;
+    return DiscountEngine.getCustomerDiscount(line.partNumber, line.qty, ctx());
   }
 
   function siteSubtotal(site) {
@@ -429,9 +461,9 @@ const Quote = (() => {
     get services() { return services; },
     get activeSiteIndex() { return activeSiteIndex; },
     activeSite, addSite, duplicateSite, deleteSite, setActiveSite,
-    addToQuote, addManualLine, setLineQty, removeLine,
+    addToQuote, addManualLine, setLineQty, removeLine, setLineDiscount,
     addService, addManualService, removeService, removeServicesByPn, setFinancialOption, isPercentTypeD,
-    lineNetPrice, siteSubtotal, bomSubtotal, servicesSubtotal, totals,
+    lineNetPrice, effectiveDiscount, siteSubtotal, bomSubtotal, servicesSubtotal, totals,
     reset, ctx, serialize, loadFromState, importForeignData,
     save: persist, // call after directly mutating session/header fields from the UI
   };

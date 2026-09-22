@@ -39,10 +39,10 @@ redeploys automatically.
 ## Site structure
 
 ```
-index.html            Landing page
-price-list.html        Browsable price list + Type-D (services/warranty) list
-quote-builder.html      Quote builder: details/summary, line items, wizards,
-                         Financial Options, Admin + Replacements managers
+index.html            Main page / Quote builder: details/summary, line
+                         items, wizards, Financial Options, Admin +
+                         Replacements managers
+price-list.html         Browsable price list + Type-D (services/warranty) list
 css/style.css           All styles (navy/orange visual language, toggles,
                          modals, print stylesheet for the legacy Print view)
 js/data.js              Loads/indexes the JSON data files, replacements lookup
@@ -62,7 +62,7 @@ js/export.js             CSV export, real .xlsx export (SheetJS), legacy
 js/admin.js              CSV/XLSX parsing, diffing and JSON generation used
                          by the Admin — Price List Manager and Replacements
                          Manager modals (no GitHub API calls — see below)
-js/app.js                DOM wiring for all three pages
+js/app.js                DOM wiring for both pages
 js/vendor/               Vendored copies of pdf-lib, pdfjs-dist and SheetJS
                          (xlsx) — served same-origin, no CDN dependency
 data/*.json              Price list, discount matrix, part-classification
@@ -76,7 +76,7 @@ assets/                  Actelis logo, used in the page header and in
 - **The quote you're building** (sites, BOM lines, services, customer
   type/region, header fields) lives in memory and is mirrored to
   **`sessionStorage`**, purely so it survives navigating between
-  `price-list.html` and `quote-builder.html` in the same browser tab.
+  `price-list.html` and `index.html` in the same browser tab.
   `sessionStorage` is automatically wiped when the tab or window is closed
   and is never sent anywhere. Nothing is saved between visits unless you
   export it.
@@ -113,7 +113,7 @@ assets/                  Actelis logo, used in the page header and in
   public tool): RMA quotes, the COGS/margin viewer, the HubSpot export, and
   any login/role system.
 - **Model pickers in the configurator wizards** show a broad, searchable
-  list of catalog parts for a given field (e.g. "SDU Model" shows all SDU
+  list of catalog parts for most fields (e.g. "SDU Model" shows all SDU
   parts) rather than reproducing every one of the desktop tool's nested,
   cascading dropdown filters (which also depend on prior selections, OEM,
   and legacy flags). This is a UI convenience simplification only — the
@@ -121,6 +121,10 @@ assets/                  Actelis logo, used in the page header and in
   `js/wizard-ems.js`) is a faithful, line-by-line port of the original VBA,
   and it always resolves pricing/quantities from whichever real part number
   you select, so the simplification does not affect calculation accuracy.
+  The three fields where a wrong pick is a real, physical mismatch — **AC/DC
+  Adapter**, **Mounting Kit**, and **Copper Cable** — are the exception: see
+  "Wizard accessory & region filtering" below, they *are* narrowed to only
+  the options compatible with the selected CO/Node model.
 - **Archived/legacy part numbers**: a handful of AutoRepeaterInfo part
   numbers referenced by very old configurations (superseded model variants)
   have no entry in the current price list, the Type-D list, or even the
@@ -194,6 +198,54 @@ copied into `js/vendor/` at build time rather than loaded from a CDN, so the
 export/import features work with no external network dependency and no CDN
 outage risk. Their licenses are included alongside them
 (`js/vendor/LICENSE-*.txt`).
+
+## Per-line discount override (Bill of Materials)
+
+Each BOM line in the Line Items table has a **Discount** column, pre-filled
+with the standard region/customer-type discount from the discount matrix
+(`js/discount.js`) for that part. It's editable inline — typing a different
+percentage and tabbing/clicking away re-prices that one line (and its
+Extended amount, the site subtotal, and the grand total) at the new
+discount, without affecting any other line or any other quote. An
+overridden field is highlighted and gets a small **↺** reset button to snap
+it back to the default; clearing the field does the same thing. This only
+applies to real catalog lines — a custom/manual line (the "+ Add" row)
+already carries its own directly-typed price and shows "—" instead, since
+there's no catalog discount to override. CSV and Excel exports' "Discount
+%" column reflect whatever is actually in effect (override or default); the
+generated PDF's BOM table (matching the original Access report layout)
+doesn't print a discount column at all, on either our own export or the
+original — only Unit Price/Qty/Total — so it's unaffected either way.
+
+## Wizard accessory & region filtering (Node / Network wizards)
+
+The **AC/DC Adapter**, **Mounting Kit**, and **Copper Cable** fields in the
+Node Configurator and Network/Repeater Configurator are narrowed to only the
+option(s) actually compatible with the CO/Node model you've selected, instead
+of listing every device family's accessories merged into one flat list.
+Concretely: picking an ML600D no longer offers an ML700 AC/DC adapter, an
+ML620i mounting kit, or a generic copper cable meant for a different chassis
+— it shows only the DIN-rail PSU/PoE options and the dedicated PTP-D cable
+that unit actually uses, and a Chassis CO correctly shows no AC/DC Adapter or
+Mounting Kit option at all (those don't apply to chassis-mounted units). This
+mirrors the classification the desktop tool's `CO_Model_AfterUpdate` logic
+already performs (`NodeWizard.classify`) — `NodeWizard.compatibleAccessoryTypes`
+in `js/wizard-node.js` maps that classification to the compatible
+AutoRepeaterInfo "PN Type"(s) for each of the three fields.
+
+Separately, every wizard dropdown sourced from AutoRepeaterInfo (AC/DC
+Adapter, AC Power Cable, Mounting Kit, SFP, Copper/Alarm Cable, MLU, SDU, PFU,
+and EMS license types) also respects that row's own **region** restriction —
+a handful of parts (mainly country-specific power cords/adapters) are
+recorded as NA-only or EMEA-only and are hidden from quotes in a different
+region, the same way the price list itself already does for other tables.
+
+Both filters re-run live: changing the CO/Node model, or changing the quote's
+**Region** selector (top bar), immediately re-filters every affected dropdown
+in the currently-open wizard, preserving your current selection where it's
+still valid and otherwise resetting that field to "— None —". Previously
+these dropdowns were only populated once, when the wizard first opened, and
+never updated afterward.
 
 ## Financial Options
 

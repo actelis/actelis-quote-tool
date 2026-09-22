@@ -26,6 +26,57 @@ const NodeWizard = (() => {
     return row ? row.description : '';
   }
 
+  // Restores the family-specific dropdown filtering the original Access
+  // wizard applied via nested RowSource queries (see this file's header
+  // comment — it had been simplified to "show every family's options
+  // together", which let a user pick a physically incompatible power
+  // supply/mounting-kit/cable, e.g. an "AC-DC Adapter for ML700" for an
+  // ML600D unit). Returns, for the given classified device, which
+  // AutoRepeaterInfo "PN Type"(s) are actually compatible for each of the
+  // three device-specific accessory fields (AC/DC Adapter, Mounting Kit,
+  // and the CO-side Copper Cable field(s)). An empty array means "no
+  // compatible option for this device — only None should be offered" (e.g.
+  // Mounting Kit for a Chassis CO model, which mounts differently).
+  //
+  // Pass classified = null (no CO model chosen yet) to get the full,
+  // unfiltered union for each field — this is what every dropdown showed
+  // before a device was picked, and still does here.
+  function compatibleAccessoryTypes(classified) {
+    const ALL = {
+      acdc: ['PTP AC', 'PTP-D AC', 'PTP-D ACPOE', 'PTP ML620i AC', 'PTP ML650x AC', 'PTP ML700 AC'],
+      mounting: ['ML5xx Mounting', 'ML600 Mounting'],
+      copperCO: ['ML600 Cable (No PFU)', 'PTP-D Cable'],
+      copperGeneric: ['ML600 Cable (No PFU)', 'CHS-2000B Cable', 'PTP-D Cable'],
+    };
+    if (!classified) return ALL;
+    const { ptmpType, ptmpModel } = classified;
+
+    let acdc = [];
+    if (ptmpModel === 'ML700CO' || ptmpModel === 'ML700CPE') acdc = ['PTP ML700 AC'];
+    else if (ptmpModel === 'ML650x') acdc = ['PTP ML650x AC'];
+    else if (ptmpModel === 'ML620i' || ptmpModel === 'ML600iKit') acdc = ['PTP ML620i AC'];
+    else if (ptmpModel === 'ML600D') acdc = ['PTP-D AC', 'PTP-D ACPOE'];
+    else if (ptmpType === 'ML600' || ptmpType === 'ML500') acdc = ['PTP AC'];
+    // ML40 / ML5xx / Chassis: no modeled AC/DC adapter type — matches
+    // classify()'s showCOPowering, which is already false for these.
+
+    let mounting = [];
+    if (ptmpType === 'ML5xx') mounting = ['ML5xx Mounting'];
+    else if (['ML500', 'ML600', 'ML700'].includes(ptmpType) && ptmpModel !== 'ML600D' && ptmpModel !== 'ML2316Kit') {
+      mounting = ['ML600 Mounting'];
+    }
+    // ML40 / ML600D / ML2316Kit / Chassis: no mounting kit modeled here —
+    // matches classify()'s showMountingKit exclusions.
+
+    let copperCO = [];
+    if (ptmpModel === 'ML600D') copperCO = ['PTP-D Cable'];
+    else if (['ML500', 'ML600', 'ML700'].includes(ptmpType)) copperCO = ['ML600 Cable (No PFU)'];
+
+    const copperGeneric = ptmpType === 'Chassis' ? ['CHS-2000B Cable'] : copperCO;
+
+    return { acdc, mounting, copperCO, copperGeneric };
+  }
+
   // ---- Phase 1: classify (CO_Model_AfterUpdate) ----
   function classify(coModel, legacyOk) {
     const pnType = dlPnType(coModel);
@@ -274,5 +325,5 @@ const NodeWizard = (() => {
     return note;
   }
 
-  return { classify, calculate, apply, calcBlankPanels, getCablePN };
+  return { classify, calculate, apply, calcBlankPanels, getCablePN, compatibleAccessoryTypes };
 })();
