@@ -139,12 +139,14 @@ const PdfExport = (() => {
     } else {
       text('ACTELIS', MARGIN, y - 16, { font: helvBold, size: 16, color: navy });
     }
-    rightText('Actelis', PAGE_W - MARGIN, y - 8, { font: helvBold, size: 10, color: navy });
-    rightText('4039 Clipper Court', PAGE_W - MARGIN, y - 20, { size: 8.5, color: grey });
-    rightText('Fremont, CA 94538', PAGE_W - MARGIN, y - 31, { size: 8.5, color: grey });
-    rightText('P: 510-545-1045', PAGE_W - MARGIN, y - 42, { size: 8.5, color: grey });
-    rightText('F: 510-545-1075', PAGE_W - MARGIN, y - 53, { size: 8.5, color: grey });
-    y -= 62;
+    rightText('Actelis Corporate Headquarters', PAGE_W - MARGIN, y - 8, { font: helvBold, size: 10, color: navy });
+    rightText('710 Lakeway Drive, Ste 200', PAGE_W - MARGIN, y - 19, { size: 8.5, color: grey });
+    rightText('Sunnyvale, CA 94085', PAGE_W - MARGIN, y - 30, { size: 8.5, color: grey });
+    rightText('Tel: (510) 545-1045', PAGE_W - MARGIN, y - 41, { size: 8.5, color: grey });
+    rightText('Tel: 866-ACTELIS / (866) 228-3547', PAGE_W - MARGIN, y - 52, { size: 8.5, color: grey });
+    rightText('Fax: (510) 657-8006', PAGE_W - MARGIN, y - 63, { size: 8.5, color: grey });
+    rightText('info@actelis.com', PAGE_W - MARGIN, y - 74, { size: 8.5, color: grey });
+    y -= 84;
     text('QUOTATION', MARGIN, y, { font: helvBold, size: 15, color: navy });
     y -= 8;
     line(MARGIN, y, PAGE_W - MARGIN, y, { thickness: 1.5, color: accent });
@@ -201,16 +203,18 @@ const PdfExport = (() => {
       const nLines = Math.max(1, ...lineHeights);
       const rowH = nLines * 10 + 4;
       ensureSpace(rowH + 20);
+      const rowTopY = y;
       cols.forEach(c => {
         const wrapped = wrapText(rowGetters[c.key](), helv, 8.5, c.w - 4);
         wrapped.forEach((ln, i) => {
-          const yy = y - i * 10;
+          const yy = rowTopY - i * 10;
           if (c.num) rightText(ln, c.x + c.w, yy, { size: 8.5 });
           else text(ln, c.x, yy, { size: 8.5 });
         });
       });
-      y -= rowH;
-      line(MARGIN, y + 3, PAGE_W - MARGIN, y + 3, { color: lightGrey, thickness: 0.5 });
+      const lastLineY = rowTopY - (nLines - 1) * 10;
+      y = rowTopY - rowH;
+      line(MARGIN, lastLineY - 7, PAGE_W - MARGIN, lastLineY - 7, { color: lightGrey, thickness: 0.5 });
     }
     function totalRow(label, amount, opts = {}) {
       ensureSpace(20);
@@ -722,12 +726,14 @@ const PdfExport = (() => {
     } else {
       text('ACTELIS', MARGIN, y - 16, { font: helvBold, size: 16, color: navy });
     }
-    rightText('Actelis', PAGE_W - MARGIN, y - 8, { font: helvBold, size: 10, color: navy });
-    rightText('4039 Clipper Court', PAGE_W - MARGIN, y - 20, { size: 8.5, color: grey });
-    rightText('Fremont, CA 94538', PAGE_W - MARGIN, y - 31, { size: 8.5, color: grey });
-    rightText('P: 510-545-1045', PAGE_W - MARGIN, y - 42, { size: 8.5, color: grey });
-    rightText('F: 510-545-1075', PAGE_W - MARGIN, y - 53, { size: 8.5, color: grey });
-    y -= 62;
+    rightText('Actelis Corporate Headquarters', PAGE_W - MARGIN, y - 8, { font: helvBold, size: 10, color: navy });
+    rightText('710 Lakeway Drive, Ste 200', PAGE_W - MARGIN, y - 19, { size: 8.5, color: grey });
+    rightText('Sunnyvale, CA 94085', PAGE_W - MARGIN, y - 30, { size: 8.5, color: grey });
+    rightText('Tel: (510) 545-1045', PAGE_W - MARGIN, y - 41, { size: 8.5, color: grey });
+    rightText('Tel: 866-ACTELIS / (866) 228-3547', PAGE_W - MARGIN, y - 52, { size: 8.5, color: grey });
+    rightText('Fax: (510) 657-8006', PAGE_W - MARGIN, y - 63, { size: 8.5, color: grey });
+    rightText('info@actelis.com', PAGE_W - MARGIN, y - 74, { size: 8.5, color: grey });
+    y -= 84;
     text(payload.title || 'PRICE LIST', MARGIN, y, { font: helvBold, size: 15, color: navy });
     y -= 8;
     line(MARGIN, y, PAGE_W - MARGIN, y, { thickness: 1.5, color: accent });
@@ -777,15 +783,17 @@ const PdfExport = (() => {
       const nLines = Math.max(1, ...lineHeights);
       const rowH = nLines * 10 + 4;
       ensureSpace(rowH + 20);
+      const rowTopY = y;
       cols.forEach(c => {
         wrapText(getters[c.key](), helv, 8.5, c.w - 4).forEach((ln, i) => {
-          const yy = y - i * 10;
+          const yy = rowTopY - i * 10;
           if (c.num) rightText(ln, c.x + c.w, yy, { size: 8.5 });
           else text(ln, c.x, yy, { size: 8.5 });
         });
       });
-      y -= rowH;
-      line(MARGIN, y + 3, PAGE_W - MARGIN, y + 3, { color: lightGrey, thickness: 0.5 });
+      const lastLineY = rowTopY - (nLines - 1) * 10;
+      y = rowTopY - rowH;
+      line(MARGIN, lastLineY - 7, PAGE_W - MARGIN, lastLineY - 7, { color: lightGrey, thickness: 0.5 });
     }
 
     (payload.categories || []).forEach(cat => {
