@@ -311,37 +311,68 @@ field, completely overriding the automatic guess for just those two fields
 (Mounting Kit and everything else are unaffected, and still filtered
 automatically as above).
 
-## MLU / SDU chassis compatibility (ML230 / ML2300 / ML2300B)
+## Device/Parts Compatibility Matrix (data/compatibility-matrix.json)
 
-The Node and Network wizards' **MLU Model**, **SDU Model**, **MLU Qty per
-shelf**, and **SDU Redundancy** fields are now compliant with the Actelis ML
-Chassis / MLU Compatibility Reference (source: ML230/ML2300 User Manual
-520R69659E, Release R7.45, Table 10). This is encoded in
-`NodeWizard.chassisMluSduCompat` (and the `excludedMluPns` /
-`sduPnsForSelection` / `mluConditionNote` helpers built on it) in
-`js/wizard-node.js`, keyed by the classified chassis (`CHS-200` = ML230,
-`CHS-2000` = ML2300, `CHS-2000B` = ML2300B):
+Wizard accessory filtering is now driven, wherever it has data, directly by
+the **Actelis Device/Parts Compatibility Matrix** — a 186-part x 59-device
+grid built from 44 Actelis QIG/QIS/User-Manual PDFs, bundled as
+`data/compatibility-matrix.json` and wrapped by `js/compat-matrix.js`
+(`CompatMatrix`). Each part/device cell carries a status — `REQ` (required),
+`INC` (included in the box), `OPT` (optional/compatible), `COND` (compatible
+only under a stated condition), or `X` (documented as **not** compatible) —
+plus, for `COND`/`X`, the manual's own note text. A cell the matrix is
+simply silent on is *not* the same as `X`: per the matrix's own legend, that
+means "not documented in these manuals," not "incompatible," so it's never
+treated as a reason to hide an option.
 
-- **MLU Qty per shelf** now offers only `1–2` on ML230/CHS-200 and `1–4` on
-  ML2300/ML2300B/CHS-2000/CHS-2000B, matching each chassis's actual MLU slot
-  count (previously this always offered `1–4` regardless of chassis).
-- **SDU Redundancy** is disabled (and unchecked) on ML230/CHS-200, which only
-  has one SDU slot — redundancy needs two.
-- **MLU Model** no longer offers **MLU-64DR** when the recognized chassis is
-  ML2300/CHS-2000 — the reference marks that combination unsupported. It
-  remains available on ML230 and ML2300B.
-- **SDU Model** is narrowed to whichever SDU part numbers are actually valid
-  for the currently-selected MLU on the currently-recognized chassis (falling
-  back to every SDU valid for *some* supported MLU on that chassis when no
-  MLU is picked yet).
-- Picking an MLU that's only **conditionally** supported on the recognized
-  chassis (MLU-64DF on ML2300/ML2300B, or MLU-64DR on ML2300B) shows an
-  inline note under the MLU/SDU fields naming the specific SDU part numbers
-  that combination requires.
+Given that, the matrix is layered on **top of** (not instead of) the
+existing family-based filtering described above:
 
-A part number the reference doesn't mention (e.g. a future catalog addition)
-is never blocked by this table — it's treated as unrestricted, so this only
-ever narrows options the reference actually covers.
+- **AC/DC Adapter, Mounting Kit, CO/Copper Cable(s), AC Cable, Alarm Cable,
+  and CO/CPE SFP Model** (Node and Network wizards) drop any part the matrix
+  documents as `X` for the recognized device — e.g. a non-RoHS ML624 (only a
+  100Base-FX SFP port) no longer offers 1G SFPs, something the wizard never
+  checked at all before this. In the Network wizard, **CPE SFP Model** is
+  keyed to the *CPE* model's own compatibility (a new, separate
+  classification of the CPE field), not the CO model's.
+- Selecting an option the matrix marks `COND` shows its exact manual note
+  in an inline banner under the CO/Node Model field (e.g. "AC Cable: Country
+  power cord - confirm it matches the adapter you order.").
+- A device the matrix has no part number for at all (about a third of its 59
+  columns — mostly EOL/software-only families) is completely unaffected;
+  filtering there is exactly what it was before this matrix existed.
+
+**MLU / SDU chassis compatibility** (Node/Network wizards' **MLU Model**,
+**SDU Model**, **MLU Qty per shelf**, and **SDU Redundancy** fields) is
+fully re-sourced from this same matrix rather than a hand-maintained table,
+via `NodeWizard.excludedMluPns` / `sduPnsForSelection` / `mluConditionNote`
+in `js/wizard-node.js` (chassis slot counts — 2 vs. 4 MLU slots, 1 vs. 2 SDU
+cards — aren't in the matrix's structured columns, so those stay a small
+manual fact table). This matrix revealed a **4th chassis variant** the
+previous single-sheet reference didn't cover: ML2300's **ETSI/front-access**
+chassis, where rear-access MLU cards (MLU-32ER/32DR/64DR) are *not*
+compatible — only front-access cards (32EF/32DF/64DF) are. `classify()` now
+detects "ETSI" in the chassis description and classifies it as its own
+`CHS-2000-ETSI` model (our catalog's only ML2300-family part today,
+502R02010, isn't in the price list at all, but the archived
+"Chassis 2000 Shelf, ETSI" description already picked up by search now
+correctly gets *stricter* MLU filtering than plain CHS-2000, not the same
+filtering as before).
+
+`CompatMatrix.deviceColumnFor(partNumber)` resolves a real catalog part
+number to the matrix's device column by the "Model part number(s)" the
+matrix itself lists per device (with one small, documented manual override
+in `compat-matrix.js` for the ETSI case above, where the matrix's own PN
+cell is blank). Roughly two-thirds of the matrix's 59 device columns have at
+least one live-catalog part number resolvable this way today.
+
+Two things this rebuild deliberately does **not** do, to keep the blast
+radius contained: it never *adds* an option to a dropdown that the older
+family-based filtering wouldn't already offer (only ever removes/annotates,
+so there's no risk of a matrix category leaking into the wrong field), and
+it doesn't yet touch the Repeater/PFU fields (the matrix's "Repeaters & PFU"
+category — 28 parts — is real but those fields have their own, more complex
+multi-hop logic left for a future pass).
 
 ## Financial Options
 

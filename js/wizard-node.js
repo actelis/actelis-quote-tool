@@ -77,96 +77,107 @@ const NodeWizard = (() => {
     return { acdc, mounting, copperCO, copperGeneric };
   }
 
-  // Chassis / MLU / SDU compatibility, per the Actelis ML Chassis / MLU
-  // Compatibility Reference (source: ML230/ML2300 User Manual 520R69659E,
-  // Release R7.45, Table 10; legacy configurations excluded). Keyed by the
-  // classified chassis `ptmpModel` (CHS-200 = ML230, CHS-2000 = ML2300,
-  // CHS-2000B = ML2300B). For each MLU part number: 'yes' = supported on
-  // that chassis with no restriction beyond the listed SDU family; 'no' =
-  // not supported on that chassis at all (must not be offered); 'conditional'
-  // = supported only when paired with one of the listed SDU part numbers.
-  // An MLU part number not listed here (e.g. a future catalog addition) is
-  // treated as unrestricted, so this table only ever narrows, never blocks,
-  // anything the reference doesn't cover.
+  // Chassis / MLU / SDU compatibility. Support level (yes/no/conditional)
+  // and the human-readable condition note now come directly from the
+  // Actelis Device/Parts Compatibility Matrix (data/compatibility-matrix.json,
+  // via compat-matrix.js) -- built from 44 QIG/QIS/User-Manual PDFs and far
+  // more precise than a hand-maintained table, including a 4th chassis
+  // variant (ML2300 ETSI / front-access) the matrix revealed and the old
+  // single-sheet reference didn't cover. The one thing the matrix's per-cell
+  // prose notes can't safely be machine-parsed for is exactly which SDU
+  // part numbers a conditional MLU requires, so that narrow fact -- stable
+  // across every chassis in both reference documents ("SDU-450/G for
+  // EF/ER; SDU-450/450G/455G for D/64D cards") -- stays a small, explicit
+  // lookup below. Chassis slot counts (MLU Qty options, Max SDU Cards)
+  // aren't in the matrix's structured columns either, so those also stay a
+  // small manually-maintained fact table.
   const MLU_PN = { '32EF': '503R20053', '32ER': '503R30055', '32DF': '503R20132', '32DR': '503R20232', '64DF': '503R20164', '64DR': '503R20264' };
   const SDU_PN = { '440': '503R60039', '440G': '503R60040', '450': '503R60042', '450G': '503R60043', '455G': '503R60041' };
   const SDU_450_ONLY = [SDU_PN['450'], SDU_PN['450G']];
   const SDU_450_455 = [SDU_PN['450'], SDU_PN['450G'], SDU_PN['455G']];
-  const SDU_440_450 = [SDU_PN['440'], SDU_PN['440G'], SDU_PN['450'], SDU_PN['450G']];
-  const CHASSIS_MLU_COMPAT = {
-    'CHS-200': {
-      maxMluSlots: 2, maxSduCards: 1,
-      mlu: {
-        [MLU_PN['32EF']]: { support: 'yes', sdu: SDU_450_ONLY },
-        [MLU_PN['32ER']]: { support: 'yes', sdu: SDU_450_ONLY },
-        [MLU_PN['32DF']]: { support: 'yes', sdu: SDU_450_455 },
-        [MLU_PN['32DR']]: { support: 'yes', sdu: SDU_450_455 },
-        [MLU_PN['64DF']]: { support: 'yes', sdu: SDU_450_455 },
-        [MLU_PN['64DR']]: { support: 'yes', sdu: SDU_450_455 },
-      },
-    },
-    'CHS-2000': {
-      maxMluSlots: 4, maxSduCards: 2,
-      mlu: {
-        [MLU_PN['32EF']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['32ER']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['32DF']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['32DR']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['64DF']]: { support: 'conditional', sdu: SDU_450_455 },
-        [MLU_PN['64DR']]: { support: 'no', sdu: [] },
-      },
-    },
-    'CHS-2000B': {
-      maxMluSlots: 4, maxSduCards: 2,
-      mlu: {
-        [MLU_PN['32EF']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['32ER']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['32DF']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['32DR']]: { support: 'yes', sdu: SDU_440_450 },
-        [MLU_PN['64DF']]: { support: 'conditional', sdu: SDU_450_455 },
-        [MLU_PN['64DR']]: { support: 'conditional', sdu: SDU_450_455 },
-      },
-    },
+  const ALL_MLU_PNS = Object.values(MLU_PN);
+  const ALL_SDU_PNS = Object.values(SDU_PN);
+  const MLU_SDU_FAMILY = {
+    [MLU_PN['32EF']]: SDU_450_ONLY,
+    [MLU_PN['32ER']]: SDU_450_ONLY,
+    [MLU_PN['32DF']]: SDU_450_455,
+    [MLU_PN['32DR']]: SDU_450_455,
+    [MLU_PN['64DF']]: SDU_450_455,
+    [MLU_PN['64DR']]: SDU_450_455,
+  };
+  // Matches the matrix's own device-column names for the four chassis
+  // variants it distinguishes (see compat-matrix.js's MANUAL_DEVICE_OVERRIDES
+  // for how our archived ETSI chassis part number resolves to the last one).
+  const CHASSIS_MATRIX_COLUMN = {
+    'CHS-200': 'ML230 (CHS-200)',
+    'CHS-2000': 'ML2300 19" (CHS-2000)',
+    'CHS-2000B': 'ML2300B 19" (CHS-2000B)',
+    'CHS-2000-ETSI': 'ML2300 ETSI (front access)',
+  };
+  const CHASSIS_SLOT_INFO = {
+    'CHS-200': { maxMluSlots: 2, maxSduCards: 1 },
+    'CHS-2000': { maxMluSlots: 4, maxSduCards: 2 },
+    'CHS-2000B': { maxMluSlots: 4, maxSduCards: 2 },
+    'CHS-2000-ETSI': { maxMluSlots: 4, maxSduCards: 2 },
   };
 
+  function chassisMatrixColumn(ptmpModel) {
+    return CHASSIS_MATRIX_COLUMN[ptmpModel] || null;
+  }
+  // Chassis slot-count facts (MLU Qty options, Max SDU Cards) -- not
+  // sourced from the matrix (see header comment above).
   function chassisMluSduCompat(ptmpModel) {
-    return CHASSIS_MLU_COMPAT[ptmpModel] || null;
+    return CHASSIS_SLOT_INFO[ptmpModel] || null;
   }
-  // Part numbers that must never be offered in the MLU dropdown for this
-  // chassis (support === 'no'), e.g. MLU-64DR on CHS-2000/ML2300.
+  // MLU part numbers the matrix documents as NOT compatible ('X') with
+  // this chassis, e.g. MLU-64DR on CHS-2000, or any rear-access MLU
+  // (32ER/32DR/64DR) on the ETSI front-access chassis.
   function excludedMluPns(ptmpModel) {
-    const compat = CHASSIS_MLU_COMPAT[ptmpModel];
-    if (!compat) return [];
-    return Object.entries(compat.mlu).filter(([, info]) => info.support === 'no').map(([pn]) => pn);
+    const col = chassisMatrixColumn(ptmpModel);
+    if (!col) return [];
+    return ALL_MLU_PNS.filter(pn => {
+      const info = CompatMatrix.statusFor(col, pn);
+      return info && info.status === 'X';
+    });
   }
-  function allSduPnsForChassis(compat) {
+  // SDU part numbers valid to pair with `mluPn` on this chassis: the SDU
+  // family that MLU card needs (MLU_SDU_FAMILY), narrowed to whichever of
+  // those the matrix doesn't mark 'X' for this specific chassis (e.g.
+  // SDU-440/440G are 'X' on CHS-200). With no MLU chosen yet (or one the
+  // matrix has no data for), returns the union across every MLU this
+  // chassis actually supports. Returns null for a chassis the matrix has
+  // no column for (i.e. don't restrict the SDU dropdown at all).
+  function sduPnsForSelection(ptmpModel, mluPn) {
+    const col = chassisMatrixColumn(ptmpModel);
+    if (!col) return null;
+    const chassisAllowsSdu = pn => {
+      const info = CompatMatrix.statusFor(col, pn);
+      return !info || info.status !== 'X';
+    };
+    if (mluPn && mluPn !== 'None' && MLU_SDU_FAMILY[mluPn]) {
+      return MLU_SDU_FAMILY[mluPn].filter(chassisAllowsSdu);
+    }
     const set = new Set();
-    Object.values(compat.mlu).forEach(info => { if (info.support !== 'no') info.sdu.forEach(pn => set.add(pn)); });
+    ALL_MLU_PNS.forEach(pn => {
+      const info = CompatMatrix.statusFor(col, pn);
+      if (info && info.status === 'X') return;
+      (MLU_SDU_FAMILY[pn] || ALL_SDU_PNS).filter(chassisAllowsSdu).forEach(s => set.add(s));
+    });
     return Array.from(set);
   }
-  // Which SDU part numbers are valid to pair with the given (already
-  // chassis-filtered) MLU selection. Pass mluPn = null/'None' (nothing
-  // chosen yet) to get the union of every SDU that's valid for *some*
-  // supported MLU on this chassis. Returns null when there's no reference
-  // data for this chassis (i.e. don't restrict the SDU dropdown at all).
-  function sduPnsForSelection(ptmpModel, mluPn) {
-    const compat = CHASSIS_MLU_COMPAT[ptmpModel];
-    if (!compat) return null;
-    if (mluPn && mluPn !== 'None' && compat.mlu[mluPn]) return compat.mlu[mluPn].sdu;
-    return allSduPnsForChassis(compat);
-  }
-  // Human-readable note for a 'conditional' MLU pick, naming the SDU
-  // part numbers/descriptions it requires -- null when no note applies.
+  // The matrix's own note for this MLU on this chassis, surfaced only when
+  // it's marked COND (matches the inline-note behavior described in the
+  // README) -- straight from the source PDFs, e.g. "Only with
+  // SDU-450/450G/455G (not SDU-440/G)."
   function mluConditionNote(ptmpModel, mluPn) {
-    const compat = CHASSIS_MLU_COMPAT[ptmpModel];
-    if (!compat || !mluPn || mluPn === 'None') return null;
-    const info = compat.mlu[mluPn];
-    if (!info || info.support !== 'conditional') return null;
-    const names = info.sdu.map(pn => (ariRow(pn) && ariRow(pn).description) || pn);
-    return `Requires SDU: ${names.join(' / ')}.`;
+    const col = chassisMatrixColumn(ptmpModel);
+    if (!col || !mluPn || mluPn === 'None') return null;
+    const info = CompatMatrix.statusFor(col, mluPn);
+    if (!info || info.status !== 'COND') return null;
+    return info.note || null;
   }
 
-  // ---- Phase 1: classify (CO_Model_AfterUpdate) ----
+    // ---- Phase 1: classify (CO_Model_AfterUpdate) ----
   function classify(coModel, legacyOk) {
     const pnType = dlPnType(coModel);
     let ptmpType, ptmpModel;
@@ -179,7 +190,16 @@ const NodeWizard = (() => {
       } else if (desc.includes('Chassis 200 Shelf')) {
         ptmpModel = 'CHS-200';
       } else if (desc.includes('Chassis 2000')) {
-        ptmpModel = desc.includes('2000B') ? 'CHS-2000B' : 'CHS-2000';
+        if (desc.includes('ETSI')) {
+          // The matrix treats the ETSI/front-access chassis as a distinct
+          // variant from the plain rack CHS-2000 -- notably, rear-access
+          // MLU cards (32ER/32DR/64DR) are NOT compatible with it. Our
+          // catalog's only ML2300-family part today is this archived ETSI
+          // description; see compat-matrix.js's MANUAL_DEVICE_OVERRIDES.
+          ptmpModel = 'CHS-2000-ETSI';
+        } else {
+          ptmpModel = desc.includes('2000B') ? 'CHS-2000B' : 'CHS-2000';
+        }
       } else {
         ptmpType = 'ML600'; ptmpModel = 'ML688';
       }
@@ -216,8 +236,8 @@ const NodeWizard = (() => {
       showMLU: ptmpType === 'Chassis',
       showSDU: ptmpType === 'Chassis',
       showBundlesToggle: ptmpType === 'Chassis',
-      showMLUQty: ptmpModel === 'CHS-200' || ptmpModel === 'CHS-2000' || ptmpModel === 'CHS-2000B',
-      mluQtyOptions: ptmpModel === 'CHS-200' ? [1, 2] : (ptmpModel === 'CHS-2000' || ptmpModel === 'CHS-2000B' ? [1, 2, 3, 4] : [1]),
+      showMLUQty: !!CHASSIS_SLOT_INFO[ptmpModel],
+      mluQtyOptions: CHASSIS_SLOT_INFO[ptmpModel] ? Array.from({ length: CHASSIS_SLOT_INFO[ptmpModel].maxMluSlots }, (_, i) => i + 1) : [1],
       showCraftCable: isStandalone || ptmpType === 'Chassis' === false, // craft cable relevant for standalone AND PTMP (non-chassis handled below)
       showCOPowering: isStandalone && ptmpType !== 'ML5xx',
       showACDCModel: false, // resolved after COPowering chosen
@@ -284,7 +304,7 @@ const NodeWizard = (() => {
     let sduQuantity = 1;
     if (ptmpType === 'Chassis') {
       const sduIsSDU3xx = !!DataStore.raw.autoRepeaterInfo.find(r => r.partNumber === state.sduModel && r.description?.includes('SDU-3'));
-      if ((ptmpModel === 'CHS-2000' || ptmpModel === 'CHS-2000B') && mluQty > 2) {
+      if ((ptmpModel === 'CHS-2000' || ptmpModel === 'CHS-2000B' || ptmpModel === 'CHS-2000-ETSI') && mluQty > 2) {
         if (sduIsSDU3xx) sduQuantity = 2;
       }
       if (sduQuantity === 1) {
@@ -330,7 +350,7 @@ const NodeWizard = (() => {
     }
     if (state.codcPower && !kitWithDCCable) {
       if (ptmpType === 'Chassis') {
-        const pnType = (ptmpModel === 'CHS-2000' || ptmpModel === 'CHS-2000B') ? 'ML2300 DC Cable' : 'ML130/230 DC Cable';
+        const pnType = (ptmpModel === 'CHS-2000' || ptmpModel === 'CHS-2000B' || ptmpModel === 'CHS-2000-ETSI') ? 'ML2300 DC Cable' : 'ML130/230 DC Cable';
         add(DataStore.findOneByPnType(pnType)?.partNumber, coQty);
       } else {
         add(DataStore.findOneByPnType('ML600 DC Cable')?.partNumber, coQty);

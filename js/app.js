@@ -440,6 +440,7 @@ const App = (() => {
 
   function initQuoteBuilderPage() {
     DataStore.load().then(() => {
+      CompatMatrix.init(DataStore.raw.compatMatrix);
       wireSessionBar();
       bindHeaderFields();
       populateTermsSelects();
@@ -1125,7 +1126,7 @@ const App = (() => {
     const mluQtySel = el('select'); [1, 2, 3, 4].forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
     const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, Quote.session.region), { none: '— None —' });
     const sduRedundancy = el('input', { type: 'checkbox' });
-    const mluSduNote = el('div', { class: 'notice info', style: 'display:none;margin-top:4px' });
+    const mluSduNote = el('div', { class: 'notice info mlu-sdu-note', style: 'display:none;margin-top:4px' });
     const coPoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
     // AC/DC Adapter, Mounting Kit and CO Copper Cable start out showing every
     // family's options (no CO model picked yet) — refreshDependentSelects()
@@ -1149,6 +1150,7 @@ const App = (() => {
     const mleExt = el('input', { type: 'checkbox' });
 
     const classifyInfo = el('div', { class: 'notice info', style: 'display:none' });
+    const accessoryMatrixNote = el('div', { class: 'notice info accessory-matrix-note', style: 'display:none' });
 
     function field(labelText, input, extra) {
       return el('div', { class: 'field' }, [el('label', {}, labelText), input, extra].filter(Boolean));
@@ -1159,6 +1161,7 @@ const App = (() => {
 
     root.appendChild(el('div', {}, [
       classifyInfo,
+      accessoryMatrixNote,
       el('div', { class: 'two-col' }, [
         field('CO / Node Model', coModelInput, coModelList),
         field('Quantity', coQuantity),
@@ -1190,12 +1193,18 @@ const App = (() => {
       const region = Quote.session.region;
       const compat = NodeWizard.compatibleAccessoryTypes(lastClassified);
       const coModelPn = lastClassified && lastClassified.ari ? lastClassified.ari.partNumber : null;
+      // The Actelis Device/Parts Compatibility Matrix (compat-matrix.js) is
+      // keyed by exact device -- when the recognized CO model is one it has
+      // data for, every accessory-family field below also gets narrowed to
+      // drop whatever that specific device is documented as NOT compatible
+      // with (status 'X'), on top of the broader family-bucket filtering.
+      const matrixColumn = CompatMatrix.deviceColumnFor(coModelPn);
       const { acdcRows, cableRows } = withAccessoryOverrides(
         coModelPn, rowsByTypes(compat.acdc, region), rowsByTypes(compat.copperCO, region));
-      fillSelect(acdcModelSel, acdcRows, { none: '— None —', selected: acdcModelSel.value });
-      fillSelect(mountingModelSel, rowsByTypes(compat.mounting, region), { none: '— None —', selected: mountingModelSel.value });
-      fillSelect(coCopperCableSel, cableRows, { none: '— None —', selected: coCopperCableSel.value });
-      fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, region), { none: '— None —', selected: acCableSel.value });
+      fillSelect(acdcModelSel, CompatMatrix.excludeIncompatible(acdcRows, matrixColumn), { none: '— None —', selected: acdcModelSel.value });
+      fillSelect(mountingModelSel, CompatMatrix.excludeIncompatible(rowsByTypes(compat.mounting, region), matrixColumn), { none: '— None —', selected: mountingModelSel.value });
+      fillSelect(coCopperCableSel, CompatMatrix.excludeIncompatible(cableRows, matrixColumn), { none: '— None —', selected: coCopperCableSel.value });
+      fillSelect(acCableSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.acCable, region), matrixColumn), { none: '— None —', selected: acCableSel.value });
       // MLU/SDU chassis compatibility (Actelis ML Chassis / MLU Compatibility
       // Reference) -- exclude MLU part numbers this chassis doesn't support
       // at all (e.g. MLU-64DR on CHS-2000/ML2300), then narrow the SDU
@@ -1230,11 +1239,25 @@ const App = (() => {
       const mluNote = chassisModel ? NodeWizard.mluConditionNote(chassisModel, mluModelSel.value) : null;
       mluSduNote.style.display = mluNote ? '' : 'none';
       mluSduNote.textContent = mluNote || '';
-      fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: coSfpModelSel.value });
-      fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, region), { none: '— None —', selected: alarmCableSel.value });
+      fillSelect(coSfpModelSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.sfp, region), matrixColumn), { none: '— None —', selected: coSfpModelSel.value });
+      fillSelect(alarmCableSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.alarm, region), matrixColumn), { none: '— None —', selected: alarmCableSel.value });
+
+      // Surface the matrix's own COND note for whichever of these fields'
+      // current selection carries one (e.g. a non-RoHS unit's SFP note).
+      const accessoryNotes = [
+        [acdcModelSel, 'AC/DC Adapter'], [mountingModelSel, 'Mounting Kit'], [coCopperCableSel, 'Copper Cable'],
+        [acCableSel, 'AC Cable'], [coSfpModelSel, 'CO SFP'], [alarmCableSel, 'Alarm Cable'],
+      ].map(([sel, label]) => {
+        const note = matrixColumn ? CompatMatrix.noteFor(matrixColumn, sel.value) : null;
+        return note ? `${label}: ${note}` : null;
+      }).filter(Boolean);
+      accessoryMatrixNote.style.display = accessoryNotes.length ? '' : 'none';
+      accessoryMatrixNote.textContent = accessoryNotes.join('  ');
     }
     wizardDropdownRefreshers.push(refreshDependentSelects);
     mluModelSel.addEventListener('change', refreshDependentSelects);
+    [acdcModelSel, mountingModelSel, coCopperCableSel, acCableSel, coSfpModelSel, alarmCableSel]
+      .forEach(sel => sel.addEventListener('change', refreshDependentSelects));
 
     let lastClassified = null;
     coModelInput.addEventListener('change', () => {
@@ -1366,7 +1389,7 @@ const App = (() => {
     const mluQtySel = el('select'); [1, 2, 3, 4].forEach(n => mluQtySel.appendChild(el('option', { value: n }, String(n))));
     const sduModelSel = el('select'); fillSelect(sduModelSel, rowsByTypes(PNTYPES.sdu, Quote.session.region), { none: '— None —' });
     const sduRedundancy = el('input', { type: 'checkbox' });
-    const mluSduNote = el('div', { class: 'notice info', style: 'display:none;margin-top:4px' });
+    const mluSduNote = el('div', { class: 'notice info mlu-sdu-note', style: 'display:none;margin-top:4px' });
     const mleExt = el('input', { type: 'checkbox' });
     const coPoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
     const cpePoweringSel = el('select', {}, [el('option', { value: 'AC' }, 'AC'), el('option', { value: 'DC' }, 'DC')]);
@@ -1411,9 +1434,11 @@ const App = (() => {
     const alarmCableSel = el('select'); fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, Quote.session.region), { none: '— None —' });
 
     const classifyInfo = el('div', { class: 'notice info', style: 'display:none' });
+    const accessoryMatrixNote = el('div', { class: 'notice info accessory-matrix-note', style: 'display:none' });
 
     root.appendChild(el('div', {}, [
       classifyInfo,
+      accessoryMatrixNote,
       el('div', { class: 'two-col' }, [field('Configuration Type', configTypeSel), field('Number of Links', numLinks)]),
       el('div', { class: 'two-col' }, [co.wrap, cpe.wrap]),
       field('Quantity (CO shelves)', coQuantity),
@@ -1454,13 +1479,18 @@ const App = (() => {
       const region = Quote.session.region;
       const compat = NodeWizard.compatibleAccessoryTypes(lastClassified);
       const coModelPn = lastClassified && lastClassified.ari ? lastClassified.ari.partNumber : null;
+      // See the Node wizard's identical comment: the compatibility matrix
+      // narrows these device-specific fields further when the recognized
+      // CO model is one it has data for, dropping anything documented as
+      // NOT compatible ('X') on top of the family-bucket filtering.
+      const matrixColumn = CompatMatrix.deviceColumnFor(coModelPn);
       const { acdcRows, cableRows } = withAccessoryOverrides(
         coModelPn, rowsByTypes(compat.acdc, region), rowsByTypes(compat.copperCO, region));
-      fillSelect(acdcModelSel, acdcRows, { none: '— None —', selected: acdcModelSel.value });
-      fillSelect(mountingModelSel, rowsByTypes(compat.mounting, region), { none: '— None —', selected: mountingModelSel.value });
-      fillSelect(coCopperCableSel, cableRows, { none: '— None —', selected: coCopperCableSel.value });
-      fillSelect(copperCableSel, rowsByTypes(compat.copperGeneric, region), { none: '— None —', selected: copperCableSel.value });
-      fillSelect(acCableSel, rowsByTypes(PNTYPES.acCable, region), { none: '— None —', selected: acCableSel.value });
+      fillSelect(acdcModelSel, CompatMatrix.excludeIncompatible(acdcRows, matrixColumn), { none: '— None —', selected: acdcModelSel.value });
+      fillSelect(mountingModelSel, CompatMatrix.excludeIncompatible(rowsByTypes(compat.mounting, region), matrixColumn), { none: '— None —', selected: mountingModelSel.value });
+      fillSelect(coCopperCableSel, CompatMatrix.excludeIncompatible(cableRows, matrixColumn), { none: '— None —', selected: coCopperCableSel.value });
+      fillSelect(copperCableSel, CompatMatrix.excludeIncompatible(rowsByTypes(compat.copperGeneric, region), matrixColumn), { none: '— None —', selected: copperCableSel.value });
+      fillSelect(acCableSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.acCable, region), matrixColumn), { none: '— None —', selected: acCableSel.value });
       // MLU/SDU chassis compatibility (Actelis ML Chassis / MLU Compatibility
       // Reference) -- exclude MLU part numbers this chassis doesn't support
       // at all (e.g. MLU-64DR on CHS-2000/ML2300), then narrow the SDU
@@ -1495,14 +1525,41 @@ const App = (() => {
       const mluNote = chassisModel ? NodeWizard.mluConditionNote(chassisModel, mluModelSel.value) : null;
       mluSduNote.style.display = mluNote ? '' : 'none';
       mluSduNote.textContent = mluNote || '';
-      fillSelect(coSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: coSfpModelSel.value });
-      fillSelect(cpeSfpModelSel, rowsByTypes(PNTYPES.sfp, region), { none: '— None —', selected: cpeSfpModelSel.value });
-      fillSelect(alarmCableSel, rowsByTypes(PNTYPES.alarm, region), { none: '— None —', selected: alarmCableSel.value });
+      fillSelect(coSfpModelSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.sfp, region), matrixColumn), { none: '— None —', selected: coSfpModelSel.value });
+      // CPE SFP is keyed to the CPE model's own matrix column, not the CO's
+      // -- e.g. a non-RoHS CPE's single-SFP-port restriction is a CPE fact.
+      const cpeModelPn = lastClassifiedCpe && lastClassifiedCpe.ari ? lastClassifiedCpe.ari.partNumber : null;
+      const cpeMatrixColumn = CompatMatrix.deviceColumnFor(cpeModelPn);
+      fillSelect(cpeSfpModelSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.sfp, region), cpeMatrixColumn), { none: '— None —', selected: cpeSfpModelSel.value });
+      fillSelect(alarmCableSel, CompatMatrix.excludeIncompatible(rowsByTypes(PNTYPES.alarm, region), matrixColumn), { none: '— None —', selected: alarmCableSel.value });
       fillSelect(pfuModelSel, rowsByTypes(PNTYPES.pfu, region), { none: '— None —', selected: pfuModelSel.value });
       fillSelect(pfuCableLengthSel, rowsByTypes(PNTYPES.pfuCable, region), { none: '— None —', selected: pfuCableLengthSel.value });
+
+      // Surface the matrix's own COND note for whichever field's current
+      // selection carries one.
+      const accessoryNotes = [
+        [acdcModelSel, 'AC/DC Adapter', matrixColumn], [mountingModelSel, 'Mounting Kit', matrixColumn],
+        [coCopperCableSel, 'CO Copper Cable', matrixColumn], [copperCableSel, 'Copper Cable', matrixColumn],
+        [acCableSel, 'AC Cable', matrixColumn], [coSfpModelSel, 'CO SFP', matrixColumn],
+        [cpeSfpModelSel, 'CPE SFP', cpeMatrixColumn], [alarmCableSel, 'Alarm Cable', matrixColumn],
+      ].map(([sel, label, col]) => {
+        const note = col ? CompatMatrix.noteFor(col, sel.value) : null;
+        return note ? `${label}: ${note}` : null;
+      }).filter(Boolean);
+      accessoryMatrixNote.style.display = accessoryNotes.length ? '' : 'none';
+      accessoryMatrixNote.textContent = accessoryNotes.join('  ');
     }
     wizardDropdownRefreshers.push(refreshDependentSelects);
     mluModelSel.addEventListener('change', refreshDependentSelects);
+    [acdcModelSel, mountingModelSel, coCopperCableSel, copperCableSel, acCableSel, coSfpModelSel, cpeSfpModelSel, alarmCableSel]
+      .forEach(sel => sel.addEventListener('change', refreshDependentSelects));
+
+    let lastClassifiedCpe = null;
+    cpe.input.addEventListener('change', () => {
+      const pn = parsePN(cpe.input.value);
+      lastClassifiedCpe = (pn && DataStore.raw.autoRepeaterInfo.some(r => r.partNumber === pn)) ? NodeWizard.classify(pn) : null;
+      refreshDependentSelects();
+    });
 
     function updateClassifyInfo() {
       const pn = parsePN(co.input.value);

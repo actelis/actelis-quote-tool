@@ -25,6 +25,7 @@ const DataStore = (() => {
     restrictedDefaults: 'data/restricted-defaults.json',
     meta: 'data/meta.json',
     replacements: 'data/replacements.json',
+    compatMatrix: 'data/compatibility-matrix.json',
   };
 
   const state = {
