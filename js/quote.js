@@ -401,6 +401,17 @@ const Quote = (() => {
 
     if (hdr) Object.assign(header, hdr);
 
+    // A foreign PDF's own Date / Quote Valid Until fields reflect when the
+    // ORIGINAL quote was printed — often months in the past — not when it's
+    // being re-entered now. Like pricing (reconciled against today's catalog
+    // above, never the old printed price), these should reset to today's
+    // context: Date defaults to today, and Quote Valid Until defaults to 30
+    // days from today, rather than freezing the old printed dates.
+    const today = new Date();
+    header.date = today.toISOString().slice(0, 10);
+    const expiry = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    header.expirationDate = expiry.toISOString().slice(0, 10);
+
     if (Array.isArray(parsedSites) && parsedSites.length) {
       sites = parsedSites.map((ps, i) => {
         const lines = (ps.lines || []).map(pl => {

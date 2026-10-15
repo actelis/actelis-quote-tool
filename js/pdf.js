@@ -361,15 +361,34 @@ const PdfExport = (() => {
     return r.items.slice().sort((a, b) => a.x - b.x).map(it => it.str).join(' ').replace(/\s+/g, ' ').trim();
   }
 
+  // A token that's purely a number/currency/percent amount (optionally with
+  // a leading "$" and/or trailing "%", thousands commas and a decimal
+  // point) — e.g. "$2,511.16", "1", "2.0%" — as opposed to a part number
+  // ("501RG0139") or a description word, which always contain a letter.
+  function isNumericToken(s) {
+    const stripped = String(s || '').replace(/[\$,%.]/g, '');
+    return stripped.length > 0 && /^\d+$/.test(stripped);
+  }
+
   // Buckets a row's items into zones by x-fraction of the page width.
   // `thresholds` is an ascending list of zone-boundary fractions; there is
   // one more zone than there are thresholds (the last zone is "> last
   // threshold"). Returns one joined, trimmed text string per zone.
+  //
+  // The original Access report RIGHT-aligns numeric columns (Unit Price,
+  // Qty, Total Price), so a value's LEFT edge drifts further left the more
+  // digits it has (e.g. "$2,511.16" starts well to the left of "$77.72" even
+  // though both end at the same column edge) — bucketing those by left edge
+  // can shift a wide value into the previous column's zone. A value's RIGHT
+  // edge stays put regardless of digit count, so numeric tokens are bucketed
+  // by their right edge; text tokens (part numbers, description words) are
+  // left-aligned and are bucketed by their left edge as before.
   function bucketRow(r, thresholds) {
     const zones = thresholds.length + 1;
     const buckets = Array.from({ length: zones }, () => []);
     r.items.forEach(it => {
-      const frac = it.x / r.pageWidth;
+      const anchorX = isNumericToken(it.str) ? it.x + (it.w || 0) : it.x;
+      const frac = anchorX / r.pageWidth;
       let zi = thresholds.findIndex(t => frac < t);
       if (zi === -1) zi = zones - 1;
       buckets[zi].push(it);
@@ -456,7 +475,7 @@ const PdfExport = (() => {
       const content = await page.getTextContent();
       const items = content.items
         .filter(it => it.str && it.str.trim())
-        .map(it => ({ str: it.str, x: it.transform[4], y: it.transform[5] }));
+        .map(it => ({ str: it.str, x: it.transform[4], y: it.transform[5], w: it.width || 0 }));
       groupRows(items).forEach(r => allRows.push({ y: r.y, items: r.items, pageWidth: viewport.width }));
     }
     if (!allRows.length) return null;
