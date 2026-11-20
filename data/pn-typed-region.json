@@ -1046,5 +1046,165 @@
  {
   "regionId": 4,
   "partNumber": "SVC-SWSEC."
+ },
+ {
+  "regionId": 6,
+  "partNumber": "SVC-CORE"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-SW2WT"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-SW2WT"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-SW2WT"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-HW2WT"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-HW2WT"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-HW2WT"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-HW2WT."
+ },
+ {
+  "regionId": 3,
+  "partNumber": "SVC-HW2WT."
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-HW2WT."
+ },
+ {
+  "regionId": 6,
+  "partNumber": "EMSL00???"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "EMSL00103"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "EMSL00103"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "EMSL00103"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "EMSL00103"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "EMSL00103"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "EMSL00103-1"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "EMSL00103-1"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "EMSL00103-1"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "EMSL00103-1"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "EMSL00103-1"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "EMSL00103-2"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "EMSL00103-2"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "EMSL00103-2"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "EMSL00103-2"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "EMSL00103-2"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "EMSL00103-3"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "EMSL00103-3"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "EMSL00103-3"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "EMSL00103-3"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "EMSL00103-3"
+ },
+ {
+  "regionId": 1,
+  "partNumber": "EMSL00103-4"
+ },
+ {
+  "regionId": 2,
+  "partNumber": "EMSL00103-4"
+ },
+ {
+  "regionId": 3,
+  "partNumber": "EMSL00103-4"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "EMSL00103-4"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "EMSL00103-4"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-COREF"
+ },
+ {
+  "regionId": 5,
+  "partNumber": "SVC-COREFAS"
+ },
+ {
+  "regionId": 4,
+  "partNumber": "SVC-SWMTC."
+ },
+ {
+  "regionId": 2,
+  "partNumber": "SVC-SWMTC."
  }
 ]

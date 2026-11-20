@@ -29,12 +29,17 @@ const Export = (() => {
     const totals = Quote.totals();
     const sites = Quote.sites.map(site => {
       const lines = site.lines.map(l => {
-        const row = DataStore.getPriceRow(l.partNumber);
-        const listPrice = row ? row.listPrice : (l.manual ? l.manualPrice : null);
+        const row = l.manual ? null : DataStore.getPriceRow(l.partNumber);
+        // Region list price (Commercial quotes use the Commercial column).
+        const listPrice = row ? DataStore.listPriceFor(row, Quote.session.region) : (l.manual ? l.manualPrice : null);
         const discount = row ? Quote.effectiveDiscount(l) : 0;
         const netPrice = Quote.lineNetPrice(l);
         return {
-          partNumber: l.partNumber,
+          // Printed part number (regional "<PN>." variants print without
+          // the dot, as in every Access report); rawPartNumber is the
+          // catalog key.
+          partNumber: l.manual ? l.partNumber : DataStore.displayPn(l.partNumber),
+          rawPartNumber: l.partNumber,
           description: row ? row.description : (l.manual ? l.manualDescription : '(unknown part)'),
           category: row ? DataStore.categoryDescription(row.category) : (l.manual ? 'Custom' : ''),
           qty: l.qty,
@@ -47,8 +52,12 @@ const Export = (() => {
       const subtotal = lines.reduce((s, l) => s + l.extended, 0);
       return { name: site.name, lines, subtotal };
     });
-    const services = Quote.services.map(s => ({
-      partNumber: s.partNumber,
+    // Automatically included standard warranty / Core Support lines ($0)
+    // come first, then the quote's own service lines.
+    const services = [...Quote.includedWarranties(), ...Quote.services].map(s => ({
+      partNumber: DataStore.getPriceRow(s.partNumber) ? DataStore.displayServicePn(s.partNumber) : s.partNumber,
+      rawPartNumber: s.partNumber,
+      included: !!s.included,
       description: s.description,
       qty: s.qty,
       isPercent: s.isPercent,

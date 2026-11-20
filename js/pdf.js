@@ -53,10 +53,28 @@ const PdfExport = (() => {
     return res.arrayBuffer();
   }
 
+  // The standard PDF fonts only cover the WinAnsi (Windows-1252) character
+  // set; catalog text occasionally has others (e.g. "℃" in a V3.25 SFP
+  // comment), which would make pdf-lib throw and abort the whole export.
+  // Map the known ones to readable equivalents and anything else to "?".
+  const WIN_ANSI_EXTRA = new Set('€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ');
+  const PDF_CHAR_MAP = { '\u2103': '°C', '\u2109': '°F', '\u2264': '<=', '\u2265': '>=', '\u2212': '-', '\u00a0': ' ', '\u2011': '-', '\u2010': '-', '\u2248': '~', '\u00d7': 'x', '\u2122': '™' };
+  function pdfSafe(str) {
+    let out = '';
+    for (const ch of String(str == null ? '' : str)) {
+      if (PDF_CHAR_MAP[ch] !== undefined) { out += PDF_CHAR_MAP[ch]; continue; }
+      const c = ch.codePointAt(0);
+      if (c === 9 || c === 10 || c === 13) { out += ' '; continue; }
+      if ((c >= 0x20 && c <= 0x7e) || (c >= 0xa0 && c <= 0xff) || WIN_ANSI_EXTRA.has(ch)) { out += ch; continue; }
+      out += '?';
+    }
+    return out;
+  }
+
   // Splits `text` into lines that each fit within `maxWidth` for the given
   // font/size (simple greedy word-wrap).
   function wrapText(text, font, size, maxWidth) {
-    const words = String(text || '').split(/\s+/).filter(Boolean);
+    const words = pdfSafe(text || '').split(/\s+/).filter(Boolean);
     const lines = [];
     let line = '';
     words.forEach(w => {
@@ -118,7 +136,7 @@ const PdfExport = (() => {
     }
 
     function text(str, x, yy, opts = {}) {
-      page.drawText(String(str == null ? '' : str), {
+      page.drawText(pdfSafe(str), {
         x, y: yy, size: opts.size || 9, font: opts.font || helv,
         color: opts.color || black,
       });
@@ -128,7 +146,7 @@ const PdfExport = (() => {
     }
     function rightText(str, xRight, yy, opts = {}) {
       const f = opts.font || helv, size = opts.size || 9;
-      const w = f.widthOfTextAtSize(String(str == null ? '' : str), size);
+      const w = f.widthOfTextAtSize(pdfSafe(str), size);
       text(str, xRight - w, yy, opts);
     }
 
@@ -313,7 +331,7 @@ const PdfExport = (() => {
       const mid = 'All prices are in USD';
       const midW = helv.widthOfTextAtSize(mid, 7.5);
       text(mid, (PAGE_W - midW) / 2, fy, { size: 7.5, color: grey });
-      rightText(`Page ${i + 1} of ${pages.length}  ·  ${meta.toolVersion || 'V3.21'}`, PAGE_W - MARGIN, fy, { size: 7.5, color: grey });
+      rightText(`Page ${i + 1} of ${pages.length}  ·  ${meta.toolVersion || 'V3.25'}`, PAGE_W - MARGIN, fy, { size: 7.5, color: grey });
       page = oldPage;
     });
 
@@ -725,7 +743,7 @@ const PdfExport = (() => {
       if (y - h < MARGIN + 30) addPage();
     }
     function text(str, x, yy, opts = {}) {
-      page.drawText(String(str == null ? '' : str), {
+      page.drawText(pdfSafe(str), {
         x, y: yy, size: opts.size || 9, font: opts.font || helv, color: opts.color || black,
       });
     }
@@ -734,7 +752,7 @@ const PdfExport = (() => {
     }
     function rightText(str, xRight, yy, opts = {}) {
       const f = opts.font || helv, size = opts.size || 9;
-      const w = f.widthOfTextAtSize(String(str == null ? '' : str), size);
+      const w = f.widthOfTextAtSize(pdfSafe(str), size);
       text(str, xRight - w, yy, opts);
     }
 
@@ -771,64 +789,115 @@ const PdfExport = (() => {
     metaField(MARGIN + colW * 3, y, 'DATE', payload.date);
     y -= 30;
     if (payload.dealRegistration) {
-      text('Includes NA Deal Registration bonus discount.', MARGIN, y, { size: 7.5, font: helvOblique, color: grey });
+      text('Includes Deal Registration bonus discount.', MARGIN, y, { size: 7.5, font: helvOblique, color: grey });
       y -= 14;
     }
+    (payload.notes || []).forEach(n => {
+      wrapText(n, helvOblique, 7.5, PAGE_W - MARGIN * 2).forEach(ln => {
+        text(ln, MARGIN, y, { size: 7.5, font: helvOblique, color: grey });
+        y -= 10;
+      });
+      y -= 2;
+    });
     line(MARGIN, y, PAGE_W - MARGIN, y, { color: lightGrey });
     y -= 18;
 
-    // ---- Item table, grouped by category ----
-    const cols = [
-      { key: 'partNumber', label: 'Part Number', x: MARGIN, w: 85 },
-      { key: 'description', label: 'Description', x: MARGIN + 85, w: 230 },
-      { key: 'listPrice', label: 'List Price', x: MARGIN + 315, w: 65, num: true },
-      { key: 'discount', label: 'Discount', x: MARGIN + 380, w: 55, num: true },
-      { key: 'netPrice', label: 'Your Price', x: MARGIN + 435, w: PAGE_W - MARGIN - (MARGIN + 435), num: true },
-    ];
-    function tableHeader(title) {
-      ensureSpace(40);
-      if (title) { text(title, MARGIN, y, { font: helvBold, size: 10, color: navy }); y -= 14; }
-      cols.forEach(c => {
-        const opts = { font: helvBold, size: 7.5, color: grey };
-        if (c.num) rightText(c.label.toUpperCase(), c.x + c.w, y, opts);
-        else text(c.label.toUpperCase(), c.x, y, opts);
+    // ---- Item table(s), grouped by category ----
+    // Either the standard 5-column layout built from payload.categories, or
+    // payload.sections = [{ title?, columns: [{ key, label, w, num, small,
+    // groupLabel }], groupLabels?, categories: [{ category, group?,
+    // groupKey?, rows: [{ cells: { [key]: text } }] }] }] (used by the
+    // Commercial reseller price list). A column with w: 0 takes the rest of
+    // the line; `groupLabel` swaps its heading per category type.
+    function layoutColumns(columns) {
+      let x = MARGIN;
+      const fixed = columns.reduce((a, c) => a + (c.w || 0), 0);
+      return columns.map(c => {
+        const w = c.w || (PAGE_W - MARGIN * 2 - fixed);
+        const col = { ...c, x, w };
+        x += w;
+        return col;
       });
-      y -= 4;
+    }
+    const sections = payload.sections || [{
+      columns: [
+        { key: 'partNumber', label: 'Part Number', w: 85 },
+        { key: 'description', label: 'Description', w: 230 },
+        { key: 'listPrice', label: 'List Price', w: 65, num: true },
+        { key: 'discount', label: 'Discount', w: 55, num: true },
+        { key: 'netPrice', label: 'Your Price', w: 0, num: true },
+      ],
+      categories: (payload.categories || []).map(cat => ({
+        category: cat.category,
+        rows: cat.rows.map(r => ({ cells: {
+          partNumber: r.partNumber, description: r.description,
+          listPrice: r.listPriceDisplay, discount: r.discountDisplay, netPrice: r.netDisplay,
+        } })),
+      })),
+    }];
+
+    function tableHeader(cols, title, labels) {
+      const hdrOpts = { font: helvBold, size: 7.5, color: grey };
+      const wrapped = cols.map(c => wrapText(String((c.groupLabel && labels && labels[c.groupLabel]) || c.label).toUpperCase(), helvBold, 7.5, c.w - 4));
+      const hLines = Math.max(1, ...wrapped.map(w => w.length));
+      ensureSpace(40 + hLines * 9);
+      if (title) { text(title, MARGIN, y, { font: helvBold, size: 10, color: navy }); y -= 14; }
+      cols.forEach((c, ci) => {
+        wrapped[ci].forEach((ln, i) => {
+          const yy = y - i * 9;
+          if (c.num) rightText(ln, c.x + c.w, yy, hdrOpts);
+          else text(ln, c.x, yy, hdrOpts);
+        });
+      });
+      y -= (hLines - 1) * 9 + 4;
       line(MARGIN, y, PAGE_W - MARGIN, y, { color: grey, thickness: 1 });
       y -= 12;
     }
-    function tableRow(getters) {
-      const lineHeights = cols.map(c => wrapText(getters[c.key](), helv, 8.5, c.w - 4).length);
-      const nLines = Math.max(1, ...lineHeights);
-      const rowH = nLines * 10 + 4;
+    function tableRow(cols, cells) {
+      const sizeOf = c => (c.small ? 7.5 : 8.5);
+      const step = c => (c.small ? 9 : 10);
+      const wrappedCells = cols.map(c => wrapText(cells[c.key] == null ? '' : String(cells[c.key]), helv, sizeOf(c), c.w - 4));
+      const rowH = Math.max(10, ...cols.map((c, ci) => wrappedCells[ci].length * step(c))) + 4;
       ensureSpace(rowH + 20);
       const rowTopY = y;
-      cols.forEach(c => {
-        wrapText(getters[c.key](), helv, 8.5, c.w - 4).forEach((ln, i) => {
-          const yy = rowTopY - i * 10;
-          if (c.num) rightText(ln, c.x + c.w, yy, { size: 8.5 });
-          else text(ln, c.x, yy, { size: 8.5 });
+      cols.forEach((c, ci) => {
+        wrappedCells[ci].forEach((ln, i) => {
+          const yy = rowTopY - i * step(c);
+          if (c.num) rightText(ln, c.x + c.w, yy, { size: sizeOf(c) });
+          else text(ln, c.x, yy, { size: sizeOf(c), color: c.small ? grey : black });
         });
       });
-      const lastLineY = rowTopY - (nLines - 1) * 10;
       y = rowTopY - rowH;
-      line(MARGIN, lastLineY - 7, PAGE_W - MARGIN, lastLineY - 7, { color: lightGrey, thickness: 0.5 });
+      // Same separator position as before relative to the row's last text
+      // line (keeps the earlier strikethrough fix intact).
+      line(MARGIN, y + 7, PAGE_W - MARGIN, y + 7, { color: lightGrey, thickness: 0.5 });
     }
 
-    (payload.categories || []).forEach(cat => {
-      ensureSpace(50);
-      y -= 6;
-      tableHeader(cat.category);
-      cat.rows.forEach(r => {
-        tableRow({
-          partNumber: () => r.partNumber,
-          description: () => r.description,
-          listPrice: () => r.listPriceDisplay,
-          discount: () => r.discountDisplay,
-          netPrice: () => r.netDisplay,
-        });
+    sections.forEach(sec => {
+      const cols = layoutColumns(sec.columns);
+      if (sec.title) {
+        ensureSpace(60);
+        y -= 8;
+        text(sec.title, MARGIN, y, { font: helvBold, size: 12, color: navy });
+        y -= 6;
+        line(MARGIN, y, PAGE_W - MARGIN, y, { thickness: 1, color: accent });
+        y -= 14;
+      }
+      let lastGroup = null;
+      (sec.categories || []).forEach(cat => {
+        if (cat.group && cat.group !== lastGroup) {
+          ensureSpace(70);
+          y -= 4;
+          text(cat.group, MARGIN, y, { font: helvBold, size: 11, color: accent });
+          y -= 16;
+          lastGroup = cat.group;
+        }
+        ensureSpace(50);
+        y -= 6;
+        tableHeader(cols, cat.category, sec.groupLabels && sec.groupLabels[cat.groupKey]);
+        cat.rows.forEach(r => tableRow(cols, r.cells));
+        y -= 6;
       });
-      y -= 6;
     });
 
     // ---- Footer on every page ----
@@ -841,7 +910,7 @@ const PdfExport = (() => {
       const mid = 'All prices are in USD — subject to change without notice';
       const midW = helv.widthOfTextAtSize(mid, 7.5);
       text(mid, (PAGE_W - midW) / 2, fy, { size: 7.5, color: grey });
-      rightText(`Page ${i + 1} of ${pages.length}  ·  ${meta.toolVersion || 'V3.21'}`, PAGE_W - MARGIN, fy, { size: 7.5, color: grey });
+      rightText(`Page ${i + 1} of ${pages.length}  ·  ${meta.toolVersion || 'V3.25'}`, PAGE_W - MARGIN, fy, { size: 7.5, color: grey });
       page = oldPage;
     });
 

@@ -103,19 +103,32 @@ const Admin = (() => {
   // Category, Part Num, Description, Comments, LP $ — a single flat table
   // spanning A/B/C hardware AND D services/warranty rows.)
   // ---------------------------------------------------------------------
+  //
+  // V3.24+ re-lettered the categories: D is now Software/Documents (EMS
+  // licenses etc., which live in the hardware price list) and the Type-D
+  // services/warranty table is category letter E. A row is routed by its
+  // category when that category already exists in the loaded data, and
+  // otherwise by letter — E, or D for an older sheet that has no E rows.
   function parseHardwareRows(rawRows) {
     const hardware = [], typeD = [], skipped = [];
+    const hwCats = new Set((DataStore.raw.priceList || []).map(r => r.category));
+    const tdCats = new Set((DataStore.raw.typeD || []).map(r => r.category));
+    const sheetHasE = rawRows.some(r => String(pickField(r, ['Category']) ?? '').trim().toUpperCase().startsWith('E'));
+    const serviceLetter = sheetHasE ? 'E' : 'D';
     rawRows.forEach(r => {
       const category = String(pickField(r, ['Category']) ?? '').trim();
       const partNumber = String(pickField(r, ['Part Num', 'Part Number', 'PN', 'Part #']) ?? '').trim();
       const description = String(pickField(r, ['Description']) ?? '').trim();
       const comments = String(pickField(r, ['Comments']) ?? '').trim();
       const lpRaw = pickField(r, ['LP $', 'LP', 'List Price', 'ListPrice']);
+      // Commercial-region price (Access "NA List Price", V3.23+); optional.
+      const naRaw = pickField(r, ['NA List Price', 'NA LP $', 'NA LP', 'Commercial List Price', 'Commercial LP $', 'Commercial LP']);
       if (!category || !partNumber) { skipped.push(r); return; }
       const letter = category.charAt(0).toUpperCase();
       const lpStr = String(lpRaw ?? '').trim();
 
-      if (letter === 'D') {
+      const isService = hwCats.has(category) ? false : (tdCats.has(category) ? true : letter === serviceLetter);
+      if (isService) {
         const pctMatch = lpStr.match(/(\d+(?:\.\d+)?)\s*%/);
         let listPrice = null, listPriceString = lpStr;
         if (pctMatch) {
@@ -129,7 +142,9 @@ const Admin = (() => {
         typeD.push({ partNumber, description, comments, category, listPrice, listPriceString });
       } else {
         const n = toNum(lpStr);
-        hardware.push({ partNumber, description, comments, category, listPrice: isNaN(n) ? null : n });
+        const na = naRaw === undefined || String(naRaw).trim() === '' ? undefined : toNum(naRaw);
+        hardware.push({ partNumber, description, comments, category, listPrice: isNaN(n) ? null : n,
+          naListPrice: na === undefined ? undefined : (isNaN(na) ? null : na) });
       }
     });
     return { hardware, typeD, skipped };
@@ -153,6 +168,10 @@ const Admin = (() => {
         sorting: cur ? cur.sorting : null,
         legacy: cur ? cur.legacy : false,
         showPriceList: cur ? cur.showPriceList : true,
+        // Uploaded Commercial price if the sheet has that column, otherwise
+        // the part's current one (a brand-new part without one prices off
+        // List Price on Commercial quotes too).
+        naListPrice: p.naListPrice !== undefined ? p.naListPrice : (cur && cur.naListPrice != null ? cur.naListPrice : null),
       };
     });
   }
@@ -260,6 +279,7 @@ const Admin = (() => {
     return n > 1 ? n / 100 : n;
   }
   function parseDiscountRows(rawRows) {
+    const curByCat = new Map((DataStore.raw.discounts || []).map(d => [d.category, d]));
     return rawRows.map(r => ({
       category: String(pickField(r, ['Category']) ?? '').trim(),
       categoryType: String(pickField(r, ['Category Type', 'CategoryType', 'Type']) ?? '').trim(),
@@ -269,6 +289,14 @@ const Admin = (() => {
       discountEMEA: toFraction(pickField(r, ['Discount EMEA', 'Reseller EMEA Discount'])),
       discountEndUserEMEA: toFraction(pickField(r, ['Discount End User EMEA', 'End Customer EMEA Discount'])),
       warranty: String(pickField(r, ['Warranty', 'Default Warranty']) ?? '').trim(),
+      // V3.25 NAWarranty: standard warranty/support for Commercial & Federal
+      // quotes (e.g. SVC-CORE). Kept from the current data if not in the sheet.
+      naWarranty: (() => {
+        const v = pickField(r, ['NAWarranty', 'NA Warranty', 'Commercial Warranty']);
+        if (v !== undefined) return String(v ?? '').trim();
+        const cur = curByCat.get(String(pickField(r, ['Category']) ?? '').trim());
+        return cur && cur.naWarranty ? cur.naWarranty : '';
+      })(),
     })).filter(r => r.category);
   }
 

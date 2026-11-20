@@ -3,36 +3,36 @@
   "id": 1,
   "name": "All",
   "shippingTermsId": 1,
-  "gm": 0.16
+  "gm": 0.15
  },
  {
   "id": 2,
   "name": "APAC",
   "shippingTermsId": 1,
-  "gm": 0.14
+  "gm": 0.15
  },
  {
   "id": 3,
   "name": "CALA",
   "shippingTermsId": 1,
-  "gm": 0.16
+  "gm": 0.15
  },
  {
   "id": 4,
   "name": "EMEA",
   "shippingTermsId": 1,
-  "gm": 0.14
+  "gm": 0.15
  },
  {
   "id": 5,
-  "name": "Enterprise",
+  "name": "Federal",
   "shippingTermsId": 2,
-  "gm": 0.16
+  "gm": 0.15
  },
  {
   "id": 6,
-  "name": "NA",
+  "name": "Commercial",
   "shippingTermsId": 2,
-  "gm": 0.16
+  "gm": 0.15
  }
 ]

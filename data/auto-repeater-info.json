@@ -2160,8 +2160,8 @@
   "oem": "TL"
  },
  {
-  "partNumber": "510R21078\u00a0",
-  "description": "Rack Mount Tray for 2xML5x0M units \u00a0",
+  "partNumber": "510R21078 ",
+  "description": "Rack Mount Tray for 2xML5x0M units  ",
   "pnType": "ML5xx Mounting",
   "numPairs": 2,
   "numHSL": 0,
@@ -2172,7 +2172,7 @@
   "oem": "TL"
  },
  {
-  "partNumber": "510R21079\u00a0",
+  "partNumber": "510R21079 ",
   "description": "Rack Mount Tray for ML5x0M + ML600",
   "pnType": "ML5xx Mounting",
   "numPairs": 1,

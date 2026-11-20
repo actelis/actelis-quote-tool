@@ -87,6 +87,18 @@ const App = (() => {
       const isEmeaApac = DiscountEngine.isEmeaApac(Quote.session.region);
       if (dealField) dealField.style.display = isEmeaApac ? 'none' : '';
       if (isEmeaApac && dealChk) { dealChk.checked = false; Quote.session.dealRegistration = false; }
+      // Access (Form_QuoteID) also hides "Add Shipping Cost" for EMEA/APAC —
+      // SVC-FREIGHT is only valid for shipments within the USA.
+      const shipOpt = document.getElementById('finShipping');
+      const shipWrap = shipOpt && shipOpt.closest('.fin-option');
+      if (shipWrap) shipWrap.style.display = isEmeaApac ? 'none' : '';
+      if (isEmeaApac && shipOpt && Quote.session.financialOptions.shipping) {
+        Quote.setFinancialOption('shipping', false);
+        shipOpt.checked = false;
+      }
+      document.querySelectorAll('[data-commercial-only]').forEach(n => {
+        n.style.display = DataStore.isCommercial(Quote.session.region) ? '' : 'none';
+      });
     }
     syncDealVisibility();
 
@@ -94,6 +106,12 @@ const App = (() => {
     regionSel.addEventListener('change', () => {
       Quote.session.region = regionSel.value;
       Quote.save();
+      // Move BOM/service lines onto the variant the new region is offered
+      // (e.g. 501RG0139 <-> 501RG0139-FAS for Federal, 506R61252 <-> 506R61252.).
+      const rec = Quote.reconcileRegion();
+      if (rec.swapped.length) {
+        showToast(`Region changed to ${Quote.session.region}: ` + rec.swapped.map(x => `${DataStore.displayPn(x.from)}${x.from.endsWith('.') ? ' (variant)' : ''} → ${x.to}`).join(', '));
+      }
       syncDealVisibility();
       wizardDropdownRefreshers.forEach(fn => fn());
       onSessionChange();
@@ -103,6 +121,31 @@ const App = (() => {
 
   // overridden per-page to re-render prices/totals when session changes
   let onSessionChange = () => {};
+
+  // Small non-blocking notice (bottom of the page), used for automatic
+  // regional part swaps so they're visible without an alert() dialog.
+  function showToast(message, ms = 6000) {
+    let box = document.getElementById('appToast');
+    if (!box) {
+      box = el('div', { id: 'appToast', role: 'status', style: 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(720px,92vw);background:#10203c;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:9999;display:none' });
+      document.body.appendChild(box);
+    }
+    box.textContent = message;
+    box.style.display = '';
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { box.style.display = 'none'; }, ms);
+  }
+
+  // Region-aware list price and printed part number (see DataStore).
+  function regionLP(row) { return DataStore.listPriceFor(row, Quote.session.region); }
+  function shownPn(row) {
+    if (!row) return '';
+    // Type-D rows are the only ones carrying a listPriceString.
+    return row.listPriceString !== undefined ? DataStore.displayServicePn(row.partNumber) : DataStore.displayPn(row.partNumber);
+  }
+  function offeredHere(row, isTypeD) {
+    return DataStore.isVisibleInRegion(row.partNumber, Quote.session.region, !!isTypeD);
+  }
 
   // ---------------------------------------------------------------------
   // PRICE LIST PAGE
@@ -115,7 +158,7 @@ const App = (() => {
   function categoriesIn(list) {
     const set = new Set();
     (DataStore.raw[list] || []).forEach(r => {
-      if (r.showPriceList !== false && r.category) set.add(r.category);
+      if (r.showPriceList !== false && r.category && (list === 'priceListArchive' || offeredHere(r, list === 'typeD'))) set.add(r.category);
     });
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   }
@@ -126,9 +169,10 @@ const App = (() => {
   // effect for each row (item override, then category override, then the
   // standard default — see PriceListPricing.effectiveDiscount).
   function buildPriceListPdfPayload(list) {
-    const rows = (DataStore.raw[list] || []).filter(r => r.showPriceList !== false);
-    const ctx = Quote.ctx();
     const isTypeD = list === 'typeD';
+    // Same region rule as the on-screen table (PN-Region / PN-TypeD-Region).
+    const rows = (DataStore.raw[list] || []).filter(r => r.showPriceList !== false && (list === 'priceListArchive' || offeredHere(r, isTypeD)));
+    const ctx = Quote.ctx();
     const byCategory = new Map();
     rows.forEach(r => {
       let listPriceDisplay, netDisplay, discountDisplay;
@@ -139,19 +183,21 @@ const App = (() => {
         discountDisplay = isPercent ? 'per BOM' : '—';
       } else {
         const discount = PriceListPricing.effectiveDiscount(r, ctx);
-        listPriceDisplay = money(r.listPrice);
-        netDisplay = money(r.listPrice == null ? null : r.listPrice * (1 - discount));
+        const lp = regionLP(r);
+        listPriceDisplay = money(lp);
+        netDisplay = money(lp == null ? null : lp * (1 - discount));
         discountDisplay = pct(discount);
       }
       const key = r.category || '(Uncategorized)';
       if (!byCategory.has(key)) byCategory.set(key, []);
-      byCategory.get(key).push({ partNumber: r.partNumber, description: r.description, listPriceDisplay, discountDisplay, netDisplay });
+      byCategory.get(key).push({ partNumber: shownPn(r), description: r.description, listPriceDisplay, discountDisplay, netDisplay });
     });
     const categories = Array.from(byCategory.keys()).sort((a, b) => a.localeCompare(b)).map(cat => ({
       category: cat,
       rows: byCategory.get(cat).sort((a, b) => a.partNumber.localeCompare(b.partNumber)),
     }));
-    const titleMap = { priceList: 'PRICE LIST', typeD: 'SERVICES / WARRANTY PRICE LIST', priceListArchive: 'ARCHIVE PRICE LIST' };
+    const regionLabel = Quote.session.region && Quote.session.region !== 'All' ? `${Quote.session.region.toUpperCase()} ` : '';
+    const titleMap = { priceList: `${regionLabel}PRICE LIST`, typeD: `${regionLabel}SERVICES / WARRANTY PRICE LIST`, priceListArchive: 'ARCHIVE PRICE LIST' };
     return {
       title: titleMap[list] || 'PRICE LIST',
       customerName: PriceListPricing.getCustomerName(),
@@ -160,6 +206,117 @@ const App = (() => {
       date: new Date().toLocaleDateString('en-US'),
       dealRegistration: !!Quote.session.dealRegistration && !DiscountEngine.isEmeaApac(Quote.session.region),
       categories,
+    };
+  }
+
+  // Port of the V3.23+ "Commercial LP Generator" (Main Form button, shown
+  // only when the region is Commercial) -> report "Commercial Price List
+  // Format": the Commercial reseller price list, grouped by category type
+  // and category, with the Commercial list price, the reseller price at the
+  // category's standard discount, and the price with deal registration;
+  // then the Commercial services/warranty list. Uses the standard discount
+  // matrix only (the report ignores customer type and any overrides), and
+  // the same Legacy / ShowPriceList / region rules as Access.
+  function buildCommercialPriceListPayload() {
+    const region = 'Commercial';
+    const discRows = DataStore.raw.discounts;
+    const typeRow = letter => discRows.find(d => d.categoryType === `Type ${letter}`);
+    const includeLegacy = !!Quote.session.includeLegacy;
+    const hw = DataStore.raw.priceList.filter(r => r.showPriceList !== false
+      && (includeLegacy || !r.legacy) && DataStore.isVisibleInRegion(r.partNumber, region, false));
+    const groups = new Map(); // category -> rows
+    hw.forEach(r => {
+      const key = r.category || '(Uncategorized)';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(r);
+    });
+    const categories = Array.from(groups.keys()).sort((a, b) => a.localeCompare(b)).map(cat => {
+      const d = DataStore.discountsByCategory.get(cat) || {};
+      const disc = d.discount || 0, reg = d.registrationDiscount || 0;
+      const letter = DataStore.categoryLetter(cat);
+      return {
+        category: cat,
+        group: DataStore.categoryDescription(cat),
+        groupKey: letter,
+        rows: groups.get(cat)
+          .sort((a, b) => (a.sorting ?? 9999) - (b.sorting ?? 9999) || a.partNumber.localeCompare(b.partNumber))
+          .map(r => {
+            const lp = DataStore.listPriceFor(r, region);
+            return {
+              cells: {
+                partNumber: DataStore.displayPn(r.partNumber),
+                description: r.description,
+                comments: r.comments,
+                lp: money(lp),
+                off: money(lp == null ? null : lp * (1 - disc)),
+                reg: money(lp == null ? null : lp * (1 - disc - reg)),
+              },
+            };
+          }),
+      };
+    });
+    // Column headings show each category type's headline discount, as the
+    // report's Discount1/Discount2 labels do (first Discounts row of
+    // CategoryType "Type <letter>").
+    const groupLabels = {};
+    categories.forEach(c => {
+      const t = typeRow(c.groupKey) || {};
+      groupLabels[c.groupKey] = {
+        off: `${Math.round((t.discount || 0) * 100)}% Off LP ($)`,
+        reg: `${Math.round(((t.discount || 0) + (t.registrationDiscount || 0)) * 100)}% Off LP with registration ($)`,
+      };
+    });
+    const svc = DataStore.raw.typeD.filter(r => r.includeLP && (includeLegacy || !r.legacy)
+      && DataStore.isVisibleInRegion(r.partNumber, region, true));
+    const svcGroups = new Map();
+    svc.forEach(r => {
+      const key = r.category || '(Uncategorized)';
+      if (!svcGroups.has(key)) svcGroups.set(key, []);
+      svcGroups.get(key).push(r);
+    });
+    const svcCategories = Array.from(svcGroups.keys()).sort((a, b) => a.localeCompare(b)).map(cat => ({
+      category: cat,
+      group: DataStore.categoryDescription(cat),
+      groupKey: DataStore.categoryLetter(cat),
+      rows: svcGroups.get(cat)
+        .sort((a, b) => (a.sortOrder ?? 99) - (b.sortOrder ?? 99) || a.partNumber.localeCompare(b.partNumber))
+        .map(r => ({ cells: {
+          partNumber: DataStore.displayServicePn(r.partNumber), description: r.description, comments: r.comments,
+          lp: r.listPriceString || (r.listPrice != null ? money(r.listPrice) : ''),
+        } })),
+    }));
+    const version = (DataStore.restrictedDefaults && DataStore.restrictedDefaults.version) || '';
+    return {
+      title: `RESELLER PRICE LIST — ${version}`.trim(),
+      customerName: PriceListPricing.getCustomerName(),
+      customerType: 'Reseller',
+      region,
+      date: new Date().toLocaleDateString('en-US'),
+      notes: ['Shipping Terms: FOB', 'Pricing is valid until end of 2026. Actelis reserves the right to release a new price list earlier.'],
+      sections: [
+        {
+          columns: [
+            { key: 'partNumber', label: 'Part Num', w: 66 },
+            { key: 'description', label: 'Description', w: 104 },
+            { key: 'comments', label: 'Comments', w: 154, small: true },
+            { key: 'lp', label: 'LP ($)', w: 54, num: true },
+            { key: 'off', label: 'Off LP ($)', w: 62, num: true, groupLabel: 'off' },
+            { key: 'reg', label: 'With registration ($)', w: 0, num: true, groupLabel: 'reg' },
+          ],
+          groupLabels,
+          categories,
+        },
+        {
+          title: 'Services / Warranty',
+          columns: [
+            { key: 'partNumber', label: 'Part Num', w: 78 },
+            { key: 'description', label: 'Description', w: 150 },
+            { key: 'comments', label: 'Comments', w: 190, small: true },
+            { key: 'lp', label: 'LP ($)', w: 0, num: true },
+          ],
+          categories: svcCategories,
+        },
+      ],
     };
   }
 
@@ -238,7 +395,7 @@ const App = (() => {
           const payload = buildPriceListPdfPayload(activeList);
           const nameSlug = (PriceListPricing.getCustomerName() || '').trim().replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase();
           const listSlug = activeList === 'typeD' ? 'services-warranty' : (activeList === 'priceListArchive' ? 'archive' : 'price-list');
-          const filename = `actelis-${listSlug}${nameSlug ? '-' + nameSlug : ''}-${new Date().toISOString().slice(0, 10)}.pdf`;
+          const filename = `actelis-${listSlug}${nameSlug ? '-' + nameSlug : ''}-${new Date().toLocaleDateString('en-CA')}.pdf`;
           await PdfExport.downloadPriceListPdf(payload, filename);
         } catch (e) {
           console.error('Price list PDF export failed', e);
@@ -246,6 +403,23 @@ const App = (() => {
         } finally {
           btn.disabled = false;
           btn.textContent = prevLabel;
+        }
+      });
+
+      const commercialBtn = document.getElementById('exportCommercialPriceListBtn');
+      if (commercialBtn) commercialBtn.addEventListener('click', async () => {
+        const prevLabel = commercialBtn.textContent;
+        commercialBtn.disabled = true;
+        commercialBtn.textContent = 'Generating…';
+        try {
+          const payload = buildCommercialPriceListPayload();
+          await PdfExport.downloadPriceListPdf(payload, `actelis-commercial-reseller-price-list-${new Date().toLocaleDateString('en-CA')}.pdf`);
+        } catch (e) {
+          console.error('Commercial price list PDF export failed', e);
+          alert('Sorry, something went wrong generating the PDF. Please try again.');
+        } finally {
+          commercialBtn.disabled = false;
+          commercialBtn.textContent = prevLabel;
         }
       });
 
@@ -270,6 +444,8 @@ const App = (() => {
         let rows = DataStore.raw[activeList] || [];
         rows = rows.filter(r => {
           if (r.showPriceList === false) return false;
+          // Only parts offered in the selected region (PN-Region tables).
+          if (activeList !== 'priceListArchive' && !offeredHere(r, activeList === 'typeD')) return false;
           if (cat && r.category !== cat) return false;
           if (q && !(`${r.partNumber} ${r.description}`.toLowerCase().includes(q))) return false;
           return true;
@@ -291,8 +467,9 @@ const App = (() => {
             const itemOverride = PriceListPricing.getItemOverride(r.partNumber);
             const catOverride = PriceListPricing.getCategoryOverride(r.category);
             const isItemOverridden = itemOverride != null;
-            listPriceDisplay = money(r.listPrice);
-            netDisplay = money(r.listPrice == null ? null : r.listPrice * (1 - effective));
+            const lp = regionLP(r);
+            listPriceDisplay = money(lp);
+            netDisplay = money(lp == null ? null : lp * (1 - effective));
             const defaultDisc = DataStore.getPriceRow(r.partNumber) ? DiscountEngine.getCustomerDiscount(r.partNumber, 1, ctx) : 0;
             let title = 'Default discount for this catalog item';
             if (isItemOverridden) title = `Overridden for this item — category/default is ${pct(catOverride != null ? catOverride : defaultDisc)}`;
@@ -322,7 +499,7 @@ const App = (() => {
           const repl = DataStore.getReplacement ? DataStore.getReplacement(r.partNumber) : null;
           const descCell = el('td', {}, r.description + (repl ? ` (replaced by ${repl.newPartNumber})` : ''));
           body.appendChild(el('tr', {}, [
-            el('td', {}, r.partNumber),
+            el('td', {}, shownPn(r)),
             descCell,
             el('td', {}, DataStore.categoryDescription(r.category)),
             el('td', { class: 'num' }, listPriceDisplay),
@@ -379,11 +556,12 @@ const App = (() => {
   // means "no restriction recorded" (mirrors DataStore.isVisibleInRegion's
   // same convention) — everything else must explicitly list the quote's
   // current region (or the literal "All" region) to be considered visible.
+  //
+  // V3.25: AutoRepeaterInfo still uses the old region names ("NA",
+  // "Enterprise"), so Commercial also matches "NA" and Federal also matches
+  // "Enterprise" (DataStore.ariRegionMatches).
   function ariRegionOk(row, region) {
-    const raw = (row.region || '').trim();
-    if (!raw) return true;
-    const tokens = raw.toUpperCase().split(/\s+/);
-    return tokens.includes(String(region || '').toUpperCase());
+    return DataStore.ariRegionMatches(row.region, region);
   }
   // `region` is optional — omit it to skip region filtering entirely (used
   // where a class of parts genuinely never carries a region restriction).
@@ -460,6 +638,9 @@ const App = (() => {
       wireReplacementsModal();
 
       onSessionChange = renderAll;
+      // A quote restored from this tab's session (or saved before V3.25)
+      // may carry parts from another region's variant — line them up.
+      Quote.reconcileRegion();
       renderAll();
     });
   }
@@ -558,6 +739,9 @@ const App = (() => {
       const net = Quote.lineNetPrice(l);
       const descText = row ? row.description : (l.manual ? l.manualDescription : '(unknown part)');
       const descCell = el('td', {}, descText);
+      if (!Quote.isLineOfferedInRegion(l)) {
+        descCell.appendChild(el('div', { style: 'margin-top:4px' }, el('span', { class: 'badge local', title: 'Per the V3.25 PN-Region table this part is not offered in the selected region.' }, `Not offered in ${Quote.session.region}`)));
+      }
       const repl = DataStore.getReplacement ? DataStore.getReplacement(l.partNumber) : null;
       if (repl) {
         descCell.appendChild(el('div', { style: 'margin-top:4px' }, [
@@ -595,7 +779,7 @@ const App = (() => {
         }
       }
       body.appendChild(el('tr', {}, [
-        el('td', {}, l.partNumber),
+        el('td', { title: l.partNumber !== DataStore.displayPn(l.partNumber) ? `Catalog entry ${l.partNumber} (regional variant)` : '' }, l.manual ? l.partNumber : DataStore.displayPn(l.partNumber)),
         descCell,
         el('td', { class: 'num' }, el('input', {
           type: 'number', min: '0', value: l.qty, style: 'width:70px;text-align:right',
@@ -640,10 +824,15 @@ const App = (() => {
   function computeSearchRows(query) {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    const source = currentLineItemsTab === 'hardware'
+    const isTypeD = currentLineItemsTab !== 'hardware';
+    const source = !isTypeD
       ? DataStore.raw.priceList.filter(r => r.showPriceList !== false)
       : DataStore.raw.typeD;
-    return source.filter(r => `${r.partNumber} ${r.description} ${r.category}`.toLowerCase().includes(q)).slice(0, 30);
+    // Only parts offered in the quote's region (Access part pickers filter
+    // on PN-Region the same way).
+    return source
+      .filter(r => offeredHere(r, isTypeD))
+      .filter(r => `${r.partNumber} ${r.description} ${r.category}`.toLowerCase().includes(q)).slice(0, 30);
   }
 
   function wireCatalogSearch() {
@@ -666,7 +855,7 @@ const App = (() => {
       rows.forEach(r => {
         const priceDisplay = isTypeD
           ? (Quote.isPercentTypeD(r) ? (r.listPriceString || '') : money(r.listPrice))
-          : money(r.listPrice == null ? null : r.listPrice * (1 - (DataStore.getPriceRow(r.partNumber) ? DiscountEngine.getCustomerDiscount(r.partNumber, 1, ctx) : 0)));
+          : money(regionLP(r) == null ? null : regionLP(r) * (1 - (DataStore.getPriceRow(r.partNumber) ? DiscountEngine.getCustomerDiscount(r.partNumber, 1, ctx) : 0)));
         const repl = DataStore.getReplacement ? DataStore.getReplacement(r.partNumber) : null;
         resultsBox.appendChild(el('div', {
           class: 'search-result-row',
@@ -676,7 +865,7 @@ const App = (() => {
           },
         }, [
           el('div', { class: 'search-result-main' }, [
-            el('div', { class: 'search-result-pn' }, r.partNumber + (repl ? ' ⚠ replaced' : '')),
+            el('div', { class: 'search-result-pn' }, shownPn(r) + (repl ? ' ⚠ replaced' : '')),
             el('div', { class: 'search-result-desc' }, r.description),
           ]),
           el('div', { class: 'search-result-price' }, priceDisplay),
@@ -709,7 +898,7 @@ const App = (() => {
   }
 
   // ---- Financial Options ----
-  const FIN_CHECKBOX_MAP = { finShipping: 'shipping', finCreditCard: 'creditCard', finWarranty: 'extendedWarranty' };
+  const FIN_CHECKBOX_MAP = { finShipping: 'shipping', finCreditCard: 'creditCard', finWarranty: 'extendedWarranty', finExtTac: 'extendedTAC' };
   function wireFinancialOptions() {
     Object.entries(FIN_CHECKBOX_MAP).forEach(([id, key]) => {
       const chk = document.getElementById(id);
@@ -743,10 +932,20 @@ const App = (() => {
     const body = document.getElementById('servicesTableBody');
     body.innerHTML = '';
     const bom = Quote.bomSubtotal();
+    // Standard warranty / Core Support lines Access includes automatically.
+    Quote.includedWarranties().forEach(s => {
+      body.appendChild(el('tr', { class: 'included-row' }, [
+        el('td', {}, DataStore.displayServicePn(s.partNumber)),
+        el('td', {}, [document.createTextNode(s.description), el('div', { style: 'font-size:11px;color:var(--text-muted,#7a8595)' }, 'Included automatically with the hardware in this quote')]),
+        el('td', { class: 'num' }, '1'),
+        el('td', { class: 'num' }, money(0)),
+        el('td', {}, el('span', { class: 'badge local' }, 'Included')),
+      ]));
+    });
     Quote.services.forEach((s, i) => {
       const amount = s.isPercent ? s.percent * bom * (s.qty || 1) : (s.manualPrice || 0) * (s.qty || 1);
       body.appendChild(el('tr', {}, [
-        el('td', {}, s.partNumber),
+        el('td', {}, DataStore.getPriceRow(s.partNumber) ? DataStore.displayServicePn(s.partNumber) : s.partNumber),
         el('td', {}, s.description),
         el('td', { class: 'num' }, String(s.qty)),
         el('td', { class: 'num' }, money(amount)),
@@ -781,8 +980,8 @@ const App = (() => {
     document.getElementById('summaryLineItems').textContent = String(totalLineItems);
     let listTotal = 0;
     Quote.sites.forEach(site => site.lines.forEach(l => {
-      const row = DataStore.getPriceRow(l.partNumber);
-      const lp = row ? row.listPrice : (l.manual ? l.manualPrice : 0);
+      const row = l.manual ? null : DataStore.getPriceRow(l.partNumber);
+      const lp = row ? regionLP(row) : (l.manual ? l.manualPrice : 0);
       listTotal += (lp || 0) * l.qty;
     }));
     document.getElementById('summaryListTotal').textContent = money(listTotal);
@@ -839,7 +1038,7 @@ const App = (() => {
       'Imported this PDF using best-effort text extraction (it was not exported by this tool, so quantities, prices and wording may not match exactly).',
       '',
       `BOM lines: ${result.matchedLines} matched the current catalog (re-priced at today's list price/discount), ${result.manualLines} not found (added as manual lines using the price printed on the PDF).`,
-      `Services/Warranty: ${result.matchedServices} matched the current catalog, ${result.manualServices} not found (added as manual lines).`,
+      `Services/Warranty: ${result.matchedServices} matched the current catalog, ${result.manualServices} not found (added as manual lines).` + (result.includedServices ? ` ${result.includedServices} standard warranty/support line(s) are now added automatically for this region instead.` : ''),
     ];
     if (result.printedGrandTotal != null) {
       const diff = Math.abs(result.recomputedGrandTotal - result.printedGrandTotal);
@@ -974,14 +1173,14 @@ const App = (() => {
         const { hardware, typeD, skipped } = Admin.parseHardwareRows(rawRows);
         const hardwareMerged = Admin.mergeHardware(hardware);
         const typeDMerged = Admin.mergeTypeD(typeD);
-        const diffHw = Admin.diffByPartNumber(DataStore.raw.priceList, hardwareMerged, ['description', 'category', 'listPrice']);
+        const diffHw = Admin.diffByPartNumber(DataStore.raw.priceList, hardwareMerged, ['description', 'category', 'listPrice', 'naListPrice']);
         const diffTd = Admin.diffByPartNumber(DataStore.raw.typeD, typeDMerged, ['description', 'category', 'listPriceString', 'listPrice']);
         const container = document.getElementById('hardwarePreview');
         container.innerHTML = '';
-        container.appendChild(el('h4', {}, `Hardware / Price List (A/B/C) — ${hardwareMerged.length} rows`));
+        container.appendChild(el('h4', {}, `Hardware / Software Price List (A–D) — ${hardwareMerged.length} rows`));
         const hwDiffBox = el('div'); container.appendChild(hwDiffBox);
         Admin.renderDiffSummary(hwDiffBox, diffHw, 'Part Number');
-        container.appendChild(el('h4', { style: 'margin-top:18px' }, `Services / Warranty (Type D) — ${typeDMerged.length} rows`));
+        container.appendChild(el('h4', { style: 'margin-top:18px' }, `Services / Warranty (Type-E items) — ${typeDMerged.length} rows`));
         const tdDiffBox = el('div'); container.appendChild(tdDiffBox);
         Admin.renderDiffSummary(tdDiffBox, diffTd, 'Part Number');
         if (skipped.length) container.appendChild(el('p', { style: 'color:var(--text-muted);font-size:12px;margin-top:10px' }, `${skipped.length} row(s) skipped (missing Category or Part Number).`));
@@ -1001,7 +1200,7 @@ const App = (() => {
         const diff = Admin.diffByPartNumber(
           DataStore.raw.discounts.map(r => ({ partNumber: r.category, ...r })),
           discountRows.map(r => ({ partNumber: r.category, ...r })),
-          ['categoryType', 'discount', 'discountEndUser', 'registrationDiscount', 'discountEMEA', 'discountEndUserEMEA', 'warranty']
+          ['categoryType', 'discount', 'discountEndUser', 'registrationDiscount', 'discountEMEA', 'discountEndUserEMEA', 'warranty', 'naWarranty']
         );
         const container = document.getElementById('discountPreview');
         container.innerHTML = '';

@@ -39,6 +39,9 @@ const DataStore = (() => {
     categoryHeaderByLetter: new Map(),
     pnRegionSet: new Set(),        // `${regionId}|${partNumber}`
     pnTypeDRegionSet: new Set(),
+    pnRegionIds: new Map(),        // partNumber -> Set(regionId) (PN-Region)
+    pnTypeDRegionIds: new Map(),   // partNumber -> Set(regionId) (PN-TypeD-Region)
+    regionIdByName: new Map(),     // 'COMMERCIAL' -> 6, ...
     replacementByOldPn: new Map(), // oldPartNumber -> { newPartNumber, notes }
     // newPartNumber -> { acdcPartNumbers: [...], cablePartNumbers: [...] } --
     // admin-specified (Replacements Manager) AC/DC Adapter / Cable part
@@ -92,9 +95,16 @@ const DataStore = (() => {
     }
     for (const row of state.raw.pnRegion) {
       state.pnRegionSet.add(`${row.regionId}|${row.partNumber}`);
+      if (!state.pnRegionIds.has(row.partNumber)) state.pnRegionIds.set(row.partNumber, new Set());
+      state.pnRegionIds.get(row.partNumber).add(row.regionId);
     }
     for (const row of state.raw.pnTypeDRegion) {
       state.pnTypeDRegionSet.add(`${row.regionId}|${row.partNumber}`);
+      if (!state.pnTypeDRegionIds.has(row.partNumber)) state.pnTypeDRegionIds.set(row.partNumber, new Set());
+      state.pnTypeDRegionIds.get(row.partNumber).add(row.regionId);
+    }
+    for (const row of state.raw.regions) {
+      state.regionIdByName.set(String(row.name).toUpperCase(), row.id);
     }
     for (const row of (state.raw.replacements || [])) {
       if (row.oldPartNumber) state.replacementByOldPn.set(row.oldPartNumber, row);
@@ -140,10 +150,64 @@ const DataStore = (() => {
     return state.replacementAccessoriesByNewPn.get(partNumber) || null;
   }
 
-  function getListPrice(partNumber) {
-    const row = getPriceRow(partNumber);
+  // ---- Regions (V3.22+ renamed "NA" -> "Commercial", "Enterprise" -> "Federal") ----
+  // Old names still turn up in saved sessions, round-trip PDFs and wizard
+  // templates made before V3.25, so they're mapped onto the new ones.
+  const LEGACY_REGION_NAMES = { NA: 'Commercial', ENTERPRISE: 'Federal' };
+  function normalizeRegionName(name) {
+    const n = String(name || '').trim();
+    return LEGACY_REGION_NAMES[n.toUpperCase()] || n;
+  }
+  function regionId(name) {
+    return state.regionIdByName.get(normalizeRegionName(name).toUpperCase()) ?? null;
+  }
+  function isCommercial(region) { return normalizeRegionName(region) === 'Commercial'; }
+  function isFederal(region) { return normalizeRegionName(region) === 'Federal'; }
+
+  // AutoRepeaterInfo's own Region column was NOT renamed in V3.25 (it still
+  // reads e.g. "EMEA NA Enterprise APAC CALA ALL"), which is why Access
+  // V3.25's own configurator wizards come up empty for Commercial/Federal
+  // quotes. Here each region also matches its pre-V3.22 token.
+  const ARI_REGION_TOKENS = { COMMERCIAL: ['COMMERCIAL', 'NA'], FEDERAL: ['FEDERAL', 'ENTERPRISE'] };
+  function ariRegionMatches(ariRegionString, region) {
+    const raw = String(ariRegionString || '').trim();
+    if (!raw) return true;
+    const tokens = raw.toUpperCase().split(/\s+/);
+    const r = normalizeRegionName(region).toUpperCase();
+    return (ARI_REGION_TOKENS[r] || [r]).some(t => tokens.includes(t));
+  }
+
+  // List price in effect for a hardware/software row in a given region:
+  // Commercial quotes use the separate "NA List Price" column added in
+  // V3.23 (mirrors the LP = IIf(Region="Commercial", [NA List Price],
+  // [List Price]) expression in V3.25's QuoteQuery / Price List queries).
+  // Archive and Type-D rows have no Commercial column and use List Price.
+  function listPriceFor(rowOrPn, region) {
+    const row = typeof rowOrPn === 'string' ? getPriceRow(rowOrPn) : rowOrPn;
     if (!row) return null;
+    if (isCommercial(region) && row.naListPrice != null && state.byPartNumber.get(row.partNumber) === row) {
+      return row.naListPrice;
+    }
     return row.listPrice;
+  }
+
+  function getListPrice(partNumber, region) {
+    return listPriceFor(partNumber, region);
+  }
+
+  // Part number as printed: Access keeps region-specific duplicates of a
+  // part as "<PN>." (e.g. 506R61252 for EMEA/APAC, 506R61252. for
+  // Commercial/CALA, with different pricing) and strips the first "." for
+  // display everywhere — Replace([Part Number],".","",1,1).
+  function displayPn(partNumber) {
+    return String(partNumber == null ? '' : partNumber).replace('.', '');
+  }
+  // Type-D regional variants likewise print without their trailing "."
+  // ("SVC-HW2WT." -> SVC-HW2WT, "SVC-REMEXT." -> SVC-REMEXT). Access's
+  // report also cuts tier suffixes like "-N4" off; those are kept here,
+  // since they're the only thing telling the tiers apart on the page.
+  function displayServicePn(partNumber) {
+    return String(partNumber == null ? '' : partNumber).replace(/\.$/, '');
   }
 
   function categoryLetter(category) {
@@ -160,7 +224,7 @@ const DataStore = (() => {
   function findByPnType(pnType, { region = null, descIncludes = null, descExcludes = null } = {}) {
     let rows = state.byPnType.get(pnType) || [];
     if (region) {
-      rows = rows.filter(r => !r.region || r.region.includes(region));
+      rows = rows.filter(r => ariRegionMatches(r.region, region));
     }
     if (descIncludes) {
       rows = rows.filter(r => r.description && r.description.includes(descIncludes));
@@ -176,13 +240,49 @@ const DataStore = (() => {
     return rows.length ? rows[0] : null;
   }
 
-  function isVisibleInRegion(partNumber, regionId, isTypeD) {
-    const set = isTypeD ? state.pnTypeDRegionSet : state.pnRegionSet;
-    // Absence from the mapping table means "valid everywhere" (mirrors the
-    // Access queries which LEFT JOIN and treat NULL region as universal).
-    const anyRestriction = [...set].some(k => k.endsWith(`|${partNumber}`));
-    if (!anyRestriction) return true;
-    return set.has(`${regionId}|${partNumber}`);
+  // Whether a part is offered in a region, per the PN-Region / PN-TypeD-
+  // Region tables. `region` may be a region name or id. Mirrors the Access
+  // part-number pickers (Form_SiteQuoteSubForm / Form_Main Form price list):
+  //  - no rows for the part at all -> offered everywhere (LEFT JOIN, Region
+  //    Is Null);
+  //  - a specific region -> offered only if a row lists that region;
+  //  - "All" -> offered unless every row it has is Federal-only
+  //    ("Region <> 'Federal' Or Region Is Null").
+  // `isTypeD` is optional — it's inferred from the catalog when omitted.
+  function isVisibleInRegion(partNumber, region, isTypeD) {
+    if (isTypeD == null) isTypeD = !state.byPartNumber.has(partNumber) && state.typeDByPartNumber.has(partNumber);
+    const ids = (isTypeD ? state.pnTypeDRegionIds : state.pnRegionIds).get(partNumber);
+    if (!ids || !ids.size) return true;
+    const rid = typeof region === 'number' ? region : regionId(region);
+    if (rid == null) return true;
+    const allId = regionId('All');
+    if (rid === allId) {
+      const fedId = regionId('Federal');
+      return [...ids].some(id => id !== fedId);
+    }
+    return ids.has(rid);
+  }
+
+  // The part number a quote in `region` should actually carry for the part
+  // `partNumber` refers to: the part itself when it's offered there,
+  // otherwise its regional sibling that is — "<PN>." (the Commercial/CALA
+  // vs EMEA/APAC price variants), or for Federal quotes "<PN>-FAS" (the
+  // Federal Approved Solution version, the only one V3.25 offers Federal).
+  // Returns the part unchanged when no sibling fits either.
+  function resolvePnForRegion(partNumber, region) {
+    if (!partNumber) return partNumber;
+    const isTypeD = !state.byPartNumber.has(partNumber) && state.typeDByPartNumber.has(partNumber);
+    const exists = pn => isTypeD ? state.typeDByPartNumber.has(pn) : state.byPartNumber.has(pn);
+    if (!exists(partNumber)) return partNumber;
+    if (isVisibleInRegion(partNumber, region, isTypeD)) return partNumber;
+    const base = partNumber.replace(/-FAS$/, '').replace(/\.$/, '');
+    const candidates = isFederal(region)
+      ? [base + '-FAS', base, base + '.']
+      : [base, base + '.', base + '-FAS'];
+    for (const pn of candidates) {
+      if (pn !== partNumber && exists(pn) && isVisibleInRegion(pn, region, isTypeD)) return pn;
+    }
+    return partNumber;
   }
 
   return {
@@ -195,6 +295,15 @@ const DataStore = (() => {
     findByPnType,
     findOneByPnType,
     isVisibleInRegion,
+    resolvePnForRegion,
+    normalizeRegionName,
+    regionId,
+    isCommercial,
+    isFederal,
+    ariRegionMatches,
+    listPriceFor,
+    displayPn,
+    displayServicePn,
     getReplacement,
     getReplacementAccessories,
     get discountsByCategory() { return state.discountsByCategory; },

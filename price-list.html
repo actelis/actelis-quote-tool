@@ -39,7 +39,7 @@
         <select id="region"></select>
       </div>
       <div class="field" id="dealRegField">
-        <label for="dealRegistration">Deal Registration (NA only)</label>
+        <label for="dealRegistration">Deal Registration (not EMEA/APAC)</label>
         <div class="checkbox-field">
           <input type="checkbox" id="dealRegistration">
           <label for="dealRegistration">Apply registration bonus discount</label>
@@ -73,10 +73,13 @@
     <div class="card-title-row no-print">
       <div class="tabs" style="margin-bottom:0">
         <button class="tab-btn active" data-list="priceList">Price List</button>
-        <button class="tab-btn" data-list="typeD">Services / Warranty (Type D)</button>
+        <button class="tab-btn" data-list="typeD">Services / Warranty (Type E)</button>
         <button class="tab-btn" data-list="priceListArchive">Archive</button>
       </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn accent small" id="exportPriceListPdfBtn">⭱ Export PDF</button>
+      <button class="btn secondary small" id="exportCommercialPriceListBtn" data-commercial-only style="display:none" title="The Access &quot;Commercial LP Generator&quot;: Commercial reseller price list with standard and deal-registration prices">⭱ Commercial Reseller Price List</button>
+      </div>
     </div>
 
     <div class="search-bar">

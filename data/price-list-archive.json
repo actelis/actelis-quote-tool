@@ -678,5 +678,85 @@
   "listPrice": 1145,
   "category": "A4. Repeater Related Products",
   "legacy": false
+ },
+ {
+  "partNumber": "501RG0162",
+  "description": "ML622i with 12/24/48Vdc",
+  "comments": "4 port, Managed Ethernet Switch, Fanless CPE, 2 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT, standard QoS, ROHS-6 compliant, 12/24/48Vdc power input + power cable",
+  "listPrice": 800,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0164",
+  "description": "ML624i with 12/24/48Vdc",
+  "comments": "4 port, Managed Ethernet Switch, Fanless CPE, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, 4x10/100BaseT, standard QoS, ROHS-6 compliant, 12/24/48Vdc power input + power cable",
+  "listPrice": 1260,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0216",
+  "description": "ML644E",
+  "comments": "6+1 port, Managed Ethernet Switch, 4 pairs EFM-bonded G.SDHSL Ethernet Extender, CE2.0, advanced H-QoS, 4x10/100/1000BaseT+2x100/1000Base-FX, ROHS-6 compliant, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 2341,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG0220",
+  "description": "ML684D",
+  "comments": "6+2 ports, Managed Hybrid Fiber/Copper Ethernet Switch, 4 pairs (2+2 or 1x4) EFM-bonded G.SHDSL Ethernet Extender, up to 60Mbps, up to 1Mbps@16kft, Ethernet Switch and Extender, 6x10/100Base-T+2x100/1000Base-FX SFP, DIN Rail, ROHS-6 compliant, Fanless, 24",
+  "listPrice": 1950,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0221",
+  "description": "ML680DF",
+  "comments": "8 port, Managed Fiber Ethernet switch, 2x100/1000Base-FX SFP + 6x10/100Base-T, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Single Power Input",
+  "listPrice": 1145,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0240",
+  "description": "ML622D",
+  "comments": "2+2 port, Managed Hybrid Copper Ethernet Switch, 2 pairs (1+1 or 1x2)  Add-Drop EFM-bonded G.SDHSL Ethernet Extender, 2x10/100Base-T, standard QoS Ethernet Switch and Extender, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Single power input",
+  "listPrice": 1145,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0252",
+  "description": "ML540E",
+  "comments": "Fiber EAD, 4x10/100/1000BaseT+2x100/1000Base-FX, CE2.0, advanced QoS, ROHS-6 compliant,DC-input, SFP should be ordered separately (refer to Type C products), 9K frames support.",
+  "listPrice": 2295,
+  "category": "A5.3 Fiber Rackmount L2 Switches",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0477",
+  "description": "ML658S Advanced CLK",
+  "comments": "6+1 port, Managed Hybrid Fiber/Copper Ethernet Switch, 8 pairs,  4x10/100BaseT+2x100/1000Base-FX + 4xE1/T1, PWE (CESoETH/SATOP/CESoPSN), Independent Differential retiming for E1, SyncE, advanced QoS, ROHS-6 compliant, SFP should be ordered separately (ref",
+  "listPrice": 3330,
+  "category": "A2. ML600 Family",
+  "legacy": false
+ },
+ {
+  "partNumber": "501RG3275",
+  "description": "ML680D-M (12/24V)",
+  "comments": "8 port, Managed Fiber Ethernet switch, 6x10/100/1000Base-T+2x1000Base-FX SFP, DIN Rail, Fanless, 12/24VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1489,
+  "category": "A2.1 ML600D Family",
+  "legacy": true
+ },
+ {
+  "partNumber": "501RG0236",
+  "description": "ML680DFTP",
+  "comments": "Managed Fiber Ethernet switch, 2x100/1000Base-FX SFP + 6x10/100Base-T,  Serial server, 2 Passive PoE ports, up to 120W Out, DIN Rail, ROHS-6 compliant, Fanless, 24/48VDC Dual power input, SFP should be ordered separately (refer to Type C products)",
+  "listPrice": 1490,
+  "category": "A2.1 ML600D Family",
+  "legacy": false
  }
 ]

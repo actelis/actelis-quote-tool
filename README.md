@@ -1,7 +1,7 @@
 # Actelis Price & Quote Tool — Online (Client-Side) Edition
 
 This is a static, client-side reimplementation of the Actelis Access
-Price/Quote Tool (`Price Tool v3.21.accdb`), built to be hosted for free on
+Price/Quote Tool (`Price Tool v3.25.accdb`; originally ported from v3.21), built to be hosted for free on
 **GitHub Pages**. It reproduces the price list, discount engine, the Node
 Configurator, the Network/Repeater Configurator, the EMS Licensing Wizard,
 multi-site quote building, a real PDF export that matches the original
@@ -106,7 +106,8 @@ assets/                  Actelis logo, used in the page header and in
 - **No customer database / no login.** Instead of picking a saved customer
   record, you pick a **Customer Type** (Reseller or End Customer) and
   **Region** for the quote. The standard discount matrix (by category,
-  region, and customer type, with the NA-only Deal Registration bonus) is
+  region, and customer type, with the Deal Registration bonus that Access
+  hides for EMEA/APAC) is
   applied exactly as in the desktop tool.
 - **Per-customer negotiated discount overrides** (the Access
   `CustomerDefaultDiscounts` table, tiered by quantity, tied to a specific
@@ -290,6 +291,9 @@ and EMS license types) also respects that row's own **region** restriction —
 a handful of parts (mainly country-specific power cords/adapters) are
 recorded as NA-only or EMEA-only and are hidden from quotes in a different
 region, the same way the price list itself already does for other tables.
+AutoRepeaterInfo still uses the pre-V3.22 region names, so a **Commercial**
+quote matches its `NA` entries and a **Federal** quote its `Enterprise`
+entries (see "Access V3.25 update" below).
 
 Both filters re-run live: changing the CO/Node model, or changing the quote's
 **Region** selector (top bar), immediately re-filters every affected dropdown
@@ -376,14 +380,78 @@ multi-hop logic left for a future pass).
 
 ## Financial Options
 
-The three toggles at the bottom of the Quote Builder page (**Add Shipping
-Cost**, **Add Credit Card Fee**, **Extended Warranty**) don't hard-code a
-percentage in the UI — each one simply adds or removes a real Type-D catalog
-line to Services/Warranty (`SVC-FREIGHT` = 2% of product price,
-`SVC-CC` = 3% of product price, and the two standard included-warranty lines
-`SVC-HW2WT`/`SVC-SW2WT` for Extended Warranty). That means the amounts always
-come from the same globally-maintained price list every visitor sees, and
-they show up as ordinary, editable Services/Warranty lines.
+The toggles at the bottom of the Quote Builder page mirror the Access
+QuoteID options and don't hard-code a percentage in the UI:
+
+- **Add Shipping Cost** adds `SVC-FREIGHT` (2% of product price). Like
+  Access, it's hidden for EMEA/APAC quotes (US shipments only).
+- **Add Credit Card Fee** adds `SVC-CC` (3% of product price).
+- **Extended Warranty** is the Access "ExtendWarranty" flag: the
+  automatically included warranty lines switch to `SVC-HW2WT.` (2-year HW
+  warranty for *all* products, GL90/GL93 included) instead of
+  `SVC-HW1WT`/`SVC-HW2WT`.
+- **Extended TAC** (new with the V3.25 update) adds the region's Extended
+  TAC line — `SVC-REMEXT` (3% of purchase price) or, for EMEA/APAC,
+  `SVC-REMEXT.` (3% of list price, minimum $1000).
+
+Percentage lines are real Type-D/E catalog lines, so the amounts always
+come from the same globally-maintained price list every visitor sees.
+
+## Access V3.25 update (Commercial / Federal regions, Q4 2026 pricing)
+
+The data and logic were refreshed from `Price Tool v3.25.accdb` (change log
+3.22 → 3.25). Every table was re-exported and diffed against v3.21, and all
+75 VBA modules, 40 queries and the report layouts were decoded straight from
+the `.accdb` file and compared line by line. What changed, and how it's
+handled here:
+
+- **Regions renamed:** `NA` → **Commercial**, `Enterprise` → **Federal**.
+  Quotes, wizard templates and round-trip PDFs saved before the update load
+  with the new names automatically.
+- **Commercial pricing:** the price list has a second list-price column
+  (Access "NA List Price"). Commercial quotes price from it everywhere — on
+  screen, in totals, and in every export. *Note:* Access V3.25's own printed
+  quote report and all-sites totals still test for the old name "NA", so
+  Access prints the international list price on Commercial quotes while its
+  screen shows the Commercial price. This tool follows the intent ("Fixed
+  pricing for Commercial region") and uses the Commercial price
+  consistently, so side-by-side checks against an Access *printout* will
+  differ on Commercial quotes until Access fixes that query.
+- **Region availability (PN-Region):** search, the price list page and the
+  Commercial price list only show parts offered in the selected region. Some
+  parts exist twice with region-specific pricing as `<PN>` (EMEA/APAC) and
+  `<PN>.` (Commercial/CALA); the right one is used automatically and both
+  always print without the dot, as in Access.
+- **Federal (FAS) parts:** 28 new `-FAS` part numbers (Federal Approved
+  Solution) are the only versions offered to Federal. Adding a device that
+  has one (from a wizard, a PDF import or a region change) to a Federal quote
+  uses the `-FAS` part automatically, and switching the region away from
+  Federal swaps it back. Lines not offered in the current region at all are
+  flagged "Not offered in <region>" in the BOM.
+- **Included warranty / default support lines:** like Access, the quote now
+  automatically includes the standard $0 warranty lines its categories call
+  for — `SVC-HW1WT`/`SVC-HW2WT`/`SVC-SW2WT`, and for Commercial and Federal
+  quotes the new **Core Support** lines `SVC-CORE` / `SVC-COREFAS` (from the
+  Discounts table's new NAWarranty column). They're shown as "Included" in
+  Services/Warranty and in every export, and recalculate with the BOM.
+- **Categories re-lettered:** B is now MDU/Hospitality (GL900/GL9000 moved
+  here from A), D is Software/Documents (EMS/ACS licenses), E is
+  Warranty/Services (the former Type-D services table), and there's a new
+  **C7. GL900/GL9000 Accessories** section. The Admin price-list upload
+  routes rows by the category they already belong to, falling back to the
+  letter (E — or D for an older sheet that has no E rows).
+- **New products:** GL820 and GL880 families, Q4 2026 pricing, updated EOL
+  products, new default discounts (Commercial reseller 40% on Type A,
+  15% on Type B, +10% deal registration on Type A).
+- **Commercial LP Generator:** on the Price List page, a **Commercial
+  Reseller Price List** button (shown only when the region is Commercial,
+  like the Access button) exports the V3.23+ "Commercial Price List Format":
+  Commercial list price, reseller price at the category's standard discount,
+  and the price with deal registration, plus the Commercial services list.
+- **Access V3.25 regressions not reproduced:** Access's configurator wizards
+  filter AutoRepeaterInfo by the new region names (which that table doesn't
+  use), so they offer nothing on Commercial/Federal quotes; and its Extended
+  TAC option still looks for the old "D1.2" category name. Both work here.
 
 ## Admin — Price List Manager & Replacements Manager (authorized-personnel-only, global updates)
 
@@ -398,12 +466,16 @@ GitHub API calls and no token ever entering this app**:
    button in the Quote Builder's top bar).
    - Hardware Price List tab: accepts the same flat shape as the master
      price list export (`Category, Part Num, Description, Comments, LP $`)
-     — it splits A/B/C rows into the hardware shape and D rows into the
-     Type-D shape automatically, and infers percentage vs. flat vs.
-     "Included in Initial Purchase" Type-D pricing from the `LP $` text.
+     — it splits hardware/software rows (A–D) and services/warranty rows
+     (E; D on a pre-V3.24 sheet) into their shapes automatically, and infers
+     percentage vs. flat vs. "Included in Initial Purchase" service pricing
+     from the `LP $` text. An optional `NA List Price` (or `Commercial LP`)
+     column updates the Commercial price; without it the current Commercial
+     price is kept.
    - Discount Table tab: accepts `Category, Category Type, Discount,
      Discount End User, Registration Discount, Discount EMEA, Discount End
-     User EMEA, Warranty`.
+     User EMEA, Warranty`, and optionally `NAWarranty` (the Commercial/Federal
+     standard warranty, e.g. SVC-CORE — kept from the current data if absent).
    - Replacements Manager: accepts `Old Part Number, New Part Number,
      AC/DC Adapter PN(s), Cable PN(s), Notes`, or rows can be added one at a
      time in the modal. The AC/DC Adapter and Cable columns are optional
@@ -434,8 +506,8 @@ changed through the authorized flow above.
 
 ## Refreshing pricing data
 
-The `data/*.json` files were originally generated from a one-time export of
-the Access database's tables (Price List, Price List - Type D, Discounts,
+The `data/*.json` files are generated from an export of
+the Access database's tables (last refreshed from V3.25) (Price List, Price List - Type D, Discounts,
 AutoRepeaterInfo, Bundles, Spare Slots, Regions, Payment/Shipping Terms,
 etc.). Going forward, prefer the **Admin — Price List Manager** flow above
 for routine price/discount updates. For a data file that manager doesn't
@@ -460,7 +532,8 @@ Before relying on this for real customer quotes, spot-check a handful of
 representative quotes side-by-side against the desktop Access tool:
 a simple single-part quote, a chassis-based Node Configurator BOM, a
 multi-hop Network Configurator BOM with a repeater/PFU, and an EMS
-licensing quote — for both an End Customer and a Reseller, and for both an
-NA and an EMEA/APAC region, since the discount and labeling logic branches
-on those. The totals math (BOM subtotal + services subtotal, tax backed out
+licensing quote — for both an End Customer and a Reseller, and for a
+Commercial, a Federal and an EMEA/APAC region, since the pricing, discount,
+warranty and labeling logic branches on those (and see the Commercial
+printout caveat under "Access V3.25 update"). The totals math (BOM subtotal + services subtotal, tax backed out
 of the total) is implemented in `Quote.totals()` in `js/quote.js`.

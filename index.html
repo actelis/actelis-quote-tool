@@ -53,7 +53,7 @@
         <div class="field"><label for="q-paymentTerms">Payment Terms</label><select id="q-paymentTerms"></select></div>
         <div class="field"><label for="q-shippingTerms">Shipping Terms</label><select id="q-shippingTerms"></select></div>
         <div class="field" id="dealRegField">
-          <label for="dealRegistration">Deal Registration (NA only)</label>
+          <label for="dealRegistration">Deal Registration (not EMEA/APAC)</label>
           <div class="toggle-row"><label class="switch"><input type="checkbox" id="dealRegistration"><span class="slider"></span></label><span>Apply registration bonus discount</span></div>
         </div>
       </div>
@@ -79,8 +79,8 @@
       <div class="card-title-row">
         <h2 class="card-title">🔧 Line Items</h2>
         <div class="pill-tabs" id="lineItemTabs">
-          <button class="pill-tab active" data-tab="hardware">Hardware (A/B/C)</button>
-          <button class="pill-tab" data-tab="services">Services (D)</button>
+          <button class="pill-tab active" data-tab="hardware">Hardware &amp; Software (A–D)</button>
+          <button class="pill-tab" data-tab="services">Services (E)</button>
         </div>
       </div>
 
@@ -157,7 +157,7 @@
 
     <section class="card no-print">
       <h2 class="card-title">💰 Financial Options</h2>
-      <div class="grid grid-3 fin-options">
+      <div class="grid grid-4 fin-options">
         <div class="fin-option">
           <label class="switch"><input type="checkbox" id="finShipping"><span class="slider"></span></label>
           <div><div class="fin-title">Add Shipping Cost</div><div class="fin-sub">~2% of hardware total</div></div>
@@ -168,7 +168,11 @@
         </div>
         <div class="fin-option">
           <label class="switch"><input type="checkbox" id="finWarranty"><span class="slider"></span></label>
-          <div><div class="fin-title">Extended Warranty</div><div class="fin-sub">Included in quote output</div></div>
+          <div><div class="fin-title">Extended Warranty</div><div class="fin-sub">2-yr HW warranty on all products (SVC-HW2WT)</div></div>
+        </div>
+        <div class="fin-option">
+          <label class="switch"><input type="checkbox" id="finExtTac"><span class="slider"></span></label>
+          <div><div class="fin-title">Extended TAC</div><div class="fin-sub">3-yr telephone assistance, 3% (SVC-REMEXT)</div></div>
         </div>
       </div>
     </section>
@@ -177,7 +181,7 @@
 
   <div class="col-side no-print">
     <section class="card summary-card">
-      <div class="summary-header"><span>QUOTE SUMMARY</span><span class="summary-badge" id="summaryBadge">NA · End Customer</span></div>
+      <div class="summary-header"><span>QUOTE SUMMARY</span><span class="summary-badge" id="summaryBadge">Commercial · End Customer</span></div>
       <div class="summary-body">
         <div class="summary-customer" id="summaryCustomer">No customer yet</div>
         <div class="summary-row"><span>Line items</span><span id="summaryLineItems">0</span></div>
